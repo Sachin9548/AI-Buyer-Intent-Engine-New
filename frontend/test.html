@@ -1,0 +1,22 @@
+<!-- test.html (Updated) -->
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>Testing BIME SDK</h1>
+    <button id="buy-btn">Add to Cart</button>
+    
+    <!-- Yeh elements SDK expect kar raha hai -->
+    <div class="size-chart-selector" style="border:1px solid red; padding:20px; margin-top:20px;">
+        Hover here (Size Chart) - Hover 2 times to trigger!
+    </div>
+    
+    <div class="price-element" style="border:1px solid blue; padding:20px; margin-top:20px;">
+        Hover here (Price Section)
+    </div>
+
+    <script src="bime-sdk.js"></script>
+    <script>
+        BIME.init("shopify_test_01");
+    </script>
+</body>
+</html>
