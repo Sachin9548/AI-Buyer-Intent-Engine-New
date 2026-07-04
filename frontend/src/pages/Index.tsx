@@ -14,24 +14,26 @@ import { FAQ } from "@/components/landing/FAQ";
 import { FinalCTA } from "@/components/landing/FinalCTA";
 import { Footer } from "@/components/landing/Footer";
 
-export default function Home() {
+const Index = () => {
   return (
     <main className="relative min-h-screen overflow-x-clip bg-background text-foreground">
-      <Nav />
+      <Nav />       
       <Hero />
       <ScrollStory />
       <Problem />
       <Comparison />
       <Pillars />
-      {/*  <Dashboard />
-     <AIAssistant />
+      <Dashboard />
+      <AIAssistant />
       <Bento />
       <Stats />
       <Testimonials />
       <Pricing />
       <FAQ />
       <FinalCTA />
-      <Footer />  */}
+      <Footer /> 
     </main>
   );
-}
+};
+
+export default Index;

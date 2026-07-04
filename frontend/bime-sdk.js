@@ -1,7 +1,8 @@
 // bime-sdk.js
 (function () {
   const BIME_CONFIG = {
-    endpoint: "http://localhost:3000/api/ingestion/event",
+    // endpoint: "http://localhost:3000/api/ingestion/event",
+    endpoint: "http://13.233.154.127/api/ingestion/event",
     batchSize: 5,
     buffer: [],
     storeId: null, 

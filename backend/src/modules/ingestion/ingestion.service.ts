@@ -15,7 +15,7 @@ export class IngestionService {
 
       // 2. Decision Logic
       const { store_id, event_type, metadata } = event;
-      const sessionKey = `intent:${store_id}:${metadata.id || 'general'}`;
+      const sessionKey = `intent:${store_id}:${metadata?.id || 'general'}`;
 
       if (event_type === 'hover_size_chart') {
         const hoverCount = await redis.incr(`${sessionKey}:size_hover`);
