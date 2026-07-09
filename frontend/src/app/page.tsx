@@ -20,18 +20,18 @@ export default function Home() {
       <Nav />
       <Hero />
       <ScrollStory />
-      <Problem />
       <Comparison />
+      <Problem />
       <Pillars />
-      {/*  <Dashboard />
-     <AIAssistant />
+      <Dashboard />
+      <AIAssistant />
       <Bento />
       <Stats />
       <Testimonials />
       <Pricing />
       <FAQ />
       <FinalCTA />
-      <Footer />  */}
+      <Footer />
     </main>
   );
 }
