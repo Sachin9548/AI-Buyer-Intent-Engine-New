@@ -21,7 +21,7 @@ export function ScrollStory() {
   const reveal = useTransform(scrollYProgress, [0.85, 1], [0, 1]);
 
   return (
-    <section ref={ref} className="relative" style={{ height: "1000vh" }}>
+    <section ref={ref} className="relative" style={{ height: "800vh" }}>
       <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
         <Aurora className="opacity-40" />
         {/* dark pause overlay */}

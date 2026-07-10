@@ -22,7 +22,7 @@ export default function Home() {
       <ScrollStory />
       <Comparison />
       <Problem />
-      <Pillars />
+      {/* <Pillars /> */}
       <Dashboard />
       <AIAssistant />
       <Bento />
