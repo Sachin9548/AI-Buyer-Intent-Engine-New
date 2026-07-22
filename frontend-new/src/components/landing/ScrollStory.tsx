@@ -40,6 +40,7 @@ export function ScrollStory() {
             </p>
           </motion.div>
 
+{/*
           <motion.div
             style={{ opacity: reveal, y: useTransform(reveal, [0, 1], [40, 0]) }}
             className="absolute inset-x-0 bottom-10"
@@ -58,6 +59,9 @@ export function ScrollStory() {
               </div>
             </div>
           </motion.div>
+
+            */}
+
         </div>
       </div>
     </section>

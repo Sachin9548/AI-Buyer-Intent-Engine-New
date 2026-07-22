@@ -571,7 +571,7 @@ function Problem() {
       }
       sub="Behind every drop-off is a human, not a funnel step. There are only five reasons carts get abandoned — and none of them show up in your analytics on time."
     >
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-5">
         {reasons.map((it, i) => (
           <div
             key={it.title}
@@ -1061,7 +1061,7 @@ function Walkthrough() {
     >
       <div className="grid gap-6 lg:grid-cols-5">
         <div className="lg:col-span-2 reveal">
-          <div className="glass rounded-2xl p-2">
+          <div className="glass rounded-2xl p-1">
             {stages.map((s, i) => {
               const isActive = i === active;
               return (
@@ -1214,15 +1214,16 @@ function ProductSurface() {
 
           <div className="grid grid-cols-1 gap-4 p-5 lg:grid-cols-3">
             <div className="lg:col-span-2">
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-3 gap-2">
                 <BigStat
                   label="Recovered revenue"
-                  value="$142,308"
-                  delta="+18.4% vs. last 7d"
+                  value="$142,34"
+                  delta="+18.4% vs. 7d"
+                  
                 />
                 <BigStat
                   label="Hesitation caught"
-                  value="24,196"
+                  value="244"
                   delta="83% classified"
                 />
                 <BigStat
@@ -1304,19 +1305,19 @@ function BigStat({
   tone?: "up" | "neutral";
 }) {
   return (
-    <div className="rounded-2xl glass p-4">
-      <div className="text-[11px] uppercase tracking-wider text-muted-foreground">
+    <div className="rounded-2xl glass p-3">
+      <div className="text-[8px] uppercase tracking-wider text-muted-foreground">
         {label}
       </div>
       <div
-        className="mt-1 text-2xl font-semibold tracking-tight"
+        className="mt-1 text-xl font-semibold tracking-tight"
         style={{ fontFamily: "var(--font-display)" }}
       >
         {value}
       </div>
       {delta && (
         <div
-          className={`mt-1 text-[11px] ${
+          className={`mt-1 text-[8px] ${
             tone === "up" ? "text-emerald-300" : "text-muted-foreground"
           }`}
         >
@@ -1536,7 +1537,7 @@ function RevenueImpact() {
               label="Monthly visitors"
               value={visitors}
               min={10_000}
-              max={2_000_000}
+              max={2_000_00}
               step={5_000}
               onChange={setVisitors}
               format={(v) => v.toLocaleString("en-US")}
@@ -1562,17 +1563,17 @@ function RevenueImpact() {
           </div>
         </div>
 
-        <div className="reveal grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="reveal grid grid-cols-2 gap-2 sm:grid-cols-2">
           <ImpactCard
-            label="Baseline monthly revenue"
+            label="monthly revenue"
             value={fmt(baseline)}
             hint="Visitors × Conv. × AOV"
             tone="muted"
           />
           <ImpactCard
-            label="Recovered by Claarvia"
+            label="Recovered revenue"
             value={fmt(recovered)}
-            hint="Hesitation-window recovery, modeled"
+            hint="Hesitation-window recovery"
             tone="primary"
           />
           <ImpactCard
@@ -1587,11 +1588,6 @@ function RevenueImpact() {
             hint="Average capped nudge"
             tone="muted"
           />
-          <div className="sm:col-span-2 rounded-2xl border border-white/5 bg-white/[0.02] px-4 py-3 text-xs text-muted-foreground">
-            Modeled from an 11% recovery on non-converting sessions with a 4%
-            average nudge. Directional, not a guarantee — a demo maps this to
-            your own store data.
-          </div>
         </div>
       </div>
     </Section>
@@ -1732,7 +1728,7 @@ function ImpactCard({
 }) {
   return (
     <div
-      className={`relative rounded-2xl p-5 ${
+      className={`relative rounded-2xl p-3 ${
         tone === "primary"
           ? "glass-strong"
           : "glass"
@@ -1747,7 +1743,7 @@ function ImpactCard({
         {label}
       </div>
       <div
-        className={`mt-2 text-3xl font-semibold tabular-nums tracking-tight ${
+        className={`mt-2 text-2xl font-semibold tabular-nums tracking-tight ${
           tone === "primary" ? "text-gradient" : ""
         }`}
         style={{ fontFamily: "var(--font-display)" }}
@@ -1867,7 +1863,7 @@ function Security() {
       eyebrow="Privacy & security"
       title={<>Built for the teams your legal team says yes to.</>}
     >
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {items.map((it, i) => (
           <div
             key={it.title}
