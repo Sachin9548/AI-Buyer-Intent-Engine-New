@@ -162,6 +162,43 @@
 }
 .pulse-glow { animation: pulse-glow 2.4s ease-out infinite; }
 
+@keyframes button-border-flow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 220% 50%; }
+}
+
+.animated-button-border {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.animated-button-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    oklch(1 0 0 / 0.95) 25%,
+    oklch(0.78 0.16 288 / 0.9) 50%,
+    oklch(1 0 0 / 0.95) 75%,
+    transparent 100%
+  );
+  background-size: 220% 100%;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: button-border-flow 2.4s linear infinite;
+  pointer-events: none;
+}
+
+.animated-button-border:hover::before {
+  opacity: 0.96;
+}
+
 @keyframes tick {
   0% { transform: translateY(6px); opacity: 0; }
   100% { transform: translateY(0); opacity: 1; }

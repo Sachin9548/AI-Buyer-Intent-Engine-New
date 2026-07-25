@@ -13,10 +13,12 @@ import {
   Gauge,
   Globe,
   Lock,
+  Menu,
   MousePointerClick,
   Play,
   Plug,
   Sparkles,
+  X,
   Store,
   Timer,
   TrendingUp,
@@ -154,11 +156,25 @@ function Landing() {
 
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 8);
+      const maxScroll =
+        document.documentElement.scrollHeight - window.innerHeight;
+      const progress = maxScroll > 0 ? (window.scrollY / maxScroll) * 100 : 0;
+      setScrollProgress(Math.min(100, Math.max(0, progress)));
+    };
+
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
   const links = [
@@ -172,10 +188,19 @@ function Nav() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all ${
-        scrolled ? "backdrop-blur-xl bg-background/60 border-b border-border" : ""
+        scrolled
+          ? "border-b border-white/10 bg-background/70 backdrop-blur-xl"
+          : "bg-transparent"
       }`}
     >
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+      <div className="absolute inset-x-0 top-0 h-[2px] bg-white/10">
+        <div
+          className="h-full rounded-full bg-gradient-to-r from-primary via-accent to-primary transition-all duration-300"
+          style={{ width: `${scrollProgress}%` }}
+        />
+      </div>
+
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <a href="#top" className="flex items-center gap-2">
           <span className="relative inline-flex h-7 w-7 items-center justify-center rounded-lg glass-strong">
             <span className="absolute inset-0 rounded-lg opacity-70 blur-md bg-primary/40" />
@@ -188,6 +213,7 @@ function Nav() {
             Claarvia
           </span>
         </a>
+
         <nav className="hidden items-center gap-8 md:flex">
           {links.map((l) => (
             <a
@@ -199,18 +225,56 @@ function Nav() {
             </a>
           ))}
         </nav>
-        <a
-          href="#book"
-          className="group inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-transform hover:scale-[1.02]"
-          style={{
-            boxShadow:
-              "0 0 0 1px oklch(1 0 0 / 0.1), 0 8px 40px oklch(0.78 0.16 288 / 0.35)",
-          }}
-        >
-          Book a demo
-          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-        </a>
+
+        <div className="flex items-center gap-2">
+          <a
+            href="#book"
+            className="animated-button-border hidden group items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-transform hover:scale-[1.02] sm:inline-flex"
+            style={{
+              boxShadow:
+                "0 0 0 1px oklch(1 0 0 / 0.1), 0 8px 40px oklch(0.78 0.16 288 / 0.35)",
+            }}
+          >
+            Book a demo
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+          </a>
+
+          <button
+            type="button"
+            aria-label="Toggle navigation menu"
+            aria-expanded={mobileOpen}
+            onClick={() => setMobileOpen((v) => !v)}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-foreground transition-colors hover:bg-white/[0.08] md:hidden"
+          >
+            {mobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+          </button>
+        </div>
       </div>
+
+      {mobileOpen && (
+        <div className="border-t border-white/10 bg-background/95 px-4 py-4 backdrop-blur-xl md:hidden">
+          <div className="mx-auto flex max-w-6xl flex-col gap-2">
+            {links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                onClick={() => setMobileOpen(false)}
+                className="rounded-2xl px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-white/[0.04] hover:text-foreground"
+              >
+                {l.label}
+              </a>
+            ))}
+            <a
+              href="#book"
+              onClick={() => setMobileOpen(false)}
+              className="animated-button-border mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground"
+            >
+              Book a demo
+              <ArrowRight className="h-4 w-4" />
+            </a>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
@@ -249,23 +313,21 @@ function Hero() {
           <div className="reveal">
             <div className="inline-flex items-center gap-2 rounded-full glass px-3 py-1 text-xs font-medium text-muted-foreground">
               <span className="h-1.5 w-1.5 rounded-full bg-primary pulse-glow" />
-              Autonomous decision-intelligence for commerce
+              Behavioral intelligence for ecommerce
             </div>
             <h1
               className="mt-6 text-balance text-5xl font-semibold leading-[1.05] tracking-tight sm:text-6xl md:text-7xl"
               style={{ fontFamily: "var(--font-display)" }}
             >
-              Know <span className="text-gradient">why</span> visitors hesitate —
-              and convert them before they leave.
+              Know why visitors hesitate and convert them before they leave.
             </h1>
             <p className="mt-6 max-w-xl text-lg text-muted-foreground">
-              Claarvia watches visitor behavior, detects hesitation in real time,
-              and triggers the right intervention before they leave — automatically.
+              Claarvia watches how every visitor moves through your store, understands what's stopping them from buying, and automatically takes the right action to help them complete their purchase.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <a
                 href="#book"
-                className="group inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.02]"
+                className="animated-button-border group inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.02]"
                 style={{
                   boxShadow:
                     "0 0 0 1px oklch(1 0 0 / 0.12), 0 10px 60px oklch(0.78 0.16 288 / 0.45)",
@@ -276,13 +338,13 @@ function Hero() {
               </a>
               <a
                 href="#engine"
-                className="group inline-flex items-center gap-2 rounded-full glass px-5 py-3 text-sm font-medium text-foreground transition-colors hover:bg-white/5"
+                className="animated-button-border group inline-flex items-center gap-2 rounded-full glass px-5 py-3 text-sm font-medium text-foreground transition-colors hover:bg-white/5"
               >
                 <span className="relative inline-flex h-2 w-2">
                   <span className="absolute inset-0 rounded-full bg-primary/70 pulse-glow" />
                   <span className="relative m-auto h-1.5 w-1.5 rounded-full bg-primary" />
                 </span>
-                Watch AI in action
+                Watch Claarvia in action
               </a>
             </div>
             <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-muted-foreground">
@@ -290,13 +352,13 @@ function Hero() {
                 Shopify &amp; WooCommerce
               </TrustChip>
               <TrustChip icon={<Lock className="h-3.5 w-3.5" />}>
-                Cookieless mode
+                Cookieless Mode
               </TrustChip>
               <TrustChip icon={<ShieldCheck className="h-3.5 w-3.5" />}>
-                GDPR-ready
+                GDPR Ready
               </TrustChip>
               <TrustChip icon={<Timer className="h-3.5 w-3.5" />}>
-                Live in 1 day
+                Live in One Day
               </TrustChip>
             </div>
           </div>
@@ -534,28 +596,28 @@ function Problem() {
   const reasons = [
     {
       icon: CircleDollarSign,
-      title: "Price shock",
-      body: "Repeated price hovers, jump-back to product tile.",
+      title: "Price hesitation",
+      body: "Repeated price checks, coupon hunting, or comparing alternatives.",
     },
     {
       icon: Truck,
-      title: "Shipping surprise",
-      body: "Cart abandoned at the shipping step.",
+      title: "Delivery concerns",
+      body: "Repeated price checks, coupon hunting, or comparing alternatives.",
     },
     {
       icon: BadgeCheck,
-      title: "Trust doubt",
-      body: "Dwell on reviews, brand-name Google search opened.",
+      title: "Trust concerns",
+      body: "Reading reviews, checking seller credibility, or looking for reassurance.",
     },
     {
       icon: Boxes,
-      title: "Size / fit doubt",
-      body: "Bounces between variants, opens the size chart twice.",
+      title: "Size & fit uncertainty",
+      body: "Opening size guides repeatedly or searching reviews for the right fit.",
     },
     {
       icon: Layers,
-      title: "Decision fatigue",
-      body: "10+ product views, no cart action, slowing scroll.",
+      title: "Decision overload",
+      body: "Comparing too many options without making progress.",
     },
   ];
   return (
@@ -563,13 +625,13 @@ function Problem() {
       eyebrow="The problem"
       title={
         <>
-          98% of your visitors leave.{" "}
+          Visitors don't leave randomly.{" "}
           <span className="text-muted-foreground">
-            None of them tell you why.
+            They leave for a reason.
           </span>
         </>
       }
-      sub="Behind every drop-off is a human, not a funnel step. There are only five reasons carts get abandoned — and none of them show up in your analytics on time."
+      sub="Behind every abandoned session is a moment of hesitation. Claarvia uncovers the reason in real time whether it's price, trust, delivery, sizing, or decision fatigue and helps shoppers move forward before they leave."
     >
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-5">
         {reasons.map((it, i) => (
@@ -726,9 +788,9 @@ function HowItWorks() {
   return (
     <Section
       id="how"
-      eyebrow="How Claarvia works"
-      title={<>One layer. Six steps. Zero guesswork.</>}
-      sub="Not a replacement for your stack — a layer above it. GA, Klaviyo, Hotjar and Shopify keep running exactly as they are."
+      eyebrow="How Claarvia thinks"
+      title={<>It doesn't react to clicks. It understands behavior.</>}
+      sub="Instead of acting on a single event, Claarvia watches the entire journey, uncovers what's holding a shopper back, builds confidence from multiple signals, and only intervenes when it's confident it can genuinely help."
     >
       <div className="relative">
         <div
@@ -1055,9 +1117,9 @@ function Walkthrough() {
 
   return (
     <Section
-      eyebrow="Interactive walkthrough"
-      title={<>Watch a single visitor become revenue.</>}
-      sub="One session, eight moments. Every step is what Claarvia actually does — not a metaphor."
+      eyebrow="See Claarvia in action"
+      title={<>Follow one visitor from hesitation to purchase.</>}
+      sub="Watch how Claarvia identifies hesitation, understands what's causing it, and responds with the right action at the right moment all before the visitor leaves."
     >
       <div className="grid gap-6 lg:grid-cols-5">
         <div className="lg:col-span-2 reveal">
@@ -1104,7 +1166,7 @@ function Walkthrough() {
           </div>
           <button
             onClick={() => setPlaying((p) => !p)}
-            className="mt-4 inline-flex items-center gap-2 rounded-full glass px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
+            className="animated-button-border mt-4 inline-flex items-center gap-2 rounded-full glass px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
           >
             <Play className={`h-3 w-3 ${playing ? "text-primary" : ""}`} />
             {playing ? "Auto-playing" : "Play walkthrough"}
@@ -1177,9 +1239,9 @@ function ProductSurface() {
   return (
     <Section
       id="dashboard"
-      eyebrow="Dashboard"
-      title={<>One screen. Everything visible.</>}
-      sub="Intent, hesitation and interventions in a single live view. No dashboards to stitch together, no CSVs to reconcile."
+      eyebrow="Live dashboard"
+      title={<>One view. Complete visibility.</>}
+      sub="Know who's hesitating, why they're stuck, what Claarvia is doing, and how much revenue it's recovering all from one live dashboard."
     >
       <div className="reveal relative rounded-3xl p-1">
         <div
@@ -1278,7 +1340,7 @@ function ProductSurface() {
       </div>
 
       <div className="mt-8 flex flex-wrap justify-center gap-2 text-xs">
-        {["Decision timeline", "Confidence score", "Intent heatmap", "Opportunity feed"].map(
+        {['Live visitors', 'AI decisions', 'Revenue impact', 'Opportunities'].map(
           (c) => (
             <span
               key={c}
@@ -1368,52 +1430,24 @@ function FakeChart() {
 
 function VsAnalytics() {
   const rows = [
-    { r: "Tells you what happened", ga: true, cl: true, hj: true, op: true, cv: true },
-    {
-      r: "Tells you why a visitor hesitated",
-      ga: false,
-      cl: false,
-      hj: "Partial",
-      op: false,
-      cv: true,
-    },
-    { r: "Detects intent in real time", ga: false, cl: false, hj: false, op: false, cv: true },
-    {
-      r: "Acts inside the hesitation window",
-      ga: false,
-      cl: false,
-      hj: false,
-      op: "Test-based",
-      cv: true,
-    },
-    {
-      r: "Protects margin (smallest nudge)",
-      ga: false,
-      cl: false,
-      hj: false,
-      op: false,
-      cv: true,
-    },
-    {
-      r: "Time to first insight",
-      ga: "Days",
-      cl: "Hours",
-      hj: "Hours",
-      op: "Weeks",
-      cv: "60s",
-    },
+    { r: "Shows what happened", a: true, c: true },
+    { r: "Explains why visitors hesitate", a: "Limited", c: true },
+    { r: "Detects buying intent live", a: false, c: true },
+    { r: "Acts before visitors leave", a: false, c: true },
+    { r: "Learns from every outcome", a: false, c: true },
+    { r: "Helps increase conversions", a: "Manual", c: true },
   ];
   const cell = (v: boolean | string) => {
-    if (v === true) return <span className="text-primary">●</span>;
-    if (v === false) return <span className="text-muted-foreground/40">—</span>;
+    if (v === true) return <span className="text-primary">✓</span>;
+    if (v === false) return <span className="text-muted-foreground/40">✕</span>;
     return <span className="text-xs text-muted-foreground">{v}</span>;
   };
   return (
     <Section
       id="vs"
-      eyebrow="vs. Traditional analytics"
-      title={<>Why Claarvia isn't another analytics tool.</>}
-      sub="Google Analytics, Clarity, Hotjar and Optimizely report the past. Claarvia understands the present — and helps decide what to do next."
+      eyebrow="A different category"
+      title={<>Analytics tells you what happened. Claarvia decides what happens next.</>}
+      sub="Analytics helps you understand yesterday. Claarvia understands what's happening right now, identifies why visitors hesitate, and helps them convert before they leave."
     >
       <div className="relative reveal overflow-hidden rounded-2xl glass-strong">
         <div
@@ -1429,13 +1463,8 @@ function VsAnalytics() {
             <thead>
               <tr className="text-left text-xs uppercase tracking-wider text-muted-foreground">
                 <th className="px-6 py-4 font-medium"></th>
-                <th className="px-4 py-4 text-center font-medium">Google Analytics</th>
-                <th className="px-4 py-4 text-center font-medium">MS Clarity</th>
-                <th className="px-4 py-4 text-center font-medium">Hotjar</th>
-                <th className="px-4 py-4 text-center font-medium">Optimizely</th>
-                <th className="px-4 py-4 text-center font-medium text-primary">
-                  Claarvia
-                </th>
+                <th className="px-4 py-4 text-center font-medium">Analytics tools</th>
+                <th className="px-4 py-4 text-center font-medium text-primary">Claarvia</th>
               </tr>
             </thead>
             <tbody>
@@ -1446,11 +1475,8 @@ function VsAnalytics() {
                   style={{ animationDelay: `${i * 60}ms` }}
                 >
                   <td className="px-6 py-4 text-muted-foreground">{r.r}</td>
-                  <td className="px-4 py-4 text-center">{cell(r.ga)}</td>
-                  <td className="px-4 py-4 text-center">{cell(r.cl)}</td>
-                  <td className="px-4 py-4 text-center">{cell(r.hj)}</td>
-                  <td className="px-4 py-4 text-center">{cell(r.op)}</td>
-                  <td className="px-4 py-4 text-center font-medium">{cell(r.cv)}</td>
+                  <td className="px-4 py-4 text-center">{cell(r.a)}</td>
+                  <td className="px-4 py-4 text-center font-medium">{cell(r.c)}</td>
                 </tr>
               ))}
             </tbody>
@@ -1458,7 +1484,7 @@ function VsAnalytics() {
         </div>
       </div>
       <p className="mt-8 text-center text-sm text-muted-foreground reveal">
-        Not a replacement. A layer above — the one that actually moves revenue.
+        You don't need another dashboard. You need something that acts before revenue walks away.
       </p>
     </Section>
   );
@@ -1492,9 +1518,9 @@ function RevenueImpact() {
 
   return (
     <Section
-      eyebrow="Revenue impact"
-      title={<>The same visitor. Two very different endings.</>}
-      sub="Nothing changes on your side. What changes is whether the store notices — and responds — while the visitor is still there."
+      eyebrow="Before vs. After"
+      title={<>One journey. Two outcomes.</>}
+      sub="Without Claarvia, hesitation becomes abandonment. With Claarvia, hesitation becomes an opportunity to help and a completed purchase."
     >
       {/* Before / after flows */}
       <div className="grid gap-6 md:grid-cols-2">
@@ -1770,16 +1796,16 @@ function Integrations() {
   ];
   return (
     <Section
-      eyebrow="Integrations"
-      title={<>Live in a day. Not a quarter.</>}
-      sub="One snippet. No re-platform. No engineering sprint. Claarvia sits above your existing tools and lets them keep doing their job."
+      eyebrow="Get started in a day"
+      title={<>Start recovering revenue tomorrow not months from now.</>}
+      sub="No replatforming. No lengthy implementation. Install a single snippet, let Claarvia learn your store, and start helping hesitant visitors within 24 hours."
     >
       {/* Timeline */}
       <div className="mb-10 grid gap-4 md:grid-cols-3">
         {[
-          { t: "2 min", l: "Drop one snippet" },
-          { t: "≤ 24h", l: "Claarvia calibrates" },
-          { t: "Day 1", l: "Interventions go live" },
+          { t: "2 min", l: "Add one snippet or install the app." },
+          { t: "≤24h", l: "Claarvia observes visitor behavior and builds confidence." },
+          { t: "Day 1", l: "AI begins detecting hesitation and responding automatically." },
         ].map((s, i) => (
           <div
             key={s.l}
@@ -1838,30 +1864,31 @@ function Security() {
   const items = [
     {
       icon: ShieldCheck,
-      title: "GDPR & CCPA ready",
-      body: "Consent-aware, purposeful data, honour-by-design.",
+      title: "GDPR & CCPA Ready",
+      body: "Built for modern privacy regulations.",
     },
     {
       icon: Lock,
-      title: "Cookieless mode",
-      body: "Runs without third-party cookies when required.",
+      title: "Cookieless Mode",
+      body: "Works even when third-party cookies don't.",
     },
     {
       icon: Gauge,
-      title: "SOC 2 in progress",
-      body: "Controls, logging and access reviews from day one.",
+      title: "Enterprise Security",
+      body: "Encryption, access controls, audit logging, and security best practices built in.",
     },
     {
       icon: Globe,
-      title: "EU / US residency",
-      body: "Choose where your data is stored and processed.",
+      title: "Privacy-first by default",
+      body: "Flexible tracking for privacy-conscious environments.",
     },
   ];
   return (
     <Section
       id="security"
-      eyebrow="Privacy & security"
-      title={<>Built for the teams your legal team says yes to.</>}
+      eyebrow="Built for modern commerce"
+      title={<>The intelligence you need. The privacy your customers expect.</>}
+      sub="Claarvia helps you understand visitor behavior while giving you control over how data is collected, stored, and managed."
     >
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {items.map((it, i) => (
@@ -1884,7 +1911,7 @@ function Security() {
         ))}
       </div>
       <p className="mt-8 text-center text-sm text-muted-foreground reveal">
-        No PII stored by default. You control retention, exports and deletion.
+        Privacy-first by default. You control what data is collected, retained, exported, and deleted.
       </p>
     </Section>
   );
@@ -1897,28 +1924,36 @@ function Security() {
 function FAQ() {
   const qs = [
     {
-      q: "How is Claarvia different from Google Analytics or Hotjar?",
-      a: "GA and Hotjar tell you the past. Claarvia acts on the present — it detects the reason a visitor is hesitating and intervenes before they leave.",
+      q: "How is Claarvia different from Google Analytics, Clarity or Hotjar?",
+      a: "Those tools explain what happened after visitors leave. Claarvia understands hesitation while the visitor is still shopping, identifies why it's happening, and triggers the smallest intervention before the opportunity is lost.",
     },
     {
       q: "How long does setup take?",
-      a: "One snippet, about 2 minutes. First insights within 60 seconds; full calibration inside 24 hours.",
+      a: "Add one snippet in under two minutes. Claarvia begins observing immediately, delivers first insights within minutes, and continuously calibrates intervention decisions over the next 24 hours.",
     },
     {
-      q: "Is Claarvia privacy-friendly?",
-      a: "Yes. Cookieless mode, GDPR/CCPA-ready, no PII stored by default. You control retention and deletion.",
+      q: "Will I lose control to the AI?",
+      a: "No. Claarvia only operates inside rules you define. You choose which interventions are allowed, set maximum discount limits, define confidence thresholds, and can disable automation at any time.",
     },
     {
-      q: "Can the AI act on its own?",
-      a: "Only within limits you set. You approve which interventions are allowed and cap the maximum discount.",
+      q: "Does Claarvia work with my existing tools?",
+      a: "Yes. Claarvia sits alongside your current stack instead of replacing it. Shopify, GA4, Clarity, Hotjar, Klaviyo and your existing marketing workflows continue operating exactly as they do today.",
     },
     {
-      q: "What about my existing stack?",
-      a: "Claarvia sits above it. GA, Hotjar, Klaviyo, Shopify — everything keeps running exactly as it is.",
+      q: "Is customer data safe?",
+      a: "Yes. Claarvia is built with privacy-first principles, supports cookie-aware deployments, minimizes stored personal information, and gives you complete control over retention, exports, and deletion policies.",
     },
     {
-      q: "Do you offer a pilot?",
-      a: "Yes, via a design-partner pilot. Book a demo and we'll scope it to your store.",
+      q: "Can Claarvia guarantee more revenue?",
+      a: "No responsible AI platform can guarantee revenue. Claarvia provides real-time behavioral intelligence and optimizes interventions based on live visitor intent. Results depend on traffic quality, pricing, products, and customer behavior.",
+    },
+    {
+      q: "Does it slow down my website?",
+      a: "No. The tracking layer is designed to be lightweight and asynchronous, ensuring it doesn't block rendering or negatively affect the shopping experience.",
+    },
+    {
+      q: "Can I see why the AI made a decision?",
+      a: "Yes. Every intervention includes the detected signals, confidence score, reasoning path, and the action selected, so your team always understands why Claarvia acted.",
     },
   ];
   return (
@@ -1946,7 +1981,7 @@ function FAQItem({
     <div className="reveal">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="flex w-full items-center justify-between gap-6 px-6 py-5 text-left"
+        className="animated-button-border flex w-full items-center justify-between gap-6 px-6 py-5 text-left"
       >
         <span className="text-base font-medium">{q}</span>
         <ChevronDown
@@ -1989,27 +2024,26 @@ function FinalCTA() {
               className="text-balance text-4xl font-semibold tracking-tight sm:text-6xl"
               style={{ fontFamily: "var(--font-display)" }}
             >
-              Stop guessing why{" "}
-              <span className="text-gradient">they leave.</span>
+              Know why they're hesitating. Recover revenue before they leave.
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-base text-muted-foreground sm:text-lg">
-              See Claarvia intervene on your own store, live, in a 20-minute demo.
+              See Claarvia analyze real visitor behavior, explain every buying hesitation, and show exactly how AI intervenes live on your own store.
             </p>
             <div className="mt-8 flex justify-center">
               <a
                 href="mailto:hello@claarvia.com?subject=Book%20a%20Claarvia%20demo"
-                className="group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.02]"
+                className="animated-button-border group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.02]"
                 style={{
                   boxShadow:
                     "0 0 0 1px oklch(1 0 0 / 0.12), 0 10px 80px oklch(0.78 0.16 288 / 0.55)",
                 }}
               >
-                Book a demo
+                Book a live demo
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </a>
             </div>
             <div className="mt-4 text-xs text-muted-foreground">
-              No credit card. No install required for the demo. 20 minutes.
+              20-minute personalized demo • No installation required • Bring your own store
             </div>
           </div>
         </div>
@@ -2037,18 +2071,18 @@ function Footer() {
             Claarvia
           </span>
           <span className="text-xs text-muted-foreground">
-            · The silent intelligence behind every smart store.
+            · Built for modern commerce.
           </span>
         </div>
         <div className="flex items-center gap-6 text-xs text-muted-foreground">
           <a href="#how" className="hover:text-foreground">
-            Product
+            How it Works
           </a>
-          <a href="#vs" className="hover:text-foreground">
-            Compare
+          <a href="#engine" className="hover:text-foreground">
+            AI Engine
           </a>
-          <a href="#security" className="hover:text-foreground">
-            Security
+          <a href="#faq" className="hover:text-foreground">
+            FAQ
           </a>
           <a href="#book" className="hover:text-foreground">
             Contact

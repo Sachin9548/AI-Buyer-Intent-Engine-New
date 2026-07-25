@@ -486,6 +486,26 @@ var Lock = createLucideIcon("lock", [["rect", {
 * This source code is licensed under the ISC license.
 * See the LICENSE file in the root directory of this source tree.
 */
+var Menu = createLucideIcon("menu", [
+	["path", {
+		d: "M4 5h16",
+		key: "1tepv9"
+	}],
+	["path", {
+		d: "M4 12h16",
+		key: "1lakjw"
+	}],
+	["path", {
+		d: "M4 19h16",
+		key: "1djgab"
+	}]
+]);
+/**
+* @license lucide-react v0.575.0 - ISC
+*
+* This source code is licensed under the ISC license.
+* See the LICENSE file in the root directory of this source tree.
+*/
 var MousePointerClick = createLucideIcon("mouse-pointer-click", [
 	["path", {
 		d: "M14 4.1 12 6",
@@ -826,5 +846,18 @@ var WandSparkles = createLucideIcon("wand-sparkles", [
 		key: "1obp7u"
 	}]
 ]);
+/**
+* @license lucide-react v0.575.0 - ISC
+*
+* This source code is licensed under the ISC license.
+* See the LICENSE file in the root directory of this source tree.
+*/
+var X = createLucideIcon("x", [["path", {
+	d: "M18 6 6 18",
+	key: "1bl5f8"
+}], ["path", {
+	d: "m6 6 12 12",
+	key: "d8bk6v"
+}]]);
 //#endregion
-export { CircleDollarSign as C, Boxes as D, Brain as E, BadgeCheck as O, CircleX as S, ChevronDown as T, Globe as _, Store as a, Cpu as b, ShoppingBag as c, ScanLine as d, Plug as f, Layers as g, Lock as h, Timer as i, ArrowRight as k, ShieldCheck as l, MousePointerClick as m, Truck as n, Sparkles as o, Play as p, TrendingUp as r, ShoppingCart as s, WandSparkles as t, Server as u, Gauge as v, CircleCheck as w, CodeXml as x, Eye as y };
+export { BadgeCheck as A, CodeXml as C, ChevronDown as D, CircleCheck as E, Brain as O, Cpu as S, CircleDollarSign as T, Lock as _, Timer as a, Gauge as b, ShoppingCart as c, Server as d, ScanLine as f, Menu as g, MousePointerClick as h, TrendingUp as i, ArrowRight as j, Boxes as k, ShoppingBag as l, Play as m, WandSparkles as n, Store as o, Plug as p, Truck as r, Sparkles as s, X as t, ShieldCheck as u, Layers as v, CircleX as w, Eye as x, Globe as y };
