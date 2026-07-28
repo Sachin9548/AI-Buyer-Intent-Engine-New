@@ -338,7 +338,7 @@ function Hero() {
               </a>
               <a
                 href="#engine"
-                className="animated-button-border group inline-flex items-center gap-2 rounded-full glass px-5 py-3 text-sm font-medium text-foreground transition-colors hover:bg-white/5"
+                className="group inline-flex items-center gap-2 rounded-full glass px-5 py-3 text-sm font-medium text-foreground transition-colors hover:bg-white/5"
               >
                 <span className="relative inline-flex h-2 w-2">
                   <span className="absolute inset-0 rounded-full bg-primary/70 pulse-glow" />
@@ -900,7 +900,7 @@ function DecisionEngine() {
           Watch the AI <span className="text-gradient">think</span>.
         </>
       }
-      sub="Every second, on every visitor. Claarvia reads the signal, names the doubt, chooses the smallest intervention that still converts — and stays silent when confidence is low."
+      sub="Every second, on every visitor. Claarvia reads the signal, names the doubt, chooses the smallest intervention that still converts and stays silent when confidence is low."
     >
       <div className="relative reveal">
         <div
@@ -1614,6 +1614,11 @@ function RevenueImpact() {
             hint="Average capped nudge"
             tone="muted"
           />
+          <div className="sm:col-span-2 rounded-2xl border border-white/5 bg-white/[0.02] px-4 py-3 text-xs text-muted-foreground">
+            Modeled from an 11% recovery on non-converting sessions with a 4%
+            average nudge. Directional, not a guarantee a demo maps this to
+            your own store data.
+          </div>
         </div>
       </div>
     </Section>

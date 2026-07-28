@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 import { useRef } from "react";
 import { Aurora } from "./primitives";
 
@@ -19,6 +20,8 @@ export function ScrollStory() {
   const pause = useTransform(scrollYProgress, [0.55, 0.7], [0, 1]);
   const glow = useTransform(scrollYProgress, [0.7, 0.85], [0, 1]);
   const reveal = useTransform(scrollYProgress, [0.85, 1], [0, 1]);
+  const hintOpacity = useTransform(scrollYProgress, [0, 0.08], [1, 0]);
+  const hintY = useTransform(scrollYProgress, [0, 0.08], [0, 10]);
 
   return (
     <section ref={ref} className="relative" style={{ height: "800vh" }}>
@@ -38,6 +41,20 @@ export function ScrollStory() {
             <p className="mx-auto max-w-2xl text-3xl font-semibold tracking-tight text-foreground/90 sm:text-5xl">
               Until Claarvia started watching.
             </p>
+          </motion.div>
+
+          <motion.div
+            style={{ opacity: hintOpacity, y: hintY }}
+            className="pointer-events-none absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-2 text-[11px] uppercase tracking-[0.28em] text-muted-foreground/80 sm:bottom-10"
+          >
+            <span>Scroll to explore</span>
+            <motion.div
+              animate={{ y: [0, 6, 0] }}
+              transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] backdrop-blur"
+            >
+              <ChevronDown className="h-4 w-4" />
+            </motion.div>
           </motion.div>
 
 {/*

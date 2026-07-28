@@ -4,7 +4,7 @@ import { n as require_jsx_runtime, r as require_react } from "../_libs/react+tan
 import { A as BadgeCheck, C as CodeXml, D as ChevronDown, E as CircleCheck, O as Brain, S as Cpu, T as CircleDollarSign, _ as Lock, a as Timer, b as Gauge, c as ShoppingCart, d as Server, f as ScanLine, g as Menu, h as MousePointerClick, i as TrendingUp, j as ArrowRight, k as Boxes, l as ShoppingBag, m as Play, n as WandSparkles, o as Store, p as Plug, r as Truck, s as Sparkles, t as X, u as ShieldCheck, v as Layers, w as CircleX, x as Eye, y as Globe } from "../_libs/lucide-react.mjs";
 import { t as clsx } from "../_libs/clsx.mjs";
 import { t as twMerge } from "../_libs/tailwind-merge.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-bMmdYiRq.js
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-SdNaOSQo.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function cn(...inputs) {
@@ -61,6 +61,8 @@ function ScrollStory() {
 	const pause = useTransform(scrollYProgress, [.55, .7], [0, 1]);
 	const glow = useTransform(scrollYProgress, [.7, .85], [0, 1]);
 	useTransform(scrollYProgress, [.85, 1], [0, 1]);
+	const hintOpacity = useTransform(scrollYProgress, [0, .08], [1, 0]);
+	const hintY = useTransform(scrollYProgress, [0, .08], [0, 10]);
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
 		ref,
 		className: "relative",
@@ -81,19 +83,43 @@ function ScrollStory() {
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 					className: "container relative z-10 px-6 text-center",
-					children: [beats.map((b, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(BeatLine, {
-						index: i,
-						progress: beatIndex,
-						text: b.t,
-						sub: b.s
-					}, i)), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.div, {
-						style: { opacity: glow },
-						className: "absolute inset-x-0 top-1/2 -translate-y-1/2",
-						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-							className: "mx-auto max-w-2xl text-3xl font-semibold tracking-tight text-foreground/90 sm:text-5xl",
-							children: "Until Claarvia started watching."
+					children: [
+						beats.map((b, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(BeatLine, {
+							index: i,
+							progress: beatIndex,
+							text: b.t,
+							sub: b.s
+						}, i)),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.div, {
+							style: { opacity: glow },
+							className: "absolute inset-x-0 top-1/2 -translate-y-1/2",
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+								className: "mx-auto max-w-2xl text-3xl font-semibold tracking-tight text-foreground/90 sm:text-5xl",
+								children: "Until Claarvia started watching."
+							})
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(motion.div, {
+							style: {
+								opacity: hintOpacity,
+								y: hintY
+							},
+							className: "pointer-events-none absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-2 text-[11px] uppercase tracking-[0.28em] text-muted-foreground/80 sm:bottom-10",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Scroll to explore" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.div, {
+								animate: { y: [
+									0,
+									6,
+									0
+								] },
+								transition: {
+									duration: 1.6,
+									repeat: Infinity,
+									ease: "easeInOut"
+								},
+								className: "flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] backdrop-blur",
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronDown, { className: "h-4 w-4" })
+							})]
 						})
-					})]
+					]
 				})
 			]
 		})
@@ -358,7 +384,7 @@ function Hero() {
 									children: ["Book a demo", /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { className: "h-4 w-4 transition-transform group-hover:translate-x-0.5" })]
 								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
 									href: "#engine",
-									className: "animated-button-border group inline-flex items-center gap-2 rounded-full glass px-5 py-3 text-sm font-medium text-foreground transition-colors hover:bg-white/5",
+									className: "group inline-flex items-center gap-2 rounded-full glass px-5 py-3 text-sm font-medium text-foreground transition-colors hover:bg-white/5",
 									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
 										className: "relative inline-flex h-2 w-2",
 										children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "absolute inset-0 rounded-full bg-primary/70 pulse-glow" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "relative m-auto h-1.5 w-1.5 rounded-full bg-primary" })]
@@ -703,7 +729,7 @@ function DecisionEngine() {
 			}),
 			"."
 		] }),
-		sub: "Every second, on every visitor. Claarvia reads the signal, names the doubt, chooses the smallest intervention that still converts — and stays silent when confidence is low.",
+		sub: "Every second, on every visitor. Claarvia reads the signal, names the doubt, chooses the smallest intervention that still converts and stays silent when confidence is low.",
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 			className: "relative reveal",
 			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
@@ -1516,6 +1542,10 @@ function RevenueImpact() {
 						value: "≤ 4%",
 						hint: "Average capped nudge",
 						tone: "muted"
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "sm:col-span-2 rounded-2xl border border-white/5 bg-white/[0.02] px-4 py-3 text-xs text-muted-foreground",
+						children: "Modeled from an 11% recovery on non-converting sessions with a 4% average nudge. Directional, not a guarantee a demo maps this to your own store data."
 					})
 				]
 			})]
@@ -1808,7 +1838,7 @@ function FAQItem({ q, a, defaultOpen = false }) {
 		className: "reveal",
 		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
 			onClick: () => setOpen((o) => !o),
-			className: "animated-button-border flex w-full items-center justify-between gap-6 px-6 py-5 text-left",
+			className: "flex w-full items-center justify-between gap-6 px-6 py-5 text-left",
 			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 				className: "text-base font-medium",
 				children: q
