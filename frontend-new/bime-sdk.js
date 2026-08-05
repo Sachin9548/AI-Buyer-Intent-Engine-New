@@ -1,6 +1,6 @@
 /**
  * Claarvia / BIME 3.0 — Production Master SDK (Auto-Discovery + Full Signal Engine)
- * Zero-Config | Universal Platform | Mobile-First
+ * Zero-Config | Universal Platform | Mobile-First | Modern Toast UI
  */
 (function () {
   "use strict";
@@ -183,7 +183,7 @@
           });
         });
 
-        // 4. Setup All Signal Listeners (Issue 1 - 5 Fixes)
+        // 4. Setup All Signal Listeners
         this.setupSignals();
       } catch (err) {
         console.warn("Claarvia SDK init warning:", err);
@@ -200,7 +200,7 @@
         let slowScrollTracked = false;
         let slowScrollTimer;
 
-        // Activity Tracker for User Idle (Issue 4 Fix)
+        // Activity Tracker for User Idle
         ["click", "scroll", "touchstart", "keydown"].forEach((evt) => {
           document.addEventListener(
             evt,
@@ -216,7 +216,7 @@
         setInterval(() => {
           const idleSecs = Math.round((Date.now() - lastActivity) / 1000);
           if (idleSecs >= 30 && !idleTracked) {
-            idleTracked = true; // Sirf ek baar track karo
+            idleTracked = true;
             BIME.track("user_idle", {
               idle_seconds: idleSecs,
               time_on_page: Math.round(
@@ -225,12 +225,10 @@
               scroll_depth: BIME_CONFIG.maxScroll,
             });
           }
-          // User activity aaye toh reset karo
           if (idleSecs < 5) idleTracked = false;
         }, 15000);
 
-        // Scroll Signals: Milestones, Backward, Pause, and Scroll Velocity (Issue 1 Fix)
-
+        // Scroll Signals: Milestones, Backward, Pause, and Scroll Velocity
         window.addEventListener(
           "scroll",
           () => {
@@ -239,10 +237,10 @@
               document.documentElement.scrollHeight - window.innerHeight;
             if (totalScrollable <= 0) return;
 
-            const currentScrollY = window.scrollY; // Pehle save karo
+            const currentScrollY = window.scrollY;
             const pct = Math.round((currentScrollY / totalScrollable) * 100);
 
-            // Velocity — lastScrollY use karo BEFORE update
+            // Velocity
             const dy = Math.abs(currentScrollY - lastScrollY);
             const dt = now - lastScrollTime;
             const velocity = dy / (dt || 1);
@@ -253,13 +251,13 @@
                 position_pct: pct,
                 velocity: parseFloat(velocity.toFixed(3)),
               });
-              // 10 seconds baad reset — nayi position pe track kar sake
               clearTimeout(slowScrollTimer);
               slowScrollTimer = setTimeout(() => {
                 slowScrollTracked = false;
               }, 10000);
             }
-            // Backward scroll — lastScrollY use karo BEFORE update
+
+            // Backward scroll
             if (currentScrollY - lastScrollY < -100) {
               BIME.track("scroll_backward", {
                 from_pct: Math.round((lastScrollY / totalScrollable) * 100),
@@ -281,14 +279,13 @@
               BIME.track("scroll_pause", { position_pct: pct });
             }, 2000);
 
-            // Ab update karo — SABSE LAST MEIN
             lastScrollY = currentScrollY;
             lastScrollTime = now;
           },
           { passive: true },
         );
 
-        // Touch Signals: Long Press & Pinch Zoom (Issue 2 Fix)
+        // Touch Signals: Long Press & Pinch Zoom
         if (BIME_CONFIG.isTouch) {
           let touchStartY = 0;
           let touchStartTime = 0;
@@ -322,7 +319,7 @@
             { passive: true },
           );
 
-          let pinchTracked = false; // Session mein ek baar kaafi hai
+          let pinchTracked = false;
 
           document.addEventListener(
             "touchmove",
@@ -340,7 +337,7 @@
           );
         }
 
-        // Keyboard Open Detection (Issue 3 Fix)
+        // Keyboard Open Detection
         if (BIME_CONFIG.isMobile) {
           window.addEventListener("resize", () => {
             const diff = BIME_CONFIG.initialViewportH - window.innerHeight;
@@ -400,7 +397,7 @@
           } catch (e) {}
         }
 
-        // Session End Tracking & Flush Buffer (Issue 5 Fix)
+        // Session End Tracking & Flush Buffer
         window.addEventListener("beforeunload", () => {
           BIME.track("session_end", {
             time_on_page: Math.round(
@@ -409,7 +406,7 @@
             max_scroll: BIME_CONFIG.maxScroll,
             device: BIME_CONFIG.isMobile ? "mobile" : "desktop",
           });
-          BIME.send(); // Force send buffer immediately
+          BIME.send();
         });
 
         // Global Click Tracker
@@ -488,19 +485,19 @@
 
         switch (action) {
           case "show_size_quiz":
-            console.log("🎨 Rendering Size Quiz UI Card Now...");
+            console.log("🎨 Rendering Sleek Size Quiz Toast...");
             this.showSizeQuiz();
             break;
           case "show_discount":
-            console.log("🎨 Rendering Discount UI Card Now...");
+            console.log("🎨 Rendering Sleek Discount Toast...");
             this.showDiscount(message);
             break;
           case "show_trust":
-            console.log("🎨 Rendering Trust UI Card Now...");
+            console.log("🎨 Rendering Sleek Trust Toast...");
             this.showTrust();
             break;
           default:
-            console.log("🎨 Rendering Generic UI Card Now...");
+            console.log("🎨 Rendering Sleek Generic Toast...");
             this.showGeneric(message);
             break;
         }
@@ -511,6 +508,7 @@
       }
     },
 
+    // Modern SaaS Toast Shadow Container (Compact & Ultra-Clean)
     createShadowContainer: function () {
       let host = document.getElementById("bime-nudge-host");
       if (host) host.remove();
@@ -518,7 +516,7 @@
       host = document.createElement("div");
       host.id = "bime-nudge-host";
 
-      // Force Host Container to float over ALL Shopify themes
+      // Force Container Toast Positioning
       host.style.cssText =
         "position: fixed !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important; pointer-events: none !important; z-index: 2147483647 !important; display: block !important;";
 
@@ -531,25 +529,111 @@
       const baseCss = `
         :host { display: block !important; }
         * { box-sizing: border-box !important; }
-        .nudge-card {
+        
+        .toast-card {
           position: fixed !important;
           pointer-events: auto !important;
-          ${isMobile ? "bottom: 0 !important; left: 0 !important; right: 0 !important; width: 100% !important; border-radius: 16px 16px 0 0 !important;" : "bottom: 25px !important; right: 25px !important; width: 340px !important; border-radius: 12px !important; border-left: 5px solid #4F46E5 !important;"}
-          background-color: #ffffff !important;
-          color: #111827 !important;
-          padding: 20px !important;
-          box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3) !important;
+          ${
+            isMobile
+              ? "bottom: 16px !important; left: 16px !important; right: 16px !important; width: auto !important; max-width: 400px !important; margin: 0 auto !important;"
+              : "bottom: 24px !important; right: 24px !important; width: 310px !important;"
+          }
+          background: #ffffff !important;
+          color: #0f172a !important;
+          padding: 16px !important;
+          border-radius: 12px !important;
+          border: 1px solid #f1f5f9 !important;
+          box-shadow: 0 10px 25px -3px rgba(15, 23, 42, 0.12), 0 4px 6px -4px rgba(15, 23, 42, 0.05) !important;
           z-index: 2147483647 !important;
           font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
           opacity: 1 !important;
           visibility: visible !important;
           display: block !important;
+          animation: bimeToastIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
         }
-        .nudge-title { font-weight: 700 !important; font-size: 15px !important; color: #111827 !important; margin: 0 0 10px 0 !important; line-height: 1.4 !important; }
-        .btn-primary { width: 100% !important; background: #4F46E5 !important; color: #ffffff !important; border: none !important; padding: 12px 14px !important; font-weight: 600 !important; font-size: 14px !important; border-radius: 8px !important; cursor: pointer !important; margin-top: 10px !important; display: block !important; text-align: center !important; }
-        .btn-secondary { width: 100% !important; background: #F3F4F6 !important; color: #4B5563 !important; border: none !important; padding: 10px 14px !important; font-weight: 500 !important; font-size: 13px !important; border-radius: 8px !important; cursor: pointer !important; margin-top: 8px !important; display: block !important; text-align: center !important; }
-        .input-field { width: 100% !important; padding: 10px 12px !important; border: 1px solid #D1D5DB !important; border-radius: 8px !important; margin-bottom: 8px !important; font-size: 14px !important; box-sizing: border-box !important; outline: none !important; background: #FAFAFA !important; color: #111827 !important; }
-        .trust-item { display: flex !important; align-items: center !important; gap: 8px !important; font-size: 13px !important; color: #374151 !important; margin-bottom: 8px !important; font-weight: 500 !important; }
+
+        @keyframes bimeToastIn {
+          from { transform: translateY(20px) scale(0.96); opacity: 0; }
+          to { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        .toast-header {
+          display: flex !important;
+          align-items: center !important;
+          justify-content: space-between !important;
+          margin-bottom: 8px !important;
+        }
+
+        .toast-title {
+          font-weight: 600 !important;
+          font-size: 13.5px !important;
+          color: #0f172a !important;
+          margin: 0 !important;
+          line-height: 1.4 !important;
+          display: flex !important;
+          align-items: center !important;
+          gap: 6px !important;
+        }
+
+        .close-x {
+          background: transparent !important;
+          border: none !important;
+          color: #94a3b8 !important;
+          font-size: 16px !important;
+          cursor: pointer !important;
+          padding: 2px 6px !important;
+          line-height: 1 !important;
+          border-radius: 4px !important;
+          transition: color 0.15s !important;
+        }
+        .close-x:hover { color: #0f172a !important; background: #f8fafc !important; }
+
+        .toast-btn {
+          width: 100% !important;
+          background: #4f46e5 !important;
+          color: #ffffff !important;
+          border: none !important;
+          padding: 9px 12px !important;
+          font-weight: 600 !important;
+          font-size: 13px !important;
+          border-radius: 8px !important;
+          cursor: pointer !important;
+          margin-top: 10px !important;
+          display: block !important;
+          text-align: center !important;
+          transition: background 0.15s !important;
+        }
+        .toast-btn:hover { background: #4338ca !important; }
+
+        .input-inline-group {
+          display: flex !important;
+          gap: 6px !important;
+          margin-top: 8px !important;
+        }
+
+        .input-sm {
+          flex: 1 !important;
+          width: 50% !important;
+          padding: 7px 10px !important;
+          border: 1px solid #e2e8f0 !important;
+          border-radius: 6px !important;
+          font-size: 12.5px !important;
+          outline: none !important;
+          background: #f8fafc !important;
+          color: #0f172a !important;
+        }
+        .input-sm:focus { border-color: #4f46e5 !important; background: #ffffff !important; }
+
+        .trust-row {
+          display: flex !important;
+          align-items: center !important;
+          gap: 6px !important;
+          font-size: 12px !important;
+          color: #334155 !important;
+          margin-bottom: 5px !important;
+          font-weight: 500 !important;
+        }
+        .trust-icon { color: #16a34a !important; font-weight: bold !important; }
       `;
 
       return { host, shadow, baseCss };
@@ -563,23 +647,29 @@
       console.log("🔄 BIME Action Flag Reset! You can test triggers again.");
     },
 
-    // Treatment 1: Size Quiz Action
+    // Treatment 1: Compact Size Quiz Toast
     showSizeQuiz: function () {
       const { host, shadow, baseCss } = this.createShadowContainer();
       shadow.innerHTML = `
         <style>${baseCss}</style>
-        <div class="nudge-card">
-          <p class="nudge-title">📏 Find Your Perfect Fit in 10 Seconds</p>
-          <div id="quiz-form">
-            <input type="number" id="bime-height" class="input-field" placeholder="Height (in cm or ft e.g., 175)" />
-            <input type="number" id="bime-weight" class="input-field" placeholder="Weight (in kg e.g., 70)" />
-            <button class="btn-primary" id="bime-calc">Calculate My Size</button>
-            <button class="btn-secondary" id="bime-close">Dismiss</button>
+        <div class="toast-card">
+          <div class="toast-header">
+            <span class="toast-title">📏 Find Your Perfect Fit</span>
+            <button class="close-x" id="bime-close">×</button>
           </div>
-          <div id="quiz-result" style="display:none; text-align: center;">
-            <p style="font-size: 16px; font-weight: 700; color: #059669;" id="size-text"></p>
-            <p style="font-size: 12px; color: #6B7280; margin-top: 4px;">Lowest return rate for this size!</p>
-            <button class="btn-primary" id="bime-done">Got it, thanks!</button>
+          
+          <div id="quiz-form">
+            <div class="input-inline-group">
+              <input type="number" id="bime-height" class="input-sm" placeholder="Height (cm)" />
+              <input type="number" id="bime-weight" class="input-sm" placeholder="Weight (kg)" />
+            </div>
+            <button class="toast-btn" id="bime-calc">Check My Size</button>
+          </div>
+
+          <div id="quiz-result" style="display:none; text-align: center; padding-top: 4px;">
+            <p style="font-size: 14px; font-weight: 700; color: #16a34a; margin: 0 0 2px 0;" id="size-text"></p>
+            <p style="font-size: 11px; color: #64748b; margin: 0 0 8px 0;" id="fit-text"></p>
+            <button class="toast-btn" id="bime-done" style="margin-top:4px;">Got It</button>
           </div>
         </div>
       `;
@@ -588,16 +678,12 @@
         const h = parseFloat(shadow.getElementById("bime-height").value);
         const w = parseFloat(shadow.getElementById("bime-weight").value);
 
-        // Validation
         if (!h || !w || h < 100 || h > 250 || w < 30 || w > 200) {
-          shadow.getElementById("bime-height").style.border =
-            "1px solid #DC2626";
-          shadow.getElementById("bime-weight").style.border =
-            "1px solid #DC2626";
+          shadow.getElementById("bime-height").style.borderColor = "#ef4444";
+          shadow.getElementById("bime-weight").style.borderColor = "#ef4444";
           return;
         }
 
-        // Height + Weight dono use karo
         let size = "M";
         if (h < 160) {
           size = w < 55 ? "XS" : w < 68 ? "S" : w < 80 ? "M" : "L";
@@ -628,12 +714,10 @@
 
         shadow.getElementById("quiz-form").style.display = "none";
         shadow.getElementById("quiz-result").style.display = "block";
-        shadow.getElementById("size-text").innerHTML = `
-    Recommended: <b>${size}</b><br>
-    <span style="font-size:12px;color:#6B7280">
-      Loose fit? → ${looseSize} &nbsp;|&nbsp; Snug fit? → ${snugSize}
-    </span>
-  `;
+        shadow.getElementById("size-text").innerHTML =
+          `Recommended: <b>${size}</b>`;
+        shadow.getElementById("fit-text").innerHTML =
+          `Loose fit: ${looseSize} &bull; Snug fit: ${snugSize}`;
 
         BIME.track("size_quiz_completed", {
           height: h,
@@ -647,55 +731,64 @@
         host.remove();
       });
 
-      const doneBtn = shadow.getElementById("bime-done");
-      if (doneBtn) {
-        doneBtn.addEventListener("click", () => {
-          BIME.track("nudge_clicked", { action: "show_size_quiz" });
-          host.remove();
-        });
-      }
+      setTimeout(() => {
+        const doneBtn = shadow.getElementById("bime-done");
+        if (doneBtn) {
+          doneBtn.addEventListener("click", () => {
+            BIME.track("nudge_clicked", { action: "show_size_quiz" });
+            host.remove();
+          });
+        }
+      }, 50);
     },
 
-    // Treatment 2: Discount Timer Action
+    // Treatment 2: Sleek Discount Timer Toast
     showDiscount: function (message) {
       const { host, shadow, baseCss } = this.createShadowContainer();
       let secondsLeft = 300;
 
       shadow.innerHTML = `
-    <style>${baseCss}
-      .timer { font-size: 18px; font-weight: 700; color: #DC2626; margin: 6px 0; }
-      .coupon-box {
-        background: #F0FDF4; border: 2px dashed #16A34A;
-        border-radius: 8px; padding: 12px; text-align: center;
-        margin: 10px 0; display: none;
-      }
-      .coupon-code {
-        font-size: 20px; font-weight: 800;
-        color: #15803D; letter-spacing: 2px;
-      }
-      .coupon-label { font-size: 12px; color: #6B7280; margin-top: 4px; }
-    </style>
-    <div class="nudge-card">
-      <p class="nudge-title">🏷️ ${message || "Still thinking? Claim 10% Off!"}</p>
-      <div class="timer" id="timer-text">05:00</div>
+        <style>${baseCss}
+          .badge-timer {
+            background: #fef2f2 !important;
+            color: #dc2626 !important;
+            font-size: 11px !important;
+            font-weight: 700 !important;
+            padding: 3px 8px !important;
+            border-radius: 12px !important;
+            border: 1px solid #fecaca !important;
+          }
+          .coupon-code {
+            background: #f0fdf4 !important;
+            border: 1.5px dashed #16a34a !important;
+            color: #15803d !important;
+            font-size: 16px !important;
+            font-weight: 800 !important;
+            letter-spacing: 2px !important;
+            padding: 8px !important;
+            text-align: center !important;
+            border-radius: 6px !important;
+            margin-top: 8px !important;
+          }
+        </style>
+        <div class="toast-card">
+          <div class="toast-header">
+            <span class="toast-title">🏷️ ${message || "Claim 10% Off Today"}</span>
+            <span class="badge-timer" id="timer-text">05:00</span>
+            <button class="close-x" id="bime-close">×</button>
+          </div>
 
-      <div id="claim-section">
-        <button class="btn-primary" id="bime-claim">Claim 10% Discount</button>
-        <button class="btn-secondary" id="bime-close">No thanks</button>
-      </div>
+          <div id="claim-section">
+            <button class="toast-btn" id="bime-claim">Claim Discount</button>
+          </div>
 
-      <div class="coupon-box" id="coupon-box">
-        <div class="coupon-code">SAVED10</div>
-        <div class="coupon-label">
-          Copy this code and paste at checkout
+          <div id="coupon-box" style="display:none;">
+            <div class="coupon-code">SAVED10</div>
+            <p style="font-size:11px; color:#64748b; text-align:center; margin:4px 0 0 0;">Code copied! Apply at checkout</p>
+            <button class="toast-btn" id="bime-done" style="margin-top:8px;">Got It</button>
+          </div>
         </div>
-        <button class="btn-primary" id="bime-done" 
-          style="margin-top:10px">
-          Got it!
-        </button>
-      </div>
-    </div>
-  `;
+      `;
 
       const timerInterval = setInterval(() => {
         secondsLeft--;
@@ -714,7 +807,10 @@
 
       shadow.getElementById("bime-claim").addEventListener("click", () => {
         clearInterval(timerInterval);
-        // ✅ In-card success — no alert()
+
+        // Actually copy karo clipboard mein
+        navigator.clipboard?.writeText("SAVED10").catch(() => {});
+
         shadow.getElementById("claim-section").style.display = "none";
         shadow.getElementById("coupon-box").style.display = "block";
         shadow.getElementById("timer-text").style.display = "none";
@@ -727,7 +823,6 @@
         host.remove();
       });
 
-      // Done button — coupon dekh liya
       setTimeout(() => {
         const doneBtn = shadow.getElementById("bime-done");
         if (doneBtn) {
@@ -735,45 +830,49 @@
             host.remove();
           });
         }
-      }, 100);
+      }, 50);
     },
 
-    // Treatment 3: Trust Badge Action
+    // Treatment 3: Sleek Trust Badge Toast
     showTrust: function () {
       const { host, shadow, baseCss } = this.createShadowContainer();
       shadow.innerHTML = `
-    <style>${baseCss}</style>
-    <div class="nudge-card">
-      <p class="nudge-title">🛡️ Shop with 100% Confidence</p>
-      <div class="trust-item">✔ 7-Day Hassle Free Returns</div>
-      <div class="trust-item">✔ 100% Original & Quality Assured</div>
-      <div class="trust-item">✔ Cash on Delivery Available</div>
-      <button class="btn-primary" id="bime-continue">Continue Shopping</button>
-      <button class="btn-secondary" id="bime-close">Dismiss</button>
-    </div>
-  `;
+        <style>${baseCss}</style>
+        <div class="toast-card">
+          <div class="toast-header">
+            <span class="toast-title">🛡️ Shop with Confidence</span>
+            <button class="close-x" id="bime-close">×</button>
+          </div>
+          <div class="trust-row"><span class="trust-icon">✓</span> 7-Day Hassle-Free Returns</div>
+          <div class="trust-row"><span class="trust-icon">✓</span> 100% Original & Quality Assured</div>
+          <div class="trust-row"><span class="trust-icon">✓</span> Cash on Delivery Available</div>
+          <button class="toast-btn" id="bime-continue">Continue Shopping</button>
+        </div>
+      `;
 
       shadow.getElementById("bime-continue").addEventListener("click", () => {
         BIME.track("nudge_clicked", { action: "show_trust" });
         host.remove();
       });
 
-      // ✅ Close button add karo
       shadow.getElementById("bime-close").addEventListener("click", () => {
         BIME.track("nudge_closed", { action: "show_trust" });
         host.remove();
       });
     },
 
-    // Fallback Treatment: Generic Nudge
+    // Fallback Treatment: Sleek Generic Toast
     showGeneric: function (message) {
       const { host, shadow, baseCss } = this.createShadowContainer();
       shadow.innerHTML = `
         <style>${baseCss}</style>
-        <div class="nudge-card">
-          <p class="nudge-title">${message || "Need any help with your choice?"}</p>
-          <button class="btn-primary" id="bime-cta">Yes, Help Me!</button>
-          <button class="btn-secondary" id="bime-close">Dismiss</button>
+        <div class="toast-card">
+          <div class="toast-header">
+            <span class="toast-title">💬 Need any assistance?</span>
+            <button class="close-x" id="bime-close">×</button>
+          </div>
+          <p style="font-size:12.5px; color:#475569; margin:0 0 6px 0;">${message || "We are here to help you pick the best item!"}</p>
+          <button class="toast-btn" id="bime-cta">Quick Help</button>
         </div>
       `;
 
