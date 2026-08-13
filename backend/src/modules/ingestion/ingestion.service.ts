@@ -2,50 +2,68 @@ import { Injectable } from '@nestjs/common';
 import { docClient } from '../../config/aws.config';
 import { PutCommand } from '@aws-sdk/lib-dynamodb';
 import { v4 as uuidv4 } from 'uuid';
-import redis from '../../config/redis.config'; // tumhari config file
+import {
+  FeatureEngineeringService,
+  SessionFeatures,
+} from './feature-engineering.service';
+import { RuleEngineService, RuleDecision } from './rule-engine.service';
 
 @Injectable()
 export class IngestionService {
+  constructor(
+    private readonly featureEngineeringService: FeatureEngineeringService,
+    private readonly ruleEngineService: RuleEngineService,
+  ) {}
+
   async handleIncomingEvents(events: any[]) {
-    let finalDecision = { action: 'none', message: '' };
+    // 1. Save Raw Events asynchronously to DynamoDB (Parallel Batch Save)
+    this.saveToDynamoBatch(events);
 
-    for (const event of events) {
-      // 1. Save to DynamoDB
-      await this.saveToDynamo(event);
+    // 2. Compute Real-Time Feature Vector in Redis
+    const features: SessionFeatures =
+      await this.featureEngineeringService.processEventsAndComputeFeatures(
+        events,
+      );
 
-      // 2. Decision Logic
-      const { store_id, event_type, metadata } = event;
-      const sessionKey = `intent:${store_id}:${metadata?.id || 'general'}`;
+    // 3. Evaluate Rule Engine against Computed Features
+    const decision: RuleDecision =
+      this.ruleEngineService.evaluateFeatures(features);
 
-      if (event_type === 'hover_size_chart') {
-        const hoverCount = await redis.incr(`${sessionKey}:size_hover`);
-        if (hoverCount >= 2) {
-          finalDecision = {
-            action: 'show_size_quiz',
-            message: 'Not sure about size?',
-          };
-        }
-      }
-
-      if (event_type === 'price_hover') {
-        finalDecision = {
-          action: 'show_discount',
-          message: 'Get 10% OFF today!',
-        };
-      }
+    if (decision && decision.action !== 'none') {
+      console.log(`🎯 Rule Engine Decision [${features.session_id}]:`, {
+        action: decision.action,
+        reason: decision.reason,
+        confidence: decision.confidence,
+        device: features.device_type,
+      });
     }
-    return finalDecision; 
+
+    // 4. Return Action Decision to SDK
+    return {
+      action: decision.action,
+      message: decision.message,
+      confidence: decision.confidence,
+      reason: decision.reason,
+    };
   }
 
-  private async saveToDynamo(event: any) {
-    const params = {
-      TableName: 'BIME_Events',
-      Item: {
-        store_id: event.store_id,
-        event_id: uuidv4(),
-        ...event,
-      },
-    };
-    await docClient.send(new PutCommand(params));
+  private async saveToDynamoBatch(events: any[]) {
+    try {
+      // Parallel execution via Promise.all (Super Fast)
+      const promises = events.map((event) => {
+        const params = {
+          TableName: 'BIME_Events',
+          Item: {
+            store_id: event.store_id || 'default_store',
+            event_id: uuidv4(),
+            ...event,
+          },
+        };
+        return docClient.send(new PutCommand(params));
+      });
+      await Promise.all(promises);
+    } catch (err) {
+      console.error('DynamoDB Batch Save Error:', err);
+    }
   }
 }

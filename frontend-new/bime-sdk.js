@@ -6,17 +6,28 @@
   "use strict";
 
   // Auto-read storeId from script tag attribute [data-store-id]
-  const currentScript =
-    document.currentScript || document.querySelector("script[data-store-id]");
-  const defaultStoreId = currentScript
-    ? currentScript.getAttribute("data-store-id")
-    : null;
+const currentScript = document.currentScript || document.querySelector('script[data-store-id]');
+const defaultStoreId = currentScript ? currentScript.getAttribute('data-store-id') : null;
+const defaultApiKey = currentScript ? currentScript.getAttribute('data-api-key') : null; // ✅ Read API Key from script tag
+
+
+  const getOrCreateSessionId = () => {
+    let id = sessionStorage.getItem("bime_session_id");
+    if (!id) {
+      id =
+        "sess_" + Date.now() + "_" + Math.random().toString(36).substring(2, 7);
+      sessionStorage.setItem("bime_session_id", id);
+    }
+    return id;
+  };
 
   const BIME_CONFIG = {
     endpoint: "https://api.claarvia.com/api/ingestion/event",
     batchSize: 5,
     buffer: [],
     storeId: defaultStoreId || "default_store",
+    apiKey: defaultApiKey || "", // ✅ Set API Key in Config
+    sessionId: getOrCreateSessionId(), // ✅ Real Unique Session ID
     pageStart: Date.now(),
     maxScroll: 0,
     isMobile:
@@ -185,6 +196,34 @@
 
         // 4. Setup All Signal Listeners
         this.setupSignals();
+
+        // Auto-Detect Purchase / Thank You Page Outcome (Deduplicated & Real Session ID)
+        if (
+          (window.location.pathname.includes("/thank_you") ||
+            window.location.pathname.includes("/orders/")) &&
+          !sessionStorage.getItem("bime_purchase_tracked")
+        ) {
+          sessionStorage.setItem("bime_purchase_tracked", "true"); // ✅ Prevent duplicate POST on refresh
+
+          const productInfo = autoDetectProductInfo();
+          const revenue =
+            productInfo && productInfo.price
+              ? parseFloat(productInfo.price)
+              : 0;
+
+          fetch("https://api.claarvia.com/api/outcomes", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              store_id: BIME_CONFIG.storeId,
+              session_id: BIME_CONFIG.sessionId, // ✅ Real Session ID used!
+              outcome: "purchase",
+              action_shown: window.BIME_LAST_ACTION || "none", // ✅ Actual shown action used!
+              revenue: revenue,
+            }),
+            keepalive: true,
+          }).catch(() => {});
+        }
       } catch (err) {
         console.warn("Claarvia SDK init warning:", err);
       }
@@ -450,7 +489,10 @@
 
         fetch(BIME_CONFIG.endpoint, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": BIME_CONFIG.apiKey || "",
+          },
           body: JSON.stringify(dataToSend),
           keepalive: true,
         })
