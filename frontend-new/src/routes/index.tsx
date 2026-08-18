@@ -2062,39 +2062,67 @@ function FinalCTA() {
    ============================================================ */
 
 function Footer() {
+  const footerCols = [
+    { title: "Product", links: ["How it works", "Dashboard", "AI Engine", "Security", "Pricing", "Changelog"] },
+    { title: "Company", links: ["About", "Customers", "Careers", "Press kit", "Contact"] },
+    { title: "Resources", links: ["Documentation", "API Reference", "Guides", "Privacy", "Status"] },
+    { title: "Legal", links: ["Privacy Policy", "Terms of Service", "DPA", "Cookies"] },
+  ];
+
   return (
-    <footer className="border-t border-white/5 py-12">
-      <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-6 px-6 sm:flex-row sm:items-center">
-        <div className="flex items-center gap-2">
-          <span className="relative inline-flex h-6 w-6 items-center justify-center rounded-md glass-strong">
-            <Sparkles className="h-3 w-3 text-primary" />
-          </span>
-          <span
-            className="text-sm font-semibold"
-            style={{ fontFamily: "var(--font-display)" }}
-          >
-            Claarvia
-          </span>
-          <span className="text-xs text-muted-foreground">
-            · Built for modern commerce.
-          </span>
+    <footer className="relative border-t border-white/5">
+      <div className="mx-auto max-w-6xl px-6 py-20">
+        <div className="grid grid-cols-2 gap-10 md:grid-cols-6">
+          <div className="col-span-2">
+            <a href="#top" className="flex items-center gap-2.5">
+              <span className="relative inline-flex h-7 w-7 items-center justify-center rounded-lg glass-strong">
+                <Sparkles className="h-3.5 w-3.5 text-primary" />
+              </span>
+              <span
+                className="text-xl font-semibold"
+                style={{ fontFamily: "var(--font-display)" }}
+              >
+                Claarvia
+              </span>
+            </a>
+            <p className="mt-5 max-w-xs text-sm text-muted-foreground">
+              Behavioral intelligence for ecommerce teams who'd rather know why visitors leave than guess.
+            </p>
+            <div className="mt-6 flex items-center gap-2 text-xs text-muted-foreground">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
+              All systems operational
+            </div>
+          </div>
+          {footerCols.map((col) => (
+            <div key={col.title}>
+              <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                {col.title}
+              </div>
+              <ul className="mt-4 space-y-2.5 text-sm">
+                {col.links.map((link) => (
+                  <li key={link}>
+                    <a
+                      href="#"
+                      className="text-foreground/80 transition-colors hover:text-foreground"
+                    >
+                      {link}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
-        <div className="flex items-center gap-6 text-xs text-muted-foreground">
-          <a href="#how" className="hover:text-foreground">
-            How it Works
-          </a>
-          <a href="#engine" className="hover:text-foreground">
-            AI Engine
-          </a>
-          <a href="#faq" className="hover:text-foreground">
-            FAQ
-          </a>
-          <a href="#book" className="hover:text-foreground">
-            Contact
-          </a>
+
+        <div className="mt-16 flex flex-col items-start justify-between gap-3 border-t border-white/5 pt-6 text-xs text-muted-foreground md:flex-row md:items-center">
+          <span>© {new Date().getFullYear()} Claarvia, Inc. Built for modern commerce.</span>
+          {/* <span className="font-mono uppercase tracking-widest">v1.0 · made with intent</span> */}
         </div>
-        <div className="text-xs text-muted-foreground">
-          © {new Date().getFullYear()} Claarvia
+      </div>
+
+      <div className="pointer-events-none select-none overflow-hidden">
+        <div className="-mb-16 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text px-4 text-center font-display text-[18vw] leading-none tracking-tight text-transparent opacity-20">
+          claarvia
         </div>
       </div>
     </footer>

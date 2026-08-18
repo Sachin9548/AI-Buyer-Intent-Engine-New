@@ -4,7 +4,7 @@ import { n as require_jsx_runtime, r as require_react } from "../_libs/react+tan
 import { A as BadgeCheck, C as CodeXml, D as ChevronDown, E as CircleCheck, O as Brain, S as Cpu, T as CircleDollarSign, _ as Lock, a as Timer, b as Gauge, c as ShoppingCart, d as Server, f as ScanLine, g as Menu, h as MousePointerClick, i as TrendingUp, j as ArrowRight, k as Boxes, l as ShoppingBag, m as Play, n as WandSparkles, o as Store, p as Plug, r as Truck, s as Sparkles, t as X, u as ShieldCheck, v as Layers, w as CircleX, x as Eye, y as Globe } from "../_libs/lucide-react.mjs";
 import { t as clsx } from "../_libs/clsx.mjs";
 import { t as twMerge } from "../_libs/tailwind-merge.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-SdNaOSQo.js
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-BUgyy8yM.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function cn(...inputs) {
@@ -1900,64 +1900,106 @@ function FinalCTA() {
 	});
 }
 function Footer() {
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("footer", {
-		className: "border-t border-white/5 py-12",
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-			className: "mx-auto flex max-w-6xl flex-col items-start justify-between gap-6 px-6 sm:flex-row sm:items-center",
-			children: [
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "flex items-center gap-2",
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("footer", {
+		className: "relative border-t border-white/5",
+		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			className: "mx-auto max-w-6xl px-6 py-20",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "grid grid-cols-2 gap-10 md:grid-cols-6",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "col-span-2",
 					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-							className: "relative inline-flex h-6 w-6 items-center justify-center rounded-md glass-strong",
-							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Sparkles, { className: "h-3 w-3 text-primary" })
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
+							href: "#top",
+							className: "flex items-center gap-2.5",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+								className: "relative inline-flex h-7 w-7 items-center justify-center rounded-lg glass-strong",
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Sparkles, { className: "h-3.5 w-3.5 text-primary" })
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+								className: "text-xl font-semibold",
+								style: { fontFamily: "var(--font-display)" },
+								children: "Claarvia"
+							})]
 						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-							className: "text-sm font-semibold",
-							style: { fontFamily: "var(--font-display)" },
-							children: "Claarvia"
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+							className: "mt-5 max-w-xs text-sm text-muted-foreground",
+							children: "Behavioral intelligence for ecommerce teams who'd rather know why visitors leave than guess."
 						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-							className: "text-xs text-muted-foreground",
-							children: "· Built for modern commerce."
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "mt-6 flex items-center gap-2 text-xs text-muted-foreground",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" }), "All systems operational"]
 						})
 					]
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "flex items-center gap-6 text-xs text-muted-foreground",
-					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-							href: "#how",
-							className: "hover:text-foreground",
-							children: "How it Works"
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-							href: "#engine",
-							className: "hover:text-foreground",
-							children: "AI Engine"
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-							href: "#faq",
-							className: "hover:text-foreground",
-							children: "FAQ"
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-							href: "#book",
-							className: "hover:text-foreground",
-							children: "Contact"
-						})
-					]
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "text-xs text-muted-foreground",
-					children: [
-						"© ",
-						(/* @__PURE__ */ new Date()).getFullYear(),
-						" Claarvia"
-					]
-				})
-			]
-		})
+				}), [
+					{
+						title: "Product",
+						links: [
+							"How it works",
+							"Dashboard",
+							"AI Engine",
+							"Security",
+							"Pricing",
+							"Changelog"
+						]
+					},
+					{
+						title: "Company",
+						links: [
+							"About",
+							"Customers",
+							"Careers",
+							"Press kit",
+							"Contact"
+						]
+					},
+					{
+						title: "Resources",
+						links: [
+							"Documentation",
+							"API Reference",
+							"Guides",
+							"Privacy",
+							"Status"
+						]
+					},
+					{
+						title: "Legal",
+						links: [
+							"Privacy Policy",
+							"Terms of Service",
+							"DPA",
+							"Cookies"
+						]
+					}
+				].map((col) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "font-mono text-[10px] uppercase tracking-widest text-muted-foreground",
+					children: col.title
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("ul", {
+					className: "mt-4 space-y-2.5 text-sm",
+					children: col.links.map((link) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+						href: "#",
+						className: "text-foreground/80 transition-colors hover:text-foreground",
+						children: link
+					}) }, link))
+				})] }, col.title))]
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "mt-16 flex flex-col items-start justify-between gap-3 border-t border-white/5 pt-6 text-xs text-muted-foreground md:flex-row md:items-center",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [
+					"© ",
+					(/* @__PURE__ */ new Date()).getFullYear(),
+					" Claarvia, Inc. Built for modern commerce."
+				] }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+					className: "font-mono uppercase tracking-widest",
+					children: "v1.0 · made with intent"
+				})]
+			})]
+		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+			className: "pointer-events-none select-none overflow-hidden",
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				className: "-mb-16 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text px-4 text-center font-display text-[18vw] leading-none tracking-tight text-transparent opacity-20",
+				children: "claarvia"
+			})
+		})]
 	});
 }
 //#endregion
