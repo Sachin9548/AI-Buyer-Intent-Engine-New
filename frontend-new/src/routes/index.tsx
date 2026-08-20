@@ -313,16 +313,16 @@ function Hero() {
           <div className="reveal">
             <div className="inline-flex items-center gap-2 rounded-full glass px-3 py-1 text-xs font-medium text-muted-foreground">
               <span className="h-1.5 w-1.5 rounded-full bg-primary pulse-glow" />
-              Behavioral intelligence for ecommerce
+              Al for Ecommerce
             </div>
             <h1
               className="mt-6 text-balance text-5xl font-semibold leading-[1.05] tracking-tight sm:text-6xl md:text-7xl"
               style={{ fontFamily: "var(--font-display)" }}
             >
-              Know why visitors hesitate and convert them before they leave.
+              Know why visitors hesitate. Convert before they leave.
             </h1>
             <p className="mt-6 max-w-xl text-lg text-muted-foreground">
-              Claarvia watches how every visitor moves through your store, understands what's stopping them from buying, and automatically takes the right action to help them complete their purchase.
+              Claarvia tracks visitor behavior, finds what's stopping the sale, and fixes it automatically.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <a
@@ -597,27 +597,27 @@ function Problem() {
     {
       icon: CircleDollarSign,
       title: "Price hesitation",
-      body: "Repeated price checks, coupon hunting, or comparing alternatives.",
+      body: "Comparing prices, hunting for coupons",
     },
     {
       icon: Truck,
       title: "Delivery concerns",
-      body: "Repeated price checks, coupon hunting, or comparing alternatives.",
+      body: "Checking shipping cost, delivery time, return policy.",
     },
     {
       icon: BadgeCheck,
       title: "Trust concerns",
-      body: "Reading reviews, checking seller credibility, or looking for reassurance.",
+      body: "Reading reviews, checking seller credibility.",
     },
     {
       icon: Boxes,
       title: "Size & fit uncertainty",
-      body: "Opening size guides repeatedly or searching reviews for the right fit.",
+      body: "Repeated size-guide checks.",
     },
     {
       icon: Layers,
       title: "Decision overload",
-      body: "Comparing too many options without making progress.",
+      body: "Too many options, no action.",
     },
   ];
   return (
@@ -631,7 +631,7 @@ function Problem() {
           </span>
         </>
       }
-      sub="Behind every abandoned session is a moment of hesitation. Claarvia uncovers the reason in real time whether it's price, trust, delivery, sizing, or decision fatigue and helps shoppers move forward before they leave."
+      sub="Claarvia finds that reason price, trust, delivery, sizing and helps before they bounce."
     >
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-5">
         {reasons.map((it, i) => (
@@ -789,8 +789,8 @@ function HowItWorks() {
     <Section
       id="how"
       eyebrow="How Claarvia thinks"
-      title={<>It doesn't react to clicks. It understands behavior.</>}
-      sub="Instead of acting on a single event, Claarvia watches the entire journey, uncovers what's holding a shopper back, builds confidence from multiple signals, and only intervenes when it's confident it can genuinely help."
+      title={<>Not reactive. Understands behavior.</>}
+      sub="It watches the full journey, builds confidence from real signals, and acts only when it's sure it can help."
     >
       <div className="relative">
         <div
@@ -1061,17 +1061,17 @@ function Walkthrough() {
     () => [
       {
         icon: MousePointerClick,
-        label: "Visitor arrives",
+        label: "Visitor lands",
         detail: "Anonymous session · no cookies required",
       },
       {
         icon: Eye,
-        label: "Browses product",
+        label: "Explores product",
         detail: "Scrolls, hovers, checks price twice",
       },
       {
         icon: Timer,
-        label: "Hesitates",
+        label: "Begins to hesitate",
         detail: "Cursor drifts to close-tab · dwell rises",
       },
       {
@@ -1118,8 +1118,8 @@ function Walkthrough() {
   return (
     <Section
       eyebrow="See Claarvia in action"
-      title={<>Follow one visitor from hesitation to purchase.</>}
-      sub="Watch how Claarvia identifies hesitation, understands what's causing it, and responds with the right action at the right moment all before the visitor leaves."
+      title={<>One visitor. Hesitation to purchase.</>}
+      sub="See how Claarvia spots hesitation, understands the cause, and acts at the right moment before the visitor leaves."
     >
       <div className="grid gap-6 lg:grid-cols-5">
         <div className="lg:col-span-2 reveal">
@@ -1240,8 +1240,8 @@ function ProductSurface() {
     <Section
       id="dashboard"
       eyebrow="Live dashboard"
-      title={<>One view. Complete visibility.</>}
-      sub="Know who's hesitating, why they're stuck, what Claarvia is doing, and how much revenue it's recovering all from one live dashboard."
+      title={<>One view. Full visibility.</>}
+      sub="Who's hesitating, why, what Claarvia's doing, and revenue recovered live."
     >
       <div className="reveal relative rounded-3xl p-1">
         <div
@@ -1445,8 +1445,8 @@ function VsAnalytics() {
   return (
     <Section
       id="vs"
-      eyebrow="A different category"
-      title={<>Analytics tells you what happened. Claarvia decides what happens next.</>}
+      eyebrow="Beyond Analytics"
+      title={<>Analytics shows the past. Claarvia decides what's next.</>}
       sub="Analytics helps you understand yesterday. Claarvia understands what's happening right now, identifies why visitors hesitate, and helps them convert before they leave."
     >
       <div className="relative reveal overflow-hidden rounded-2xl glass-strong">
@@ -1484,7 +1484,7 @@ function VsAnalytics() {
         </div>
       </div>
       <p className="mt-8 text-center text-sm text-muted-foreground reveal">
-        You don't need another dashboard. You need something that acts before revenue walks away.
+       You don't need another dashboard. You need action.
       </p>
     </Section>
   );
@@ -1520,7 +1520,7 @@ function RevenueImpact() {
     <Section
       eyebrow="Before vs. After"
       title={<>One journey. Two outcomes.</>}
-      sub="Without Claarvia, hesitation becomes abandonment. With Claarvia, hesitation becomes an opportunity to help and a completed purchase."
+      sub="Without Claarvia abandonment. With Claarvia conversion."
     >
       {/* Before / after flows */}
       <div className="grid gap-6 md:grid-cols-2">
@@ -1529,7 +1529,7 @@ function RevenueImpact() {
           badge="Silent drop-off"
           icon={<XCircle className="h-4 w-4" />}
           items={[
-            { label: "Visitor arrives", tone: "n" },
+            { label: "Visitor lands", tone: "n" },
             { label: "Gets confused / hesitates", tone: "n" },
             { label: "No signal, no response", tone: "b" },
             { label: "Leaves silently", tone: "b" },
@@ -1542,7 +1542,7 @@ function RevenueImpact() {
           badge="Revenue recovered"
           icon={<CheckCircle2 className="h-4 w-4" />}
           items={[
-            { label: "Visitor arrives", tone: "n" },
+            { label: "Visitor lands", tone: "n" },
             { label: "AI reads intent in real time", tone: "g" },
             { label: "Hesitation classified · reason known", tone: "g" },
             { label: "Smallest nudge fired in-window", tone: "g" },
@@ -1801,8 +1801,8 @@ function Integrations() {
   ];
   return (
     <Section
-      eyebrow="Get started in a day"
-      title={<>Start recovering revenue tomorrow not months from now.</>}
+      eyebrow="Live in a Day"
+      title={<>Start recovering revenue tomorrow.</>}
       sub="No replatforming. No lengthy implementation. Install a single snippet, let Claarvia learn your store, and start helping hesitant visitors within 24 hours."
     >
       {/* Timeline */}
@@ -1880,7 +1880,7 @@ function Security() {
     {
       icon: Gauge,
       title: "Enterprise Security",
-      body: "Encryption, access controls, audit logging, and security best practices built in.",
+      body: "Encryption & audit logging built in.",
     },
     {
       icon: Globe,
@@ -1892,8 +1892,8 @@ function Security() {
     <Section
       id="security"
       eyebrow="Built for modern commerce"
-      title={<>The intelligence you need. The privacy your customers expect.</>}
-      sub="Claarvia helps you understand visitor behavior while giving you control over how data is collected, stored, and managed."
+      title={<>Smart Al. Private by design.</>}
+      sub="Understand visitors without losing control over their data."
     >
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {items.map((it, i) => (
@@ -1916,7 +1916,7 @@ function Security() {
         ))}
       </div>
       <p className="mt-8 text-center text-sm text-muted-foreground reveal">
-        Privacy-first by default. You control what data is collected, retained, exported, and deleted.
+        You control what's collected, stored, and deleted.
       </p>
     </Section>
   );
@@ -1930,35 +1930,35 @@ function FAQ() {
   const qs = [
     {
       q: "How is Claarvia different from Google Analytics, Clarity or Hotjar?",
-      a: "Those tools explain what happened after visitors leave. Claarvia understands hesitation while the visitor is still shopping, identifies why it's happening, and triggers the smallest intervention before the opportunity is lost.",
+      a: "Those tools tell you what happened after visitors leave. Claarvia understands hesitation while the visitor is still shopping and acts before the opportunity is lost.",
     },
     {
       q: "How long does setup take?",
-      a: "Add one snippet in under two minutes. Claarvia begins observing immediately, delivers first insights within minutes, and continuously calibrates intervention decisions over the next 24 hours.",
+      a: "Just add one snippet takes under 2 minutes. Claarvia starts observing right away and fully calibrates within 24 hours.",
     },
     {
       q: "Will I lose control to the AI?",
-      a: "No. Claarvia only operates inside rules you define. You choose which interventions are allowed, set maximum discount limits, define confidence thresholds, and can disable automation at any time.",
+      a: "No. Claarvia only works within rules you set discount limits, confidence thresholds, and you can turn off automation anytime.",
     },
     {
       q: "Does Claarvia work with my existing tools?",
-      a: "Yes. Claarvia sits alongside your current stack instead of replacing it. Shopify, GA4, Clarity, Hotjar, Klaviyo and your existing marketing workflows continue operating exactly as they do today.",
+      a: "Yes. It works alongside Shopify, GA4, Clarity, Hotjar, Klaviyo, and your current marketing stack no replacement needed.",
     },
     {
       q: "Is customer data safe?",
-      a: "Yes. Claarvia is built with privacy-first principles, supports cookie-aware deployments, minimizes stored personal information, and gives you complete control over retention, exports, and deletion policies.",
+      a: "Yes. Claarvia follows privacy-first principles, minimizes stored data, and gives you full control over retention and deletion.",
     },
     {
       q: "Can Claarvia guarantee more revenue?",
-      a: "No responsible AI platform can guarantee revenue. Claarvia provides real-time behavioral intelligence and optimizes interventions based on live visitor intent. Results depend on traffic quality, pricing, products, and customer behavior.",
+      a: "No responsible Al platform can promise that. Resuits depend on your traffic, pricing, and products but Claarvia optimizes based on live intent.",
     },
     {
       q: "Does it slow down my website?",
-      a: "No. The tracking layer is designed to be lightweight and asynchronous, ensuring it doesn't block rendering or negatively affect the shopping experience.",
+      a: "No. The tracking layer is lightweight and asynchronous, so it won't affect load time or user experience.",
     },
     {
       q: "Can I see why the AI made a decision?",
-      a: "Yes. Every intervention includes the detected signals, confidence score, reasoning path, and the action selected, so your team always understands why Claarvia acted.",
+      a: "Yes. Every action shows the signals detected, confidence score, and reasoning full transparency, always.",
     },
   ];
   return (
@@ -2029,7 +2029,7 @@ function FinalCTA() {
               className="text-balance text-4xl font-semibold tracking-tight sm:text-6xl"
               style={{ fontFamily: "var(--font-display)" }}
             >
-              Know why they're hesitating. Recover revenue before they leave.
+              See hesitation. Recover revenue.
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-base text-muted-foreground sm:text-lg">
               See Claarvia analyze real visitor behavior, explain every buying hesitation, and show exactly how AI intervenes live on your own store.

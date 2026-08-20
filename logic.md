@@ -565,3 +565,13 @@ Did the user recover?
 Did the user convert?
 Was the conversion assisted or organic?
 If the answer to any of those is missing, the tracking layer is incomplete.
+
+
+
+
+
+
+
+
+
+
