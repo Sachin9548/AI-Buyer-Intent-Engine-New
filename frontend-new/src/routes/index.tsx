@@ -295,17 +295,68 @@ function Hero() {
       id="top"
       className="relative overflow-hidden pt-32 pb-12 sm:pt-36 sm:pb-16"
     >
+      <style>{`
+        @keyframes hero-bubble-drift {
+          0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+          20% { transform: translate3d(22vw, -12vh, 0) scale(1.18); }
+          43% { transform: translate3d(-18vw, 24vh, 0) scale(.86); }
+          68% { transform: translate3d(28vw, 38vh, 0) scale(1.12); }
+          86% { transform: translate3d(-10vw, -20vh, 0) scale(.94); }
+        }
+        @keyframes hero-bubble-drift-reverse {
+          0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+          18% { transform: translate3d(-24vw, 18vh, 0) scale(1.2); }
+          39% { transform: translate3d(16vw, -16vh, 0) scale(.88); }
+          63% { transform: translate3d(30vw, 30vh, 0) scale(1.14); }
+          82% { transform: translate3d(-20vw, 40vh, 0) scale(.96); }
+        }
+        @keyframes hero-dot-field-drift {
+          0%, 100% { background-position: 8px 14px, 46px 62px; }
+          25% { background-position: 140px 90px, -80px 150px; }
+          50% { background-position: -70px 220px, 180px -40px; }
+          75% { background-position: 120px -30px, -110px 240px; }
+        }
+      `}</style>
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.15]"
+        className="pointer-events-none absolute inset-0 opacity-[0.2]"
         style={{
           backgroundImage:
-            "linear-gradient(oklch(1 0 0 / 0.6) 1px, transparent 1px), linear-gradient(90deg, oklch(1 0 0 / 0.6) 1px, transparent 1px)",
-          backgroundSize: "56px 56px",
+            "radial-gradient(circle at 32% 28%, oklch(0.98 0.08 292 / 0.95) 0 1px, oklch(0.86 0.18 292 / 0.9) 0.7px 1.2px, oklch(0.58 0.2 288 / 0.75) 1.4px, oklch(0.25 0.16 285 / 0.55) 2px, transparent 2.6px), radial-gradient(circle at 30% 26%, oklch(0.94 0.12 292 / 0.95) 0 0.35px, oklch(0.76 0.2 288 / 0.85) 0.5px 0.9px, oklch(0.42 0.2 285 / 0.7) 1.1px, transparent 1.7px)",
+          backgroundSize: "96px 96px, 143px 143px",
+          backgroundPosition: "8px 14px, 46px 62px",
           maskImage:
             "radial-gradient(ellipse at center, black 30%, transparent 70%)",
+          animation: "hero-dot-field-drift 18s ease-in-out infinite",
         }}
       />
+      {/* Larger, softly drifting color bubbles add movement without competing with the copy. */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div
+          className="absolute -left-40 top-16 h-[32rem] w-[32rem] rounded-full blur-3xl"
+          style={{
+            background:
+              "radial-gradient(circle at 35% 35%, oklch(0.78 0.16 288 / 0.42), oklch(0.58 0.2 250 / 0.18) 48%, transparent 72%)",
+            animation: "hero-bubble-drift 19s cubic-bezier(0.45, 0, 0.55, 1) infinite",
+          }}
+        />
+        <div
+          className="absolute right-[4%] top-0 h-[38rem] w-[38rem] rounded-full blur-3xl"
+          style={{
+            background:
+              "radial-gradient(circle at 50% 45%, oklch(0.72 0.19 250 / 0.3), oklch(0.62 0.18 320 / 0.16) 48%, transparent 72%)",
+            animation: "hero-bubble-drift-reverse 23s cubic-bezier(0.45, 0, 0.55, 1) 2s infinite",
+          }}
+        />
+        <div
+          className="absolute bottom-[-10rem] left-1/2 h-[30rem] w-[30rem] -translate-x-1/2 rounded-full blur-3xl"
+          style={{
+            background:
+              "radial-gradient(circle, oklch(0.74 0.17 288 / 0.2), oklch(0.68 0.16 190 / 0.12) 52%, transparent 72%)",
+            animation: "hero-bubble-drift 27s cubic-bezier(0.45, 0, 0.55, 1) 4s infinite reverse",
+          }}
+        />
+      </div>
       {/* Subtle connective flow between copy and live dashboard */}
       <div
         aria-hidden
