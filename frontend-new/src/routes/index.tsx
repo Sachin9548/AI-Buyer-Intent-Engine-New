@@ -34,6 +34,8 @@ import {
   Server,
   XCircle,
   CheckCircle2,
+  Instagram,
+  Linkedin,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -246,7 +248,11 @@ function Nav() {
             onClick={() => setMobileOpen((v) => !v)}
             className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-foreground transition-colors hover:bg-white/[0.08] md:hidden"
           >
-            {mobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+            {mobileOpen ? (
+              <X className="h-4 w-4" />
+            ) : (
+              <Menu className="h-4 w-4" />
+            )}
           </button>
         </div>
       </div>
@@ -322,7 +328,8 @@ function Hero() {
               Know why visitors hesitate. Convert before they leave.
             </h1>
             <p className="mt-6 max-w-xl text-lg text-muted-foreground">
-              Claarvia tracks visitor behavior, finds what's stopping the sale, and fixes it automatically.
+              Claarvia tracks visitor behavior, finds what's stopping the sale,
+              and fixes it automatically.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <a
@@ -371,7 +378,13 @@ function Hero() {
   );
 }
 
-function TrustChip({ icon, children }: { icon: ReactNode; children: ReactNode }) {
+function TrustChip({
+  icon,
+  children,
+}: {
+  icon: ReactNode;
+  children: ReactNode;
+}) {
   return (
     <span className="inline-flex items-center gap-1.5">
       <span className="text-primary/80">{icon}</span>
@@ -382,7 +395,10 @@ function TrustChip({ icon, children }: { icon: ReactNode; children: ReactNode })
 
 function HeroDashboardTile() {
   // Deterministic tick sequence — no Math.random in render/effect to avoid hydration jitter.
-  const seq = useMemo(() => [64, 71, 66, 78, 82, 74, 69, 76, 84, 88, 81, 73], []);
+  const seq = useMemo(
+    () => [64, 71, 66, 78, 82, 74, 69, 76, 84, 88, 81, 73],
+    [],
+  );
   const [i, setI] = useState(0);
   useEffect(() => {
     const id = setInterval(() => setI((v) => (v + 1) % seq.length), 1400);
@@ -391,10 +407,26 @@ function HeroDashboardTile() {
   const score = seq[i];
 
   const events = [
-    { t: "00:02", label: "Visitor #8412 · price hover ×3", tone: "warn" as const },
-    { t: "00:03", label: "Hesitation classified: price shock", tone: "warn" as const },
-    { t: "00:04", label: "Intervention fired: capped 6% nudge", tone: "ok" as const },
-    { t: "00:07", label: "Checkout started · +$184 recovered", tone: "good" as const },
+    {
+      t: "00:02",
+      label: "Visitor #8412 · price hover ×3",
+      tone: "warn" as const,
+    },
+    {
+      t: "00:03",
+      label: "Hesitation classified: price shock",
+      tone: "warn" as const,
+    },
+    {
+      t: "00:04",
+      label: "Intervention fired: capped 6% nudge",
+      tone: "ok" as const,
+    },
+    {
+      t: "00:07",
+      label: "Checkout started · +$184 recovered",
+      tone: "good" as const,
+    },
   ];
 
   return (
@@ -696,14 +728,16 @@ function WhyAnalyticsFail() {
             shipping? trust? fit? You ship a test, wait two weeks, and hope.
           </p>
           <div className="mt-6 grid grid-cols-3 gap-2 text-[11px] text-muted-foreground">
-            {["Days to insight", "Manual analysis", "One-size-fits-all"].map((t) => (
-              <span
-                key={t}
-                className="rounded-lg border border-white/5 bg-white/[0.02] px-2 py-1.5 text-center"
-              >
-                {t}
-              </span>
-            ))}
+            {["Days to insight", "Manual analysis", "One-size-fits-all"].map(
+              (t) => (
+                <span
+                  key={t}
+                  className="rounded-lg border border-white/5 bg-white/[0.02] px-2 py-1.5 text-center"
+                >
+                  {t}
+                </span>
+              ),
+            )}
           </div>
         </div>
 
@@ -721,8 +755,9 @@ function WhyAnalyticsFail() {
             className="text-2xl font-semibold"
             style={{ fontFamily: "var(--font-display)" }}
           >
-            &ldquo;<span className="text-gradient">62% of today's drop-off</span>{" "}
-            is price hesitation on the Ring collection.&rdquo;
+            &ldquo;
+            <span className="text-gradient">62% of today's drop-off</span> is
+            price hesitation on the Ring collection.&rdquo;
           </div>
           <p className="mt-4 text-sm text-muted-foreground">
             Claarvia names the reason and acts on it in the same second — before
@@ -894,13 +929,14 @@ function DecisionEngine() {
   return (
     <Section
       id="engine"
-      eyebrow="Live AI decision engine"
+      eyebrow="How Claarvia Thinks"
       title={
         <>
-          Watch the AI <span className="text-gradient">think</span>.
+          Not reactive.{" "}
+          <span className="text-gradient">Understands behavior.</span>.
         </>
       }
-      sub="Every second, on every visitor. Claarvia reads the signal, names the doubt, chooses the smallest intervention that still converts and stays silent when confidence is low."
+      sub="It watches the full journey, builds confidence from real signals, and acts only when it's sure it can help."
     >
       <div className="relative reveal">
         <div
@@ -985,7 +1021,9 @@ function DecisionEngine() {
                   <li
                     key={row.k}
                     className="flex items-center gap-3 rounded-xl border border-white/5 bg-white/[0.02] px-3 py-2.5 text-sm"
-                    style={{ animation: `tick 0.5s ease-out ${idx * 120}ms both` }}
+                    style={{
+                      animation: `tick 0.5s ease-out ${idx * 120}ms both`,
+                    }}
                   >
                     <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg glass-strong">
                       <row.Icon className="h-3.5 w-3.5 text-primary" />
@@ -1192,7 +1230,10 @@ function Walkthrough() {
               </div>
             </div>
 
-            <div key={active} className="tick mt-8 flex flex-col items-center text-center">
+            <div
+              key={active}
+              className="tick mt-8 flex flex-col items-center text-center"
+            >
               <span className="inline-flex h-16 w-16 items-center justify-center rounded-2xl glass">
                 <Active className="h-7 w-7 text-primary" />
               </span>
@@ -1265,7 +1306,9 @@ function ProductSurface() {
                 <span
                   key={t}
                   className={`rounded-full px-2.5 py-1 text-[11px] ${
-                    i === 0 ? "bg-primary/15 text-primary" : "text-muted-foreground"
+                    i === 0
+                      ? "bg-primary/15 text-primary"
+                      : "text-muted-foreground"
                   }`}
                 >
                   {t}
@@ -1281,7 +1324,6 @@ function ProductSurface() {
                   label="Recovered revenue"
                   value="$142,34"
                   delta="+18.4% vs. 7d"
-                  
                 />
                 <BigStat
                   label="Hesitation caught"
@@ -1315,16 +1357,34 @@ function ProductSurface() {
               </div>
               <div className="space-y-2">
                 {[
-                  { id: "#8412", stage: "Hesitating · price", act: "Cap 6% nudge" },
-                  { id: "#8408", stage: "Hesitating · fit", act: "Show size guide" },
+                  {
+                    id: "#8412",
+                    stage: "Hesitating · price",
+                    act: "Cap 6% nudge",
+                  },
+                  {
+                    id: "#8408",
+                    stage: "Hesitating · fit",
+                    act: "Show size guide",
+                  },
                   { id: "#8399", stage: "Buying", act: "No action" },
-                  { id: "#8391", stage: "Hesitating · trust", act: "Reviews overlay" },
-                  { id: "#8386", stage: "Hesitating · shipping", act: "Free-ship cue" },
+                  {
+                    id: "#8391",
+                    stage: "Hesitating · trust",
+                    act: "Reviews overlay",
+                  },
+                  {
+                    id: "#8386",
+                    stage: "Hesitating · shipping",
+                    act: "Free-ship cue",
+                  },
                 ].map((r, i) => (
                   <div
                     key={r.id}
                     className="flex items-center gap-3 rounded-lg border border-white/5 bg-white/[0.02] px-3 py-2 text-xs"
-                    style={{ animation: `tick 0.5s ease-out ${i * 100}ms both` }}
+                    style={{
+                      animation: `tick 0.5s ease-out ${i * 100}ms both`,
+                    }}
                   >
                     <span className="w-12 text-muted-foreground">{r.id}</span>
                     <span className="flex-1 truncate">{r.stage}</span>
@@ -1340,16 +1400,19 @@ function ProductSurface() {
       </div>
 
       <div className="mt-8 flex flex-wrap justify-center gap-2 text-xs">
-        {['Live visitors', 'AI decisions', 'Revenue impact', 'Opportunities'].map(
-          (c) => (
-            <span
-              key={c}
-              className="rounded-full glass px-3 py-1.5 text-muted-foreground"
-            >
-              {c}
-            </span>
-          ),
-        )}
+        {[
+          "Live visitors",
+          "AI decisions",
+          "Revenue impact",
+          "Opportunities",
+        ].map((c) => (
+          <span
+            key={c}
+            className="rounded-full glass px-3 py-1.5 text-muted-foreground"
+          >
+            {c}
+          </span>
+        ))}
       </div>
     </Section>
   );
@@ -1404,8 +1467,16 @@ function FakeChart() {
     <svg viewBox={`0 0 ${w} ${h}`} className="h-32 w-full">
       <defs>
         <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="oklch(0.78 0.16 288)" stopOpacity="0.5" />
-          <stop offset="100%" stopColor="oklch(0.78 0.16 288)" stopOpacity="0" />
+          <stop
+            offset="0%"
+            stopColor="oklch(0.78 0.16 288)"
+            stopOpacity="0.5"
+          />
+          <stop
+            offset="100%"
+            stopColor="oklch(0.78 0.16 288)"
+            stopOpacity="0"
+          />
         </linearGradient>
         <linearGradient id="g2" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0%" stopColor="oklch(0.78 0.16 288)" />
@@ -1430,24 +1501,72 @@ function FakeChart() {
 
 function VsAnalytics() {
   const rows = [
-    { r: "Shows what happened", a: true, c: true },
-    { r: "Explains why visitors hesitate", a: "Limited", c: true },
-    { r: "Detects buying intent live", a: false, c: true },
-    { r: "Acts before visitors leave", a: false, c: true },
-    { r: "Learns from every outcome", a: false, c: true },
-    { r: "Helps increase conversions", a: "Manual", c: true },
+    {
+      r: "Tells you what happened",
+      ga: true,
+      clarity: false,
+      hotjar: false,
+      optimizely: false,
+      claarvia: true,
+    },
+    {
+      r: "Tells you why a visitor hesitated",
+      ga: false,
+      clarity: true,
+      hotjar: true,
+      optimizely: false,
+      claarvia: true,
+    },
+    {
+      r: "Detects intent in real time",
+      ga: false,
+      clarity: false,
+      hotjar: false,
+      optimizely: "Partial",
+      claarvia: true,
+    },
+    {
+      r: "Acts inside the hesitation window",
+      ga: false,
+      clarity: false,
+      hotjar: false,
+      optimizely: "Test-based",
+      claarvia: true,
+    },
+    {
+      r: "Protects margin (smallest nudge)",
+      ga: false,
+      clarity: false,
+      hotjar: false,
+      optimizely: false,
+      claarvia: true,
+    },
+    {
+      r: "Time to first insight",
+      ga: "Days",
+      clarity: "Hours",
+      hotjar: "Hours",
+      optimizely: "Weeks",
+      claarvia: "50s",
+    },
   ];
   const cell = (v: boolean | string) => {
     if (v === true) return <span className="text-primary">✓</span>;
     if (v === false) return <span className="text-muted-foreground/40">✕</span>;
     return <span className="text-xs text-muted-foreground">{v}</span>;
   };
+  const analyticsCell = (r: (typeof rows)[number]) => {
+    if (r.ga !== false) return cell(r.ga);
+    if (r.clarity !== false) return cell(r.clarity);
+    if (r.hotjar !== false) return cell(r.hotjar);
+    return cell(r.optimizely);
+  };
   return (
     <Section
       id="vs"
       eyebrow="Beyond Analytics"
       title={<>Analytics shows the past. Claarvia decides what's next.</>}
-      sub="Analytics helps you understand yesterday. Claarvia understands what's happening right now, identifies why visitors hesitate, and helps them convert before they leave."
+      sub="Analytics tells you what already happened. Claarvia understands what's happening right now and helps visitors convert before they leave."
     >
       <div className="relative reveal overflow-hidden rounded-2xl glass-strong">
         <div
@@ -1458,13 +1577,29 @@ function VsAnalytics() {
               "linear-gradient(180deg, oklch(0.78 0.16 288 / 0.14), transparent)",
           }}
         />
-        <div className="overflow-x-auto no-scrollbar">
-          <table className="w-full min-w-[760px] text-sm">
+        <div className="overflow-hidden">
+          <table className="w-full text-sm">
             <thead>
               <tr className="text-left text-xs uppercase tracking-wider text-muted-foreground">
-                <th className="px-6 py-4 font-medium"></th>
-                <th className="px-4 py-4 text-center font-medium">Analytics tools</th>
-                <th className="px-4 py-4 text-center font-medium text-primary">Claarvia</th>
+                <th className="px-4 py-4 font-medium md:px-6">Feature</th>
+                <th className="px-4 py-4 text-center font-medium md:hidden">
+                  Analytics Tools
+                </th>
+                <th className="hidden px-4 py-4 text-center font-medium md:table-cell">
+                  Google Analytics
+                </th>
+                <th className="hidden px-4 py-4 text-center font-medium md:table-cell">
+                  MS Clarity
+                </th>
+                <th className="hidden px-4 py-4 text-center font-medium md:table-cell">
+                  Hotjar
+                </th>
+                <th className="hidden px-4 py-4 text-center font-medium md:table-cell">
+                  Optimizely
+                </th>
+                <th className="px-4 py-4 text-center font-medium text-primary">
+                  Claarvia
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -1474,9 +1609,27 @@ function VsAnalytics() {
                   className="row-in border-t border-white/5"
                   style={{ animationDelay: `${i * 60}ms` }}
                 >
-                  <td className="px-6 py-4 text-muted-foreground">{r.r}</td>
-                  <td className="px-4 py-4 text-center">{cell(r.a)}</td>
-                  <td className="px-4 py-4 text-center font-medium">{cell(r.c)}</td>
+                  <td className="px-4 py-4 text-muted-foreground md:px-6">
+                    {r.r}
+                  </td>
+                  <td className="px-4 py-4 text-center md:hidden">
+                    {analyticsCell(r)}
+                  </td>
+                  <td className="hidden px-4 py-4 text-center md:table-cell">
+                    {cell(r.ga)}
+                  </td>
+                  <td className="hidden px-4 py-4 text-center md:table-cell">
+                    {cell(r.clarity)}
+                  </td>
+                  <td className="hidden px-4 py-4 text-center md:table-cell">
+                    {cell(r.hotjar)}
+                  </td>
+                  <td className="hidden px-4 py-4 text-center md:table-cell">
+                    {cell(r.optimizely)}
+                  </td>
+                  <td className="px-4 py-4 text-center font-medium">
+                    {cell(r.claarvia)}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -1484,7 +1637,7 @@ function VsAnalytics() {
         </div>
       </div>
       <p className="mt-8 text-center text-sm text-muted-foreground reveal">
-       You don't need another dashboard. You need action.
+        You don't need another dashboard. You need action.
       </p>
     </Section>
   );
@@ -1616,8 +1769,8 @@ function RevenueImpact() {
           />
           <div className="sm:col-span-2 rounded-2xl border border-white/5 bg-white/[0.02] px-4 py-3 text-xs text-muted-foreground">
             Modeled from an 11% recovery on non-converting sessions with a 4%
-            average nudge. Directional, not a guarantee a demo maps this to
-            your own store data.
+            average nudge. Directional, not a guarantee a demo maps this to your
+            own store data.
           </div>
         </div>
       </div>
@@ -1760,9 +1913,7 @@ function ImpactCard({
   return (
     <div
       className={`relative rounded-2xl p-3 ${
-        tone === "primary"
-          ? "glass-strong"
-          : "glass"
+        tone === "primary" ? "glass-strong" : "glass"
       }`}
       style={
         tone === "primary"
@@ -1792,12 +1943,36 @@ function ImpactCard({
 
 function Integrations() {
   const items = [
-    { icon: ShoppingBag, name: "Shopify", body: "One-click app install. Works with any theme." },
-    { icon: Store, name: "WooCommerce", body: "Plugin drops into any WordPress store." },
-    { icon: ShoppingCart, name: "Magento", body: "Adobe Commerce module, live in a day." },
-    { icon: Layers, name: "Headless", body: "Framework-agnostic. Next, Nuxt, Remix, Astro." },
-    { icon: Code2, name: "Custom SDK", body: "TypeScript-first. Fully typed events." },
-    { icon: Server, name: "REST API", body: "Server-side intent scoring for any stack." },
+    {
+      icon: ShoppingBag,
+      name: "Shopify",
+      body: "One-click app install. Works with any theme.",
+    },
+    {
+      icon: Store,
+      name: "WooCommerce",
+      body: "Plugin drops into any WordPress store.",
+    },
+    {
+      icon: ShoppingCart,
+      name: "Magento",
+      body: "Adobe Commerce module, live in a day.",
+    },
+    {
+      icon: Layers,
+      name: "Headless",
+      body: "Framework-agnostic. Next, Nuxt, Remix, Astro.",
+    },
+    {
+      icon: Code2,
+      name: "Custom SDK",
+      body: "TypeScript-first. Fully typed events.",
+    },
+    {
+      icon: Server,
+      name: "REST API",
+      body: "Server-side intent scoring for any stack.",
+    },
   ];
   return (
     <Section
@@ -1809,8 +1984,14 @@ function Integrations() {
       <div className="mb-10 grid gap-4 md:grid-cols-3">
         {[
           { t: "2 min", l: "Add one snippet or install the app." },
-          { t: "≤24h", l: "Claarvia observes visitor behavior and builds confidence." },
-          { t: "Day 1", l: "AI begins detecting hesitation and responding automatically." },
+          {
+            t: "≤24h",
+            l: "Claarvia observes visitor behavior and builds confidence.",
+          },
+          {
+            t: "Day 1",
+            l: "AI begins detecting hesitation and responding automatically.",
+          },
         ].map((s, i) => (
           <div
             key={s.l}
@@ -2032,7 +2213,8 @@ function FinalCTA() {
               See hesitation. Recover revenue.
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-base text-muted-foreground sm:text-lg">
-              See Claarvia analyze real visitor behavior, explain every buying hesitation, and show exactly how AI intervenes live on your own store.
+              Watch Claarvia analyze real visitor behavior and show exactly how
+              it intervenes live, on your own store.
             </p>
             <div className="mt-8 flex justify-center">
               <a
@@ -2048,7 +2230,8 @@ function FinalCTA() {
               </a>
             </div>
             <div className="mt-4 text-xs text-muted-foreground">
-              20-minute personalized demo • No installation required • Bring your own store
+              20-minute personalized demo • No installation required • Bring
+              your own store
             </div>
           </div>
         </div>
@@ -2063,10 +2246,29 @@ function FinalCTA() {
 
 function Footer() {
   const footerCols = [
-    { title: "Product", links: ["How it works", "Dashboard", "AI Engine", "Security", "Pricing", "Changelog"] },
-    { title: "Company", links: ["About", "Customers", "Careers", "Press kit", "Contact"] },
-    { title: "Resources", links: ["Documentation", "API Reference", "Guides", "Privacy", "Status"] },
-    { title: "Legal", links: ["Privacy Policy", "Terms of Service", "DPA", "Cookies"] },
+    {
+      title: "Product",
+      links: [
+        "How it works",
+        "Dashboard",
+        "AI Engine",
+        "Security",
+        "Pricing",
+        "Changelog",
+      ],
+    },
+    {
+      title: "Company",
+      links: ["About", "Customers", "Careers", "Press kit", "Contact"],
+    },
+    {
+      title: "Resources",
+      links: ["Documentation", "API Reference", "Guides", "Privacy", "Status"],
+    },
+    {
+      title: "Legal",
+      links: ["Privacy Policy", "Terms of Service", "DPA", "Cookies"],
+    },
   ];
 
   return (
@@ -2086,11 +2288,34 @@ function Footer() {
               </span>
             </a>
             <p className="mt-5 max-w-xs text-sm text-muted-foreground">
-              Behavioral intelligence for ecommerce teams who'd rather know why visitors leave than guess.
+              Behavioral intelligence for ecommerce teams who'd rather know why
+              visitors leave than guess.
             </p>
             <div className="mt-6 flex items-center gap-2 text-xs text-muted-foreground">
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
               All systems operational
+            </div>
+            <div className="mt-5 flex items-center gap-4 text-sm">
+              <a
+                href="https://www.instagram.com/claarvia?igsh=MTJiMzI5MXk2ZHhocw%3D%3D&utm_source=qr"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Instagram"
+                title="Instagram"
+                className="text-foreground/80 transition-colors hover:text-foreground"
+              >
+                <Instagram className="h-5 w-5" aria-hidden="true" />
+              </a>
+              <a
+                href="https://www.linkedin.com/company/claarvia/"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="LinkedIn"
+                title="LinkedIn"
+                className="text-foreground/80 transition-colors hover:text-foreground"
+              >
+                <Linkedin className="h-5 w-5" aria-hidden="true" />
+              </a>
             </div>
           </div>
           {footerCols.map((col) => (
@@ -2115,7 +2340,10 @@ function Footer() {
         </div>
 
         <div className="mt-16 flex flex-col items-start justify-between gap-3 border-t border-white/5 pt-6 text-xs text-muted-foreground md:flex-row md:items-center">
-          <span>© {new Date().getFullYear()} Claarvia, Inc. Built for modern commerce.</span>
+          <span>
+            © {new Date().getFullYear()} Claarvia, Inc. Built for modern
+            commerce.
+          </span>
           {/* <span className="font-mono uppercase tracking-widest">v1.0 · made with intent</span> */}
         </div>
       </div>
