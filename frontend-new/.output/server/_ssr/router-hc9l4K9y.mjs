@@ -2,10 +2,10 @@ import { a as __toESM } from "../_runtime.mjs";
 import { n as require_jsx_runtime, r as require_react, t as QueryClientProvider } from "../_libs/react+tanstack__react-query.mjs";
 import { c as HeadContent, d as Outlet, f as lazyRouteComponent, g as useRouter, h as Link, m as createRootRouteWithContext, p as createFileRoute, s as Scripts, u as createRouter } from "../_libs/@tanstack/react-router+[...].mjs";
 import { t as QueryClient } from "../_libs/tanstack__query-core.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/router-Bnd7_cCC.js
+//#region node_modules/.nitro/vite/services/ssr/assets/router-hc9l4K9y.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
-var styles_default = "/assets/styles-DLBhE2y6.css";
+var styles_default = "/assets/styles-ELPjzKIF.css";
 function reportLovableError(error, context = {}) {
 	if (typeof window === "undefined") return;
 	window.__lovableEvents?.captureException?.(error, {
@@ -131,8 +131,8 @@ var Route$1 = createRootRouteWithContext()({
 			},
 			{
 				rel: "icon",
-				href: "/favicon.ico",
-				type: "image/x-icon"
+				href: "/brandfav.png",
+				type: "image/png"
 			},
 			{
 				rel: "preconnect",
@@ -167,7 +167,7 @@ function RootComponent() {
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Outlet, {})
 	});
 }
-var $$splitComponentImporter = () => import("./routes-BUgyy8yM.mjs");
+var $$splitComponentImporter = () => import("./routes-DpyPHr5n.mjs");
 var rootRouteChildren = { IndexRoute: createFileRoute("/")({ component: lazyRouteComponent($$splitComponentImporter, "component") }).update({
 	id: "/",
 	path: "/",

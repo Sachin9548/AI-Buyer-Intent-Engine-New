@@ -1,10 +1,10 @@
 import { a as __toESM } from "../_runtime.mjs";
 import { n as useScroll, r as motion, t as useTransform } from "../_libs/framer-motion.mjs";
 import { n as require_jsx_runtime, r as require_react } from "../_libs/react+tanstack__react-query.mjs";
-import { A as BadgeCheck, C as CodeXml, D as ChevronDown, E as CircleCheck, O as Brain, S as Cpu, T as CircleDollarSign, _ as Lock, a as Timer, b as Gauge, c as ShoppingCart, d as Server, f as ScanLine, g as Menu, h as MousePointerClick, i as TrendingUp, j as ArrowRight, k as Boxes, l as ShoppingBag, m as Play, n as WandSparkles, o as Store, p as Plug, r as Truck, s as Sparkles, t as X, u as ShieldCheck, v as Layers, w as CircleX, x as Eye, y as Globe } from "../_libs/lucide-react.mjs";
+import { A as Boxes, C as Cpu, D as CircleCheck, E as CircleDollarSign, M as ArrowRight, O as ChevronDown, S as Eye, T as CircleX, _ as Linkedin, a as Timer, b as Globe, c as ShoppingBag, d as ScanLine, f as Plug, g as Lock, h as Menu, i as TrendingUp, j as BadgeCheck, k as Brain, l as ShieldCheck, m as MousePointerClick, n as WandSparkles, o as Store, p as Play, r as Truck, s as ShoppingCart, t as X, u as Server, v as Layers, w as CodeXml, x as Gauge, y as Instagram } from "../_libs/lucide-react.mjs";
 import { t as clsx } from "../_libs/clsx.mjs";
 import { t as twMerge } from "../_libs/tailwind-merge.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-BUgyy8yM.js
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-DpyPHr5n.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function cn(...inputs) {
@@ -277,17 +277,14 @@ function Nav() {
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6",
 				children: [
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
 						href: "#top",
 						className: "flex items-center gap-2",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
-							className: "relative inline-flex h-7 w-7 items-center justify-center rounded-lg glass-strong",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "absolute inset-0 rounded-lg opacity-70 blur-md bg-primary/40" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Sparkles, { className: "relative h-3.5 w-3.5 text-primary" })]
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-							className: "text-lg font-semibold tracking-tight",
-							style: { fontFamily: "var(--font-display)" },
-							children: "Claarvia"
-						})]
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+							src: "/brandlogo.png",
+							alt: "Claarvia",
+							className: "h-8 w-auto object-contain"
+						})
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("nav", {
 						className: "hidden items-center gap-8 md:flex",
@@ -340,14 +337,65 @@ function Hero() {
 		id: "top",
 		className: "relative overflow-hidden pt-32 pb-12 sm:pt-36 sm:pb-16",
 		children: [
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("style", { children: `
+        @keyframes hero-bubble-drift {
+          0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+          20% { transform: translate3d(22vw, -12vh, 0) scale(1.18); }
+          43% { transform: translate3d(-18vw, 24vh, 0) scale(.86); }
+          68% { transform: translate3d(28vw, 38vh, 0) scale(1.12); }
+          86% { transform: translate3d(-10vw, -20vh, 0) scale(.94); }
+        }
+        @keyframes hero-bubble-drift-reverse {
+          0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+          18% { transform: translate3d(-24vw, 18vh, 0) scale(1.2); }
+          39% { transform: translate3d(16vw, -16vh, 0) scale(.88); }
+          63% { transform: translate3d(30vw, 30vh, 0) scale(1.14); }
+          82% { transform: translate3d(-20vw, 40vh, 0) scale(.96); }
+        }
+        @keyframes hero-dot-field-drift {
+          0%, 100% { background-position: 8px 14px, 46px 62px; }
+          25% { background-position: 140px 90px, -80px 150px; }
+          50% { background-position: -70px 220px, 180px -40px; }
+          75% { background-position: 120px -30px, -110px 240px; }
+        }
+      ` }),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 				"aria-hidden": true,
-				className: "pointer-events-none absolute inset-0 opacity-[0.15]",
+				className: "pointer-events-none absolute inset-0 opacity-[0.2]",
 				style: {
-					backgroundImage: "linear-gradient(oklch(1 0 0 / 0.6) 1px, transparent 1px), linear-gradient(90deg, oklch(1 0 0 / 0.6) 1px, transparent 1px)",
-					backgroundSize: "56px 56px",
-					maskImage: "radial-gradient(ellipse at center, black 30%, transparent 70%)"
+					backgroundImage: "radial-gradient(circle at 32% 28%, oklch(0.98 0.08 292 / 0.95) 0 1px, oklch(0.86 0.18 292 / 0.9) 0.7px 1.2px, oklch(0.58 0.2 288 / 0.75) 1.4px, oklch(0.25 0.16 285 / 0.55) 2px, transparent 2.6px), radial-gradient(circle at 30% 26%, oklch(0.94 0.12 292 / 0.95) 0 0.35px, oklch(0.76 0.2 288 / 0.85) 0.5px 0.9px, oklch(0.42 0.2 285 / 0.7) 1.1px, transparent 1.7px)",
+					backgroundSize: "96px 96px, 143px 143px",
+					backgroundPosition: "8px 14px, 46px 62px",
+					maskImage: "radial-gradient(ellipse at center, black 30%, transparent 70%)",
+					animation: "hero-dot-field-drift 18s ease-in-out infinite"
 				}
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				"aria-hidden": true,
+				className: "pointer-events-none absolute inset-0 overflow-hidden",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "absolute -left-40 top-16 h-[32rem] w-[32rem] rounded-full blur-3xl",
+						style: {
+							background: "radial-gradient(circle at 35% 35%, oklch(0.78 0.16 288 / 0.42), oklch(0.58 0.2 250 / 0.18) 48%, transparent 72%)",
+							animation: "hero-bubble-drift 19s cubic-bezier(0.45, 0, 0.55, 1) infinite"
+						}
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "absolute right-[4%] top-0 h-[38rem] w-[38rem] rounded-full blur-3xl",
+						style: {
+							background: "radial-gradient(circle at 50% 45%, oklch(0.72 0.19 250 / 0.3), oklch(0.62 0.18 320 / 0.16) 48%, transparent 72%)",
+							animation: "hero-bubble-drift-reverse 23s cubic-bezier(0.45, 0, 0.55, 1) 2s infinite"
+						}
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "absolute bottom-[-10rem] left-1/2 h-[30rem] w-[30rem] -translate-x-1/2 rounded-full blur-3xl",
+						style: {
+							background: "radial-gradient(circle, oklch(0.74 0.17 288 / 0.2), oklch(0.68 0.16 190 / 0.12) 52%, transparent 72%)",
+							animation: "hero-bubble-drift 27s cubic-bezier(0.45, 0, 0.55, 1) 4s infinite reverse"
+						}
+					})
+				]
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 				"aria-hidden": true,
@@ -364,16 +412,16 @@ function Hero() {
 						children: [
 							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 								className: "inline-flex items-center gap-2 rounded-full glass px-3 py-1 text-xs font-medium text-muted-foreground",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "h-1.5 w-1.5 rounded-full bg-primary pulse-glow" }), "Behavioral intelligence for ecommerce"]
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "h-1.5 w-1.5 rounded-full bg-primary pulse-glow" }), "Al for Ecommerce"]
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", {
 								className: "mt-6 text-balance text-5xl font-semibold leading-[1.05] tracking-tight sm:text-6xl md:text-7xl",
 								style: { fontFamily: "var(--font-display)" },
-								children: "Know why visitors hesitate and convert them before they leave."
+								children: "Know why visitors hesitate. Convert before they leave."
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 								className: "mt-6 max-w-xl text-lg text-muted-foreground",
-								children: "Claarvia watches how every visitor moves through your store, understands what's stopping them from buying, and automatically takes the right action to help them complete their purchase."
+								children: "Claarvia tracks visitor behavior, finds what's stopping the sale, and fixes it automatically."
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 								className: "mt-8 flex flex-wrap items-center gap-4",
@@ -492,7 +540,7 @@ function HeroDashboardTile() {
 						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 							className: "flex items-baseline justify-between",
 							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "inline-flex items-center gap-1.5 text-xs text-muted-foreground",
+								className: "inline-flex items-center gap-1 text-xs text-muted-foreground",
 								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Intent score · Visitor #8412" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hint, { text: "0–100 read of how likely this visitor is to buy right now, updated every second from live behavior signals." })]
 							}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 								className: "flex items-baseline gap-2",
@@ -606,39 +654,34 @@ function Problem() {
 		title: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
 			"Visitors don't leave randomly.",
 			" ",
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 				className: "text-muted-foreground",
 				children: "They leave for a reason."
 			})
 		] }),
-		sub: "Behind every abandoned session is a moment of hesitation. Claarvia uncovers the reason in real time whether it's price, trust, delivery, sizing, or decision fatigue and helps shoppers move forward before they leave.",
+		sub: "Claarvia finds that reason price, trust, delivery, sizing and helps before they bounce.",
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 			className: "grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-5",
 			children: [
 				{
 					icon: CircleDollarSign,
 					title: "Price hesitation",
-					body: "Repeated price checks, coupon hunting, or comparing alternatives."
+					body: "Comparing prices, hunting for coupons"
 				},
 				{
 					icon: Truck,
 					title: "Delivery concerns",
-					body: "Repeated price checks, coupon hunting, or comparing alternatives."
+					body: "Checking shipping cost, delivery time, return policy."
 				},
 				{
 					icon: BadgeCheck,
 					title: "Trust concerns",
-					body: "Reading reviews, checking seller credibility, or looking for reassurance."
+					body: "Reading reviews, checking seller credibility."
 				},
 				{
 					icon: Boxes,
 					title: "Size & fit uncertainty",
-					body: "Opening size guides repeatedly or searching reviews for the right fit."
-				},
-				{
-					icon: Layers,
-					title: "Decision overload",
-					body: "Comparing too many options without making progress."
+					body: "Repeated size-guide checks."
 				}
 			].map((it, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "reveal group relative overflow-hidden rounded-2xl glass p-5 transition-all hover:-translate-y-1 hover:border-primary/30",
@@ -682,7 +725,7 @@ function DecisionEngine() {
 			confidence: 81,
 			intent: "Purchase intent, blocked",
 			hesitation: "Price shock",
-			action: "Cap 4% nudge · 12s",
+			action: "Cap 4% nudge · 9s",
 			lift: 14
 		},
 		{
@@ -698,7 +741,7 @@ function DecisionEngine() {
 			confidence: 92,
 			intent: "Purchase intent, blocked",
 			hesitation: "Size / fit doubt",
-			action: "Inline fit guide · past-buyer note",
+			action: "Inline fit guide",
 			lift: 22
 		},
 		{
@@ -706,7 +749,7 @@ function DecisionEngine() {
 			confidence: 94,
 			intent: "Purchase intent, blocked",
 			hesitation: "Shipping surprise",
-			action: "Free-ship threshold cue",
+			action: "Free-ship threshold",
 			lift: 19
 		}
 	], []);
@@ -720,16 +763,16 @@ function DecisionEngine() {
 	const f = frames[i];
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Section, {
 		id: "engine",
-		eyebrow: "Live AI decision engine",
+		eyebrow: "How Claarvia Thinks",
 		title: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-			"Watch the AI ",
+			"Not reactive.",
+			" ",
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 				className: "text-gradient",
-				children: "think"
-			}),
-			"."
+				children: "Understands behavior."
+			})
 		] }),
-		sub: "Every second, on every visitor. Claarvia reads the signal, names the doubt, chooses the smallest intervention that still converts and stays silent when confidence is low.",
+		sub: "It watches the full journey, builds confidence from real signals, and acts only when it's sure it can help.",
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 			className: "relative reveal",
 			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
@@ -751,12 +794,12 @@ function DecisionEngine() {
 						})]
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "grid grid-cols-1 gap-4 p-5 lg:grid-cols-5",
+						className: "grid min-h-[560px] grid-cols-1 gap-4 p-5 lg:min-h-[304px] lg:grid-cols-5",
 						children: [
 							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "lg:col-span-2 space-y-4",
+								className: "space-y-4 lg:col-span-2",
 								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-									className: "rounded-2xl glass p-4",
+									className: "h-[104px] rounded-2xl glass p-4",
 									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 										className: "text-[10px] uppercase tracking-wider text-muted-foreground",
 										children: "Signal detected"
@@ -766,7 +809,7 @@ function DecisionEngine() {
 										children: f.signal
 									}, `sig-${i}`)]
 								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-									className: "rounded-2xl glass p-4",
+									className: "h-[144px] rounded-2xl glass p-4",
 									children: [
 										/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 											className: "flex items-baseline justify-between",
@@ -798,7 +841,7 @@ function DecisionEngine() {
 								})]
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "lg:col-span-2 rounded-2xl glass p-4",
+								className: "h-[260px] rounded-2xl glass p-4 lg:col-span-2 lg:h-full",
 								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 									className: "text-[10px] uppercase tracking-wider text-muted-foreground",
 									children: "Reasoning cascade"
@@ -833,7 +876,7 @@ function DecisionEngine() {
 												children: row.k
 											}),
 											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-												className: "flex-1 font-medium",
+												className: "flex-1 font-thin text-xs ",
 												children: row.v
 											})
 										]
@@ -841,7 +884,7 @@ function DecisionEngine() {
 								}, `r-${i}`)]
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "lg:col-span-1 rounded-2xl p-4",
+								className: "h-[160px] rounded-2xl p-4 lg:col-span-1 lg:h-full",
 								style: {
 									background: "linear-gradient(180deg, oklch(0.78 0.16 288 / 0.14), oklch(0.78 0.16 288 / 0.02))",
 									border: "1px solid oklch(0.78 0.16 288 / 0.3)"
@@ -865,7 +908,7 @@ function DecisionEngine() {
 										children: "On this session, modeled from priors."
 									}),
 									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-										className: "mt-6 text-[10px] uppercase tracking-wider text-muted-foreground",
+										className: "mt-2 text-[10px] uppercase tracking-wider text-muted-foreground",
 										children: "Outcome"
 									}),
 									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
@@ -896,17 +939,17 @@ function Walkthrough() {
 	const stages = (0, import_react.useMemo)(() => [
 		{
 			icon: MousePointerClick,
-			label: "Visitor arrives",
+			label: "Visitor lands",
 			detail: "Anonymous session · no cookies required"
 		},
 		{
 			icon: Eye,
-			label: "Browses product",
+			label: "Explores product",
 			detail: "Scrolls, hovers, checks price twice"
 		},
 		{
 			icon: Timer,
-			label: "Hesitates",
+			label: "Begins to hesitate",
 			detail: "Cursor drifts to close-tab · dwell rises"
 		},
 		{
@@ -947,8 +990,8 @@ function Walkthrough() {
 	const Active = stages[active].icon;
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Section, {
 		eyebrow: "See Claarvia in action",
-		title: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_jsx_runtime.Fragment, { children: "Follow one visitor from hesitation to purchase." }),
-		sub: "Watch how Claarvia identifies hesitation, understands what's causing it, and responds with the right action at the right moment all before the visitor leaves.",
+		title: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_jsx_runtime.Fragment, { children: "One visitor. Hesitation to purchase." }),
+		sub: "See how Claarvia spots hesitation, understands the cause, and acts at the right moment before the visitor leaves.",
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 			className: "grid gap-6 lg:grid-cols-5",
 			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
@@ -1065,8 +1108,8 @@ function ProductSurface() {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Section, {
 		id: "dashboard",
 		eyebrow: "Live dashboard",
-		title: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_jsx_runtime.Fragment, { children: "One view. Complete visibility." }),
-		sub: "Know who's hesitating, why they're stuck, what Claarvia is doing, and how much revenue it's recovering all from one live dashboard.",
+		title: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_jsx_runtime.Fragment, { children: "One view. Full visibility." }),
+		sub: "Who's hesitating, why, what Claarvia's doing, and revenue recovered live.",
 		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 			className: "reveal relative rounded-3xl p-1",
 			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
@@ -1258,11 +1301,11 @@ function FakeChart() {
 				y2: "1",
 				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("stop", {
 					offset: "0%",
-					stopColor: "oklch(0.78 0.16 288)",
+					stopColor: "oklch(0.88 0.16 288)",
 					stopOpacity: "0.5"
 				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("stop", {
 					offset: "100%",
-					stopColor: "oklch(0.78 0.16 288)",
+					stopColor: "oklch(0.88 0.16 288)",
 					stopOpacity: "0"
 				})]
 			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("linearGradient", {
@@ -1273,10 +1316,10 @@ function FakeChart() {
 				y2: "0",
 				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("stop", {
 					offset: "0%",
-					stopColor: "oklch(0.78 0.16 288)"
+					stopColor: "oklch(0.88 0.16 288)"
 				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("stop", {
 					offset: "100%",
-					stopColor: "oklch(0.72 0.19 250)"
+					stopColor: "oklch(0.82 0.19 250)"
 				})]
 			})] }),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
@@ -1296,34 +1339,52 @@ function FakeChart() {
 function VsAnalytics() {
 	const rows = [
 		{
-			r: "Shows what happened",
-			a: true,
-			c: true
+			r: "Tells you what happened",
+			ga: true,
+			clarity: false,
+			hotjar: false,
+			optimizely: false,
+			claarvia: true
 		},
 		{
-			r: "Explains why visitors hesitate",
-			a: "Limited",
-			c: true
+			r: "Tells you why a visitor hesitated",
+			ga: false,
+			clarity: true,
+			hotjar: true,
+			optimizely: false,
+			claarvia: true
 		},
 		{
-			r: "Detects buying intent live",
-			a: false,
-			c: true
+			r: "Detects intent in real time",
+			ga: false,
+			clarity: false,
+			hotjar: false,
+			optimizely: "Partial",
+			claarvia: true
 		},
 		{
-			r: "Acts before visitors leave",
-			a: false,
-			c: true
+			r: "Acts inside the hesitation window",
+			ga: false,
+			clarity: false,
+			hotjar: false,
+			optimizely: "Test-based",
+			claarvia: true
 		},
 		{
-			r: "Learns from every outcome",
-			a: false,
-			c: true
+			r: "Protects margin (smallest nudge)",
+			ga: false,
+			clarity: false,
+			hotjar: false,
+			optimizely: false,
+			claarvia: true
 		},
 		{
-			r: "Helps increase conversions",
-			a: "Manual",
-			c: true
+			r: "Time to first insight",
+			ga: "Days",
+			clarity: "Hours",
+			hotjar: "Hours",
+			optimizely: "Weeks",
+			claarvia: "50s"
 		}
 	];
 	const cell = (v) => {
@@ -1340,28 +1401,53 @@ function VsAnalytics() {
 			children: v
 		});
 	};
+	const analyticsCell = (r) => {
+		if (r.ga !== false) return cell(r.ga);
+		if (r.clarity !== false) return cell(r.clarity);
+		if (r.hotjar !== false) return cell(r.hotjar);
+		return cell(r.optimizely);
+	};
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Section, {
 		id: "vs",
-		eyebrow: "A different category",
-		title: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_jsx_runtime.Fragment, { children: "Analytics tells you what happened. Claarvia decides what happens next." }),
-		sub: "Analytics helps you understand yesterday. Claarvia understands what's happening right now, identifies why visitors hesitate, and helps them convert before they leave.",
+		eyebrow: "Beyond Analytics",
+		title: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_jsx_runtime.Fragment, { children: "Analytics shows the past. Claarvia decides what's next." }),
+		sub: "Analytics tells you what already happened. Claarvia understands what's happening right now and helps visitors convert before they leave.",
 		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 			className: "relative reveal overflow-hidden rounded-2xl glass-strong",
 			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 				"aria-hidden": true,
-				className: "pointer-events-none absolute inset-y-0 right-0 w-1/5",
-				style: { background: "linear-gradient(180deg, oklch(0.78 0.16 288 / 0.14), transparent)" }
+				className: "pointer-events-none absolute inset-y-0 right-0 w-1/3",
+				style: { background: "linear-gradient(180deg, oklch(0.88 0.16 288 / 0.14), transparent)" }
 			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-				className: "overflow-x-auto no-scrollbar",
+				className: "overflow-hidden",
 				children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("table", {
-					className: "w-full min-w-[760px] text-sm",
+					className: "w-full text-sm",
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("tr", {
 						className: "text-left text-xs uppercase tracking-wider text-muted-foreground",
 						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("th", { className: "px-6 py-4 font-medium" }),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("th", {
-								className: "px-4 py-4 text-center font-medium",
-								children: "Analytics tools"
+								className: "px-4 py-4 font-medium md:px-6",
+								children: "Feature"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("th", {
+								className: "px-4 py-4 text-center font-medium md:hidden",
+								children: "Analytics Tools"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("th", {
+								className: "hidden px-4 py-4 text-center font-medium md:table-cell",
+								children: "Google Analytics"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("th", {
+								className: "hidden px-4 py-4 text-center font-medium md:table-cell",
+								children: "MS Clarity"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("th", {
+								className: "hidden px-4 py-4 text-center font-medium md:table-cell",
+								children: "Hotjar"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("th", {
+								className: "hidden px-4 py-4 text-center font-medium md:table-cell",
+								children: "Optimizely"
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("th", {
 								className: "px-4 py-4 text-center font-medium text-primary",
@@ -1373,16 +1459,32 @@ function VsAnalytics() {
 						style: { animationDelay: `${i * 60}ms` },
 						children: [
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("td", {
-								className: "px-6 py-4 text-muted-foreground",
+								className: "px-4 py-4 text-muted-foreground md:px-6",
 								children: r.r
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("td", {
-								className: "px-4 py-4 text-center",
-								children: cell(r.a)
+								className: "px-4 py-4 text-center md:hidden",
+								children: analyticsCell(r)
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("td", {
+								className: "hidden px-4 py-4 text-center md:table-cell",
+								children: cell(r.ga)
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("td", {
+								className: "hidden px-4 py-4 text-center md:table-cell",
+								children: cell(r.clarity)
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("td", {
+								className: "hidden px-4 py-4 text-center md:table-cell",
+								children: cell(r.hotjar)
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("td", {
+								className: "hidden px-4 py-4 text-center md:table-cell",
+								children: cell(r.optimizely)
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("td", {
 								className: "px-4 py-4 text-center font-medium",
-								children: cell(r.c)
+								children: cell(r.claarvia)
 							})
 						]
 					}, r.r)) })]
@@ -1390,7 +1492,7 @@ function VsAnalytics() {
 			})]
 		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 			className: "mt-8 text-center text-sm text-muted-foreground reveal",
-			children: "You don't need another dashboard. You need something that acts before revenue walks away."
+			children: "You don't need another dashboard. You need action."
 		})]
 	});
 }
@@ -1419,7 +1521,7 @@ function RevenueImpact() {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Section, {
 		eyebrow: "Before vs. After",
 		title: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_jsx_runtime.Fragment, { children: "One journey. Two outcomes." }),
-		sub: "Without Claarvia, hesitation becomes abandonment. With Claarvia, hesitation becomes an opportunity to help and a completed purchase.",
+		sub: "Without Claarvia abandonment. With Claarvia conversion.",
 		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 			className: "grid gap-6 md:grid-cols-2",
 			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FlowColumn, {
@@ -1428,7 +1530,7 @@ function RevenueImpact() {
 				icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleX, { className: "h-4 w-4" }),
 				items: [
 					{
-						label: "Visitor arrives",
+						label: "Visitor lands",
 						tone: "n"
 					},
 					{
@@ -1455,7 +1557,7 @@ function RevenueImpact() {
 				icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleCheck, { className: "h-4 w-4" }),
 				items: [
 					{
-						label: "Visitor arrives",
+						label: "Visitor lands",
 						tone: "n"
 					},
 					{
@@ -1479,76 +1581,79 @@ function RevenueImpact() {
 			})]
 		}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 			className: "mt-16 grid gap-6 lg:grid-cols-2",
-			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "reveal glass rounded-2xl p-6 sm:p-8",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-					className: "text-xs uppercase tracking-wider text-muted-foreground",
-					children: "Model it on your traffic"
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "mt-6 space-y-6",
+			children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "reveal glass rounded-2xl p-6 sm:p-8",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "text-xs uppercase tracking-wider text-muted-foreground",
+						children: "Model it on your traffic"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "mt-6 space-y-6",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(RangeInput, {
+								label: "Monthly visitors",
+								value: visitors,
+								min: 1e4,
+								max: 2e5,
+								step: 5e3,
+								onChange: setVisitors,
+								format: (v) => v.toLocaleString("en-US")
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(RangeInput, {
+								label: "Average order value (USD)",
+								value: aov,
+								min: 20,
+								max: 500,
+								step: 5,
+								onChange: setAov,
+								format: (v) => `$${v}`
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(RangeInput, {
+								label: "Current conversion rate",
+								value: conv,
+								min: .5,
+								max: 6,
+								step: .1,
+								onChange: setConv,
+								format: (v) => `${v.toFixed(1)}%`
+							})
+						]
+					})]
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "reveal grid grid-cols-2 gap-2 sm:grid-cols-2",
 					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(RangeInput, {
-							label: "Monthly visitors",
-							value: visitors,
-							min: 1e4,
-							max: 2e5,
-							step: 5e3,
-							onChange: setVisitors,
-							format: (v) => v.toLocaleString("en-US")
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ImpactCard, {
+							label: "monthly revenue",
+							value: fmt(baseline),
+							hint: "Visitors × Conv. × AOV",
+							tone: "muted"
 						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(RangeInput, {
-							label: "Average order value (USD)",
-							value: aov,
-							min: 20,
-							max: 500,
-							step: 5,
-							onChange: setAov,
-							format: (v) => `$${v}`
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ImpactCard, {
+							label: "Recovered revenue",
+							value: fmt(recovered),
+							hint: "Hesitation-window recovery",
+							tone: "primary"
 						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(RangeInput, {
-							label: "Current conversion rate",
-							value: conv,
-							min: .5,
-							max: 6,
-							step: .1,
-							onChange: setConv,
-							format: (v) => `${v.toFixed(1)}%`
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ImpactCard, {
+							label: "Effective uplift",
+							value: `+${uplift.toFixed(1)}%`,
+							hint: "On top of baseline revenue",
+							tone: "primary"
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ImpactCard, {
+							label: "Margin protected",
+							value: "≤ 4%",
+							hint: "Average capped nudge",
+							tone: "muted"
 						})
 					]
-				})]
-			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "reveal grid grid-cols-2 gap-2 sm:grid-cols-2",
-				children: [
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ImpactCard, {
-						label: "monthly revenue",
-						value: fmt(baseline),
-						hint: "Visitors × Conv. × AOV",
-						tone: "muted"
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ImpactCard, {
-						label: "Recovered revenue",
-						value: fmt(recovered),
-						hint: "Hesitation-window recovery",
-						tone: "primary"
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ImpactCard, {
-						label: "Effective uplift",
-						value: `+${uplift.toFixed(1)}%`,
-						hint: "On top of baseline revenue",
-						tone: "primary"
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ImpactCard, {
-						label: "Margin protected",
-						value: "≤ 4%",
-						hint: "Average capped nudge",
-						tone: "muted"
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: "sm:col-span-2 rounded-2xl border border-white/5 bg-white/[0.02] px-4 py-3 text-xs text-muted-foreground",
-						children: "Modeled from an 11% recovery on non-converting sessions with a 4% average nudge. Directional, not a guarantee a demo maps this to your own store data."
-					})
-				]
-			})]
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "sm:col-span-2 rounded-2xl border border-white/5 bg-white/[0.02] px-4 py-3 text-xs text-muted-foreground",
+					children: "Modeled from an 11% recovery on non-converting sessions with a 4% average nudge. Directional, not a guarantee a demo maps this to your own store data."
+				})
+			]
 		})]
 	});
 }
@@ -1662,8 +1767,8 @@ function Integrations() {
 		}
 	];
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Section, {
-		eyebrow: "Get started in a day",
-		title: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_jsx_runtime.Fragment, { children: "Start recovering revenue tomorrow not months from now." }),
+		eyebrow: "Live in a Day",
+		title: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_jsx_runtime.Fragment, { children: "Start recovering revenue tomorrow." }),
 		sub: "No replatforming. No lengthy implementation. Install a single snippet, let Claarvia learn your store, and start helping hesitant visitors within 24 hours.",
 		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 			className: "mb-10 grid gap-4 md:grid-cols-3",
@@ -1734,8 +1839,8 @@ function Security() {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Section, {
 		id: "security",
 		eyebrow: "Built for modern commerce",
-		title: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_jsx_runtime.Fragment, { children: "The intelligence you need. The privacy your customers expect." }),
-		sub: "Claarvia helps you understand visitor behavior while giving you control over how data is collected, stored, and managed.",
+		title: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_jsx_runtime.Fragment, { children: "Smart Al. Private by design." }),
+		sub: "Understand visitors without losing control over their data.",
 		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 			className: "grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-4",
 			children: [
@@ -1752,7 +1857,7 @@ function Security() {
 				{
 					icon: Gauge,
 					title: "Enterprise Security",
-					body: "Encryption, access controls, audit logging, and security best practices built in."
+					body: "Encryption & audit logging built in."
 				},
 				{
 					icon: Globe,
@@ -1780,7 +1885,7 @@ function Security() {
 			}, it.title))
 		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 			className: "mt-8 text-center text-sm text-muted-foreground reveal",
-			children: "Privacy-first by default. You control what data is collected, retained, exported, and deleted."
+			children: "You control what's collected, stored, and deleted."
 		})]
 	});
 }
@@ -1794,35 +1899,35 @@ function FAQ() {
 			children: [
 				{
 					q: "How is Claarvia different from Google Analytics, Clarity or Hotjar?",
-					a: "Those tools explain what happened after visitors leave. Claarvia understands hesitation while the visitor is still shopping, identifies why it's happening, and triggers the smallest intervention before the opportunity is lost."
+					a: "Those tools tell you what happened after visitors leave. Claarvia understands hesitation while the visitor is still shopping and acts before the opportunity is lost."
 				},
 				{
 					q: "How long does setup take?",
-					a: "Add one snippet in under two minutes. Claarvia begins observing immediately, delivers first insights within minutes, and continuously calibrates intervention decisions over the next 24 hours."
+					a: "Just add one snippet takes under 2 minutes. Claarvia starts observing right away and fully calibrates within 24 hours."
 				},
 				{
 					q: "Will I lose control to the AI?",
-					a: "No. Claarvia only operates inside rules you define. You choose which interventions are allowed, set maximum discount limits, define confidence thresholds, and can disable automation at any time."
+					a: "No. Claarvia only works within rules you set discount limits, confidence thresholds, and you can turn off automation anytime."
 				},
 				{
 					q: "Does Claarvia work with my existing tools?",
-					a: "Yes. Claarvia sits alongside your current stack instead of replacing it. Shopify, GA4, Clarity, Hotjar, Klaviyo and your existing marketing workflows continue operating exactly as they do today."
+					a: "Yes. It works alongside Shopify, GA4, Clarity, Hotjar, Klaviyo, and your current marketing stack no replacement needed."
 				},
 				{
 					q: "Is customer data safe?",
-					a: "Yes. Claarvia is built with privacy-first principles, supports cookie-aware deployments, minimizes stored personal information, and gives you complete control over retention, exports, and deletion policies."
+					a: "Yes. Claarvia follows privacy-first principles, minimizes stored data, and gives you full control over retention and deletion."
 				},
 				{
 					q: "Can Claarvia guarantee more revenue?",
-					a: "No responsible AI platform can guarantee revenue. Claarvia provides real-time behavioral intelligence and optimizes interventions based on live visitor intent. Results depend on traffic quality, pricing, products, and customer behavior."
+					a: "No responsible Al platform can promise that. Resuits depend on your traffic, pricing, and products but Claarvia optimizes based on live intent."
 				},
 				{
 					q: "Does it slow down my website?",
-					a: "No. The tracking layer is designed to be lightweight and asynchronous, ensuring it doesn't block rendering or negatively affect the shopping experience."
+					a: "No. The tracking layer is lightweight and asynchronous, so it won't affect load time or user experience."
 				},
 				{
 					q: "Can I see why the AI made a decision?",
-					a: "Yes. Every intervention includes the detected signals, confidence score, reasoning path, and the action selected, so your team always understands why Claarvia acted."
+					a: "Yes. Every action shows the signals detected, confidence score, and reasoning full transparency, always."
 				}
 			].map((it, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FAQItem, {
 				q: it.q,
@@ -1874,11 +1979,11 @@ function FinalCTA() {
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
 							className: "text-balance text-4xl font-semibold tracking-tight sm:text-6xl",
 							style: { fontFamily: "var(--font-display)" },
-							children: "Know why they're hesitating. Recover revenue before they leave."
+							children: "See hesitation. Recover revenue."
 						}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 							className: "mx-auto mt-4 max-w-xl text-base text-muted-foreground sm:text-lg",
-							children: "See Claarvia analyze real visitor behavior, explain every buying hesitation, and show exactly how AI intervenes live on your own store."
+							children: "Watch Claarvia analyze real visitor behavior and show exactly how it intervenes live, on your own store."
 						}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 							className: "mt-8 flex justify-center",
@@ -1909,17 +2014,14 @@ function Footer() {
 				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 					className: "col-span-2",
 					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
 							href: "#top",
 							className: "flex items-center gap-2.5",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-								className: "relative inline-flex h-7 w-7 items-center justify-center rounded-lg glass-strong",
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Sparkles, { className: "h-3.5 w-3.5 text-primary" })
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-								className: "text-xl font-semibold",
-								style: { fontFamily: "var(--font-display)" },
-								children: "Claarvia"
-							})]
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+								src: "/brandlogo.png",
+								alt: "Claarvia",
+								className: "h-9 w-auto object-contain"
+							})
 						}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 							className: "mt-5 max-w-xs text-sm text-muted-foreground",
@@ -1928,6 +2030,32 @@ function Footer() {
 						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 							className: "mt-6 flex items-center gap-2 text-xs text-muted-foreground",
 							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" }), "All systems operational"]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "mt-5 flex items-center gap-4 text-sm",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+								href: "https://www.instagram.com/claarvia?igsh=MTJiMzI5MXk2ZHhocw%3D%3D&utm_source=qr",
+								target: "_blank",
+								rel: "noreferrer",
+								"aria-label": "Instagram",
+								title: "Instagram",
+								className: "text-foreground/80 transition-colors hover:text-foreground",
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Instagram, {
+									className: "h-5 w-5",
+									"aria-hidden": "true"
+								})
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+								href: "https://www.linkedin.com/company/claarvia/",
+								target: "_blank",
+								rel: "noreferrer",
+								"aria-label": "LinkedIn",
+								title: "LinkedIn",
+								className: "text-foreground/80 transition-colors hover:text-foreground",
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Linkedin, {
+									className: "h-5 w-5",
+									"aria-hidden": "true"
+								})
+							})]
 						})
 					]
 				}), [
@@ -1982,16 +2110,13 @@ function Footer() {
 						children: link
 					}) }, link))
 				})] }, col.title))]
-			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 				className: "mt-16 flex flex-col items-start justify-between gap-3 border-t border-white/5 pt-6 text-xs text-muted-foreground md:flex-row md:items-center",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [
 					"© ",
 					(/* @__PURE__ */ new Date()).getFullYear(),
 					" Claarvia, Inc. Built for modern commerce."
-				] }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-					className: "font-mono uppercase tracking-widest",
-					children: "v1.0 · made with intent"
-				})]
+				] })
 			})]
 		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 			className: "pointer-events-none select-none overflow-hidden",

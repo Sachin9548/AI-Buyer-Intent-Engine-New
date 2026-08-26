@@ -204,16 +204,11 @@ function Nav() {
 
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <a href="#top" className="flex items-center gap-2">
-          <span className="relative inline-flex h-7 w-7 items-center justify-center rounded-lg glass-strong">
-            <span className="absolute inset-0 rounded-lg opacity-70 blur-md bg-primary/40" />
-            <Sparkles className="relative h-3.5 w-3.5 text-primary" />
-          </span>
-          <span
-            className="text-lg font-semibold tracking-tight"
-            style={{ fontFamily: "var(--font-display)" }}
-          >
-            Claarvia
-          </span>
+          <img
+            src="/brandlogo.png"
+            alt="Claarvia"
+            className="h-8 w-auto object-contain"
+          />
         </a>
 
         <nav className="hidden items-center gap-8 md:flex">
@@ -331,13 +326,17 @@ function Hero() {
         }}
       />
       {/* Larger, softly drifting color bubbles add movement without competing with the copy. */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 overflow-hidden"
+      >
         <div
           className="absolute -left-40 top-16 h-[32rem] w-[32rem] rounded-full blur-3xl"
           style={{
             background:
               "radial-gradient(circle at 35% 35%, oklch(0.78 0.16 288 / 0.42), oklch(0.58 0.2 250 / 0.18) 48%, transparent 72%)",
-            animation: "hero-bubble-drift 19s cubic-bezier(0.45, 0, 0.55, 1) infinite",
+            animation:
+              "hero-bubble-drift 19s cubic-bezier(0.45, 0, 0.55, 1) infinite",
           }}
         />
         <div
@@ -345,7 +344,8 @@ function Hero() {
           style={{
             background:
               "radial-gradient(circle at 50% 45%, oklch(0.72 0.19 250 / 0.3), oklch(0.62 0.18 320 / 0.16) 48%, transparent 72%)",
-            animation: "hero-bubble-drift-reverse 23s cubic-bezier(0.45, 0, 0.55, 1) 2s infinite",
+            animation:
+              "hero-bubble-drift-reverse 23s cubic-bezier(0.45, 0, 0.55, 1) 2s infinite",
           }}
         />
         <div
@@ -353,7 +353,8 @@ function Hero() {
           style={{
             background:
               "radial-gradient(circle, oklch(0.74 0.17 288 / 0.2), oklch(0.68 0.16 190 / 0.12) 52%, transparent 72%)",
-            animation: "hero-bubble-drift 27s cubic-bezier(0.45, 0, 0.55, 1) 4s infinite reverse",
+            animation:
+              "hero-bubble-drift 27s cubic-bezier(0.45, 0, 0.55, 1) 4s infinite reverse",
           }}
         />
       </div>
@@ -519,7 +520,7 @@ function HeroDashboardTile() {
 
         <div className="mt-4 rounded-xl glass p-4">
           <div className="flex items-baseline justify-between">
-            <div className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+            <div className="inline-flex items-center gap-1 text-xs text-muted-foreground">
               <span>Intent score · Visitor #8412</span>
               <Hint text="0–100 read of how likely this visitor is to buy right now, updated every second from live behavior signals." />
             </div>
@@ -697,11 +698,6 @@ function Problem() {
       title: "Size & fit uncertainty",
       body: "Repeated size-guide checks.",
     },
-    {
-      icon: Layers,
-      title: "Decision overload",
-      body: "Too many options, no action.",
-    },
   ];
   return (
     <Section
@@ -709,9 +705,7 @@ function Problem() {
       title={
         <>
           Visitors don't leave randomly.{" "}
-          <span className="text-muted-foreground">
-            They leave for a reason.
-          </span>
+          <p className="text-muted-foreground">They leave for a reason.</p>
         </>
       }
       sub="Claarvia finds that reason price, trust, delivery, sizing and helps before they bounce."
@@ -937,7 +931,7 @@ function DecisionEngine() {
         confidence: 81,
         intent: "Purchase intent, blocked",
         hesitation: "Price shock",
-        action: "Cap 4% nudge · 12s",
+        action: "Cap 4% nudge · 9s",
         lift: 14,
       },
       {
@@ -953,7 +947,7 @@ function DecisionEngine() {
         confidence: 92,
         intent: "Purchase intent, blocked",
         hesitation: "Size / fit doubt",
-        action: "Inline fit guide · past-buyer note",
+        action: "Inline fit guide",
         lift: 22,
       },
       {
@@ -961,7 +955,7 @@ function DecisionEngine() {
         confidence: 94,
         intent: "Purchase intent, blocked",
         hesitation: "Shipping surprise",
-        action: "Free-ship threshold cue",
+        action: "Free-ship threshold",
         lift: 19,
       },
     ],
@@ -984,7 +978,7 @@ function DecisionEngine() {
       title={
         <>
           Not reactive.{" "}
-          <span className="text-gradient">Understands behavior.</span>.
+          <span className="text-gradient">Understands behavior.</span>
         </>
       }
       sub="It watches the full journey, builds confidence from real signals, and acts only when it's sure it can help."
@@ -1013,10 +1007,10 @@ function DecisionEngine() {
             </button>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 p-5 lg:grid-cols-5">
+          <div className="grid min-h-[560px] grid-cols-1 gap-4 p-5 lg:min-h-[304px] lg:grid-cols-5">
             {/* Left: signal + confidence */}
-            <div className="lg:col-span-2 space-y-4">
-              <div className="rounded-2xl glass p-4">
+            <div className="space-y-4 lg:col-span-2">
+              <div className="h-[104px] rounded-2xl glass p-4">
                 <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
                   Signal detected
                 </div>
@@ -1028,7 +1022,7 @@ function DecisionEngine() {
                   {f.signal}
                 </div>
               </div>
-              <div className="rounded-2xl glass p-4">
+              <div className="h-[144px] rounded-2xl glass p-4">
                 <div className="flex items-baseline justify-between">
                   <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
                     AI confidence
@@ -1059,7 +1053,7 @@ function DecisionEngine() {
             </div>
 
             {/* Middle: reasoning cascade */}
-            <div className="lg:col-span-2 rounded-2xl glass p-4">
+            <div className="h-[260px] rounded-2xl glass p-4 lg:col-span-2 lg:h-full">
               <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
                 Reasoning cascade
               </div>
@@ -1082,7 +1076,7 @@ function DecisionEngine() {
                     <span className="w-32 text-[11px] uppercase tracking-wider text-muted-foreground">
                       {row.k}
                     </span>
-                    <span className="flex-1 font-medium">{row.v}</span>
+                    <span className="flex-1 font-thin text-xs ">{row.v}</span>
                   </li>
                 ))}
               </ul>
@@ -1090,7 +1084,7 @@ function DecisionEngine() {
 
             {/* Right: outcome */}
             <div
-              className="lg:col-span-1 rounded-2xl p-4"
+              className="h-[160px] rounded-2xl p-4 lg:col-span-1 lg:h-full"
               style={{
                 background:
                   "linear-gradient(180deg, oklch(0.78 0.16 288 / 0.14), oklch(0.78 0.16 288 / 0.02))",
@@ -1110,7 +1104,7 @@ function DecisionEngine() {
               <div className="mt-2 text-[11px] text-muted-foreground">
                 On this session, modeled from priors.
               </div>
-              <div className="mt-6 text-[10px] uppercase tracking-wider text-muted-foreground">
+              <div className="mt-2 text-[10px] uppercase tracking-wider text-muted-foreground">
                 Outcome
               </div>
               <div className="mt-1 text-sm font-medium">
@@ -1520,18 +1514,18 @@ function FakeChart() {
         <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
           <stop
             offset="0%"
-            stopColor="oklch(0.78 0.16 288)"
+            stopColor="oklch(0.88 0.16 288)"
             stopOpacity="0.5"
           />
           <stop
             offset="100%"
-            stopColor="oklch(0.78 0.16 288)"
+            stopColor="oklch(0.88 0.16 288)"
             stopOpacity="0"
           />
         </linearGradient>
         <linearGradient id="g2" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor="oklch(0.78 0.16 288)" />
-          <stop offset="100%" stopColor="oklch(0.72 0.19 250)" />
+          <stop offset="0%" stopColor="oklch(0.88 0.16 288)" />
+          <stop offset="100%" stopColor="oklch(0.82 0.19 250)" />
         </linearGradient>
       </defs>
       <path d={area} fill="url(#g1)" />
@@ -1622,10 +1616,10 @@ function VsAnalytics() {
       <div className="relative reveal overflow-hidden rounded-2xl glass-strong">
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-y-0 right-0 w-1/5"
+          className="pointer-events-none absolute inset-y-0 right-0 w-1/3"
           style={{
             background:
-              "linear-gradient(180deg, oklch(0.78 0.16 288 / 0.14), transparent)",
+              "linear-gradient(180deg, oklch(0.88 0.16 288 / 0.14), transparent)",
           }}
         />
         <div className="overflow-hidden">
@@ -1818,12 +1812,12 @@ function RevenueImpact() {
             hint="Average capped nudge"
             tone="muted"
           />
+        </div>
           <div className="sm:col-span-2 rounded-2xl border border-white/5 bg-white/[0.02] px-4 py-3 text-xs text-muted-foreground">
             Modeled from an 11% recovery on non-converting sessions with a 4%
             average nudge. Directional, not a guarantee a demo maps this to your
             own store data.
           </div>
-        </div>
       </div>
     </Section>
   );
@@ -2328,15 +2322,11 @@ function Footer() {
         <div className="grid grid-cols-2 gap-10 md:grid-cols-6">
           <div className="col-span-2">
             <a href="#top" className="flex items-center gap-2.5">
-              <span className="relative inline-flex h-7 w-7 items-center justify-center rounded-lg glass-strong">
-                <Sparkles className="h-3.5 w-3.5 text-primary" />
-              </span>
-              <span
-                className="text-xl font-semibold"
-                style={{ fontFamily: "var(--font-display)" }}
-              >
-                Claarvia
-              </span>
+              <img
+                src="/brandlogo.png"
+                alt="Claarvia"
+                className="h-9 w-auto object-contain"
+              />
             </a>
             <p className="mt-5 max-w-xs text-sm text-muted-foreground">
               Behavioral intelligence for ecommerce teams who'd rather know why

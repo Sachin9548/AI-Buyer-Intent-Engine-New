@@ -448,6 +448,34 @@ var Globe = createLucideIcon("globe", [
 * This source code is licensed under the ISC license.
 * See the LICENSE file in the root directory of this source tree.
 */
+var Instagram = createLucideIcon("instagram", [
+	["rect", {
+		width: "20",
+		height: "20",
+		x: "2",
+		y: "2",
+		rx: "5",
+		ry: "5",
+		key: "2e1cvw"
+	}],
+	["path", {
+		d: "M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z",
+		key: "9exkf1"
+	}],
+	["line", {
+		x1: "17.5",
+		x2: "17.51",
+		y1: "6.5",
+		y2: "6.5",
+		key: "r4j83e"
+	}]
+]);
+/**
+* @license lucide-react v0.575.0 - ISC
+*
+* This source code is licensed under the ISC license.
+* See the LICENSE file in the root directory of this source tree.
+*/
 var Layers = createLucideIcon("layers", [
 	["path", {
 		d: "M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z",
@@ -460,6 +488,31 @@ var Layers = createLucideIcon("layers", [
 	["path", {
 		d: "M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17",
 		key: "kqbvx6"
+	}]
+]);
+/**
+* @license lucide-react v0.575.0 - ISC
+*
+* This source code is licensed under the ISC license.
+* See the LICENSE file in the root directory of this source tree.
+*/
+var Linkedin = createLucideIcon("linkedin", [
+	["path", {
+		d: "M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z",
+		key: "c2jq9f"
+	}],
+	["rect", {
+		width: "4",
+		height: "12",
+		x: "2",
+		y: "9",
+		key: "mk3on5"
+	}],
+	["circle", {
+		cx: "4",
+		cy: "4",
+		r: "2",
+		key: "bt5ra8"
 	}]
 ]);
 /**
@@ -693,32 +746,6 @@ var ShoppingCart = createLucideIcon("shopping-cart", [
 * This source code is licensed under the ISC license.
 * See the LICENSE file in the root directory of this source tree.
 */
-var Sparkles = createLucideIcon("sparkles", [
-	["path", {
-		d: "M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z",
-		key: "1s2grr"
-	}],
-	["path", {
-		d: "M20 2v4",
-		key: "1rf3ol"
-	}],
-	["path", {
-		d: "M22 4h-4",
-		key: "gwowj6"
-	}],
-	["circle", {
-		cx: "4",
-		cy: "20",
-		r: "2",
-		key: "6kqj1y"
-	}]
-]);
-/**
-* @license lucide-react v0.575.0 - ISC
-*
-* This source code is licensed under the ISC license.
-* See the LICENSE file in the root directory of this source tree.
-*/
 var Store = createLucideIcon("store", [
 	["path", {
 		d: "M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5",
@@ -860,4 +887,4 @@ var X = createLucideIcon("x", [["path", {
 	key: "d8bk6v"
 }]]);
 //#endregion
-export { BadgeCheck as A, CodeXml as C, ChevronDown as D, CircleCheck as E, Brain as O, Cpu as S, CircleDollarSign as T, Lock as _, Timer as a, Gauge as b, ShoppingCart as c, Server as d, ScanLine as f, Menu as g, MousePointerClick as h, TrendingUp as i, ArrowRight as j, Boxes as k, ShoppingBag as l, Play as m, WandSparkles as n, Store as o, Plug as p, Truck as r, Sparkles as s, X as t, ShieldCheck as u, Layers as v, CircleX as w, Eye as x, Globe as y };
+export { Boxes as A, Cpu as C, CircleCheck as D, CircleDollarSign as E, ArrowRight as M, ChevronDown as O, Eye as S, CircleX as T, Linkedin as _, Timer as a, Globe as b, ShoppingBag as c, ScanLine as d, Plug as f, Lock as g, Menu as h, TrendingUp as i, BadgeCheck as j, Brain as k, ShieldCheck as l, MousePointerClick as m, WandSparkles as n, Store as o, Play as p, Truck as r, ShoppingCart as s, X as t, Server as u, Layers as v, CodeXml as w, Gauge as x, Instagram as y };
