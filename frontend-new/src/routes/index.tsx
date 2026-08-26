@@ -207,7 +207,7 @@ function Nav() {
           <img
             src="/brandlogo.png"
             alt="Claarvia"
-            className="h-8 w-auto object-contain"
+            className="h-18 w-auto object-contain"
           />
         </a>
 
@@ -2325,7 +2325,7 @@ function Footer() {
               <img
                 src="/brandlogo.png"
                 alt="Claarvia"
-                className="h-9 w-auto object-contain"
+                className="h-18 w-auto object-contain"
               />
             </a>
             <p className="mt-5 max-w-xs text-sm text-muted-foreground">
