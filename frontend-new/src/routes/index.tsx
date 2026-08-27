@@ -2389,15 +2389,15 @@ function Footer() {
         </div>
       </div>
 
-      <div className="pointer-events-none select-none overflow-hidden">
-        <div className="-mb-16 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text px-4 text-center font-display text-[18vw] leading-none tracking-tight text-transparent opacity-20 p-[10vw]">
-           <img
-                src="/brandlogo.png"
-                alt="Claarvia"
-                className="w-auto object-contain px-12"
-              />
-        </div>
-      </div>
+      <div className="hidden lg:block pointer-events-none select-none overflow-hidden">
+  <div className="-mb-16 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text px-4 text-center font-display text-[18vw] leading-none tracking-tight text-transparent opacity-20 p-[10vw]">
+     <img
+          src="/brandlogo.png"
+          alt="Claarvia"
+          className="w-auto object-contain px-12"
+        />
+  </div>
+</div>
     </footer>
   );
 }
