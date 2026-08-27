@@ -207,7 +207,7 @@ function Nav() {
           <img
             src="/brandlogo.png"
             alt="Claarvia"
-            className="h-18 w-auto object-contain"
+            className="h-8 w-auto object-contain"
           />
         </a>
 
@@ -491,7 +491,7 @@ function HeroDashboardTile() {
             "conic-gradient(from 210deg, oklch(0.5 0.22 288 / 0.55), oklch(0.5 0.2 250 / 0.35), transparent 60%)",
         }}
       />
-      <div className="glass-strong rounded-2xl p-5 shadow-2xl">
+      <div className="glass-strong rounded-2xl p-2 shadow-2xl">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_10px_oklch(0.75_0.18_150/0.8)]" />
@@ -502,7 +502,7 @@ function HeroDashboardTile() {
           </span>
         </div>
 
-        <div className="mt-4 grid grid-cols-2 gap-3">
+        <div className="mt-4 grid grid-cols-2 gap-2">
           <MiniStat
             label="Recovered today"
             value="$18,420"
@@ -518,15 +518,15 @@ function HeroDashboardTile() {
           />
         </div>
 
-        <div className="mt-4 rounded-xl glass p-4">
-          <div className="flex items-baseline justify-between">
-            <div className="inline-flex items-center gap-1 text-xs text-muted-foreground">
-              <span>Intent score · Visitor #8412</span>
+        <div className="mt-4 rounded-xl glass p-2">
+          <div className="flex items-baseline justify-between gap-2">
+            <div className="inline-flex items-center text-xs text-muted-foreground">
+              <span className="width-[74px]">Intent score. Visitor #8412</span>
               <Hint text="0–100 read of how likely this visitor is to buy right now, updated every second from live behavior signals." />
             </div>
             <div className="flex items-baseline gap-2">
               <span
-                className="rounded-full glass px-2 py-0.5 text-[10px] uppercase tracking-wider text-muted-foreground"
+                className="rounded-full glass px-2 py-0.5 text-[8px] uppercase tracking-wider text-muted-foreground"
                 title="How sure Claarvia is about the classification. Below the threshold, no intervention fires."
               >
                 Confidence 92%
@@ -710,7 +710,7 @@ function Problem() {
       }
       sub="Claarvia finds that reason price, trust, delivery, sizing and helps before they bounce."
     >
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {reasons.map((it, i) => (
           <div
             key={it.title}
@@ -1160,11 +1160,11 @@ function Walkthrough() {
       {
         icon: Brain,
         label: "AI detects hesitation",
-        detail: "Reason classified: price shock · 92% confidence",
+        detail: "Reason: price shock · 92% confidence",
       },
       {
         icon: Cpu,
-        label: "Decision engine evaluates",
+        label: "Decision engine ",
         detail: "Smallest nudge that still converts",
       },
       {
@@ -1283,12 +1283,12 @@ function Walkthrough() {
                 <Active className="h-7 w-7 text-primary" />
               </span>
               <h3
-                className="mt-6 text-2xl font-semibold sm:text-3xl"
+                className="mt-6 text-xl font-semibold sm:text-3xl"
                 style={{ fontFamily: "var(--font-display)" }}
               >
                 {stages[active].label}
               </h3>
-              <p className="mt-3 max-w-md text-sm text-muted-foreground">
+              <p className="mt-3 max-w-md text-xs text-muted-foreground">
                 {stages[active].detail}
               </p>
             </div>
@@ -1480,7 +1480,7 @@ function BigStat({
         {label}
       </div>
       <div
-        className="mt-1 text-xl font-semibold tracking-tight"
+        className="mt-1 text-lg font-semibold tracking-tight"
         style={{ fontFamily: "var(--font-display)" }}
       >
         {value}
@@ -1616,7 +1616,7 @@ function VsAnalytics() {
       <div className="relative reveal overflow-hidden rounded-2xl glass-strong">
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-y-0 right-0 w-1/3"
+          className="pointer-events-none absolute inset-y-0 right-0  w-[90px] md:w-[120px]"
           style={{
             background:
               "linear-gradient(180deg, oklch(0.88 0.16 288 / 0.14), transparent)",
@@ -2325,7 +2325,7 @@ function Footer() {
               <img
                 src="/brandlogo.png"
                 alt="Claarvia"
-                className="h-18 w-auto object-contain"
+                className="h-12 w-auto object-contain"
               />
             </a>
             <p className="mt-5 max-w-xs text-sm text-muted-foreground">
@@ -2390,8 +2390,12 @@ function Footer() {
       </div>
 
       <div className="pointer-events-none select-none overflow-hidden">
-        <div className="-mb-16 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text px-4 text-center font-display text-[18vw] leading-none tracking-tight text-transparent opacity-20">
-          claarvia
+        <div className="-mb-16 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text px-4 text-center font-display text-[18vw] leading-none tracking-tight text-transparent opacity-20 p-[10vw]">
+           <img
+                src="/brandlogo.png"
+                alt="Claarvia"
+                className="w-auto object-contain px-12"
+              />
         </div>
       </div>
     </footer>
