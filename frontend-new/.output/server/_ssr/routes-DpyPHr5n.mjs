@@ -1988,7 +1988,7 @@ function FinalCTA() {
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 							className: "mt-8 flex justify-center",
 							children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
-								href: "mailto:hello@claarvia.com?subject=Book%20a%20Claarvia%20demo",
+								href: "mailto:support.claarvia@gmail.com?subject=Book%20a%20Claarvia%20demo",
 								className: "animated-button-border group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.02]",
 								style: { boxShadow: "0 0 0 1px oklch(1 0 0 / 0.12), 0 10px 80px oklch(0.78 0.16 288 / 0.55)" },
 								children: ["Book a live demo", /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { className: "h-4 w-4 transition-transform group-hover:translate-x-0.5" })]
