@@ -352,7 +352,7 @@
 
 @keyframes claarvia-shimmer {
   from { transform: translateX(-130%) skewX(-18deg); }
-  to   { transform: translateX(230%) skewX(-18deg); }
+  to   { transform: translateX(400%) skewX(-18deg); }
 }
 
 @keyframes claarvia-float {

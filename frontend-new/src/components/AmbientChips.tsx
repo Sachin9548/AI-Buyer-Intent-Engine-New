@@ -96,7 +96,7 @@ export function AmbientChips({ active }: { active: boolean }) {
       </Chip>
 
       <Chip
-        className={`bottom-[10%] left-1/2 -translate-x-1/2 lg:right-[10%] lg:bottom-[16%] lg:left-auto lg:translate-x-0 ${
+        className={`hidden md:block bottom-[10%] left-1/2 -translate-x-1/2 lg:right-[10%] lg:bottom-[16%] lg:left-auto lg:translate-x-0 ${
           isMobile ? "" : ""
         }`}
         delay={800}

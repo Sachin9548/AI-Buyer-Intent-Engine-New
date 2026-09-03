@@ -140,7 +140,7 @@ export function AuthCard({ onSubmitted }: { onSubmitted?: () => void }) {
         <span
           aria-hidden
           className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.16),transparent)]"
-          style={{ animation: "claarvia-shimmer 1.8s ease-out 700ms 1 both" }}
+          style={{ animation: "claarvia-shimmer 3.5s ease-out 700ms infinite both" }}
         />
 
         {/* Access granted badge */}
