@@ -1,97 +1,91 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { toast } from "sonner";
-
+import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { NeuralMesh } from "@/components/NeuralMesh";
+import { IntroSequence } from "@/components/IntroSequence";
+import { AmbientChips } from "@/components/AmbientChips";
+import { AuthCard } from "@/components/AuthCard";
 
 export const Route = createFileRoute("/login")({
+  head: () => ({
+    meta: [
+      { title: "Claarvia — Log in to behavioral intelligence for commerce" },
+      {
+        name: "description",
+        content:
+          "Log in or create your Claarvia account. Detect visitor hesitation in real time and recover lost e-commerce sales with AI behavioral intelligence.",
+      },
+      { property: "og:title", content: "Claarvia — Behavioral intelligence for commerce" },
+      {
+        property: "og:description",
+        content:
+          "Real-time hesitation detection that recovers lost sales. Log in or start with Claarvia.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: LoginPage,
 });
 
-const schema = z.object({
-  email: z.string().email("Enter a valid email"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
-});
-
-type FormData = z.infer<typeof schema>;
-
 function LoginPage() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<FormData>({ resolver: zodResolver(schema) });
+  const [introDone, setIntroDone] = useState(true);
+  const [duration, setDuration] = useState(4600);
 
-  const onSubmit = async (data: FormData) => {
-    try {
-      // TODO: call your backend API here
-      console.log(data);
-      toast.success("Logged in successfully");
-    } catch {
-      toast.error("Invalid email or password");
-    }
-  };
+  useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) return;
+    setDuration(window.innerWidth < 768 ? 2500 : 4600);
+    setIntroDone(false);
+  }, []);
 
   return (
-    <div className="min-h-screen bg-ambient text-foreground flex items-center justify-center px-4">
-      <div className="w-full max-w-md glass-strong rounded-2xl p-8">
-        {/* Logo */}
-        <div className="mb-8 text-center">
-          <img src="/brandlogo.png" alt="Claarvia" className="h-8 mx-auto" />
-          <h1 className="mt-4 text-2xl font-semibold">Welcome back</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Sign in to your Claarvia account
-          </p>
-        </div>
-
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-          <div className="space-y-1.5">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="you@store.com"
-              {...register("email")}
-            />
-            {errors.email && (
-              <p className="text-xs text-red-400">{errors.email.message}</p>
-            )}
-          </div>
-
-          <div className="space-y-1.5">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="password">Password</Label>
-              <a href="#" className="text-xs text-primary hover:underline">
-                Forgot password?
-              </a>
-            </div>
-            <Input
-              id="password"
-              type="password"
-              placeholder="••••••••"
-              {...register("password")}
-            />
-            {errors.password && (
-              <p className="text-xs text-red-400">{errors.password.message}</p>
-            )}
-          </div>
-
-          <Button type="submit" className="w-full" disabled={isSubmitting}>
-            {isSubmitting ? "Signing in..." : "Sign in"}
-          </Button>
-        </form>
-
-        <p className="mt-6 text-center text-sm text-muted-foreground">
-          Don't have an account?{" "}
-          <Link to="/signup" className="text-primary hover:underline">
-            Get started free
-          </Link>
-        </p>
+    <main className="relative min-h-screen overflow-hidden bg-[linear-gradient(160deg,#05060b_0%,#0b0f1e_100%)]">
+      {/* Ambient colour blobs */}
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <div
+          className="absolute -top-40 -left-32 h-[46rem] w-[46rem] rounded-full"
+          style={{
+            background: "radial-gradient(circle, rgba(109,93,252,0.15), transparent 65%)",
+            animation: "claarvia-bloom 18s ease-in-out infinite",
+          }}
+        />
+        <div
+          className="absolute -right-40 -bottom-56 h-[42rem] w-[42rem] rounded-full"
+          style={{
+            background: "radial-gradient(circle, rgba(34,211,238,0.11), transparent 65%)",
+            animation: "claarvia-bloom 22s ease-in-out infinite reverse",
+          }}
+        />
       </div>
-    </div>
+
+      {/* Neural mesh canvas — fades in after intro */}
+      <div
+        aria-hidden
+        className="absolute inset-0 transition-opacity duration-1000"
+        style={{ opacity: introDone ? 0.7 : 0 }}
+      >
+        <NeuralMesh />
+      </div>
+
+      {/* Floating stat chips */}
+      <AmbientChips active={introDone} />
+
+      {/* Auth card */}
+      <div
+        className="relative flex min-h-screen items-center justify-center py-16 transition-all duration-1000"
+        style={{
+          opacity: introDone ? 1 : 0,
+          transform: introDone ? "scale(1)" : "scale(1.04)",
+        }}
+      >
+        <h1 className="sr-only">Claarvia — log in or sign up</h1>
+        <AuthCard />
+      </div>
+
+      {/* Cinematic intro sequence */}
+      {!introDone && (
+        <IntroSequence duration={duration} onDone={() => setIntroDone(true)} />
+      )}
+    </main>
   );
 }

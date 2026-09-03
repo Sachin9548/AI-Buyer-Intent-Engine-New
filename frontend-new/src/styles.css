@@ -242,3 +242,162 @@
 
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { scrollbar-width: none; }
+
+/* ============================================================
+   Auth pages — Claarvia cinematic dark design system
+   All tokens/utilities are prefixed with "auth-" to avoid
+   any collision with the landing page styles above.
+   ============================================================ */
+
+:root {
+  --auth-violet: #7c6cff;
+  --auth-violet-deep: #6d5dfc;
+  --auth-cyan: #22d3ee;
+  --auth-signal: #34d399;
+  --auth-hesitation: #fbbf24;
+  --auth-ink-0: #05060b;
+  --auth-ink-1: #0b0f1e;
+  --auth-glass-border: rgba(255, 255, 255, 0.12);
+  --auth-gradient-primary: linear-gradient(110deg, #7c6cff 0%, #6d5dfc 40%, #22d3ee 100%);
+  --auth-gradient-text: linear-gradient(100deg, #a99bff 0%, #7c6cff 45%, #22d3ee 100%);
+  --auth-shadow-elevate:
+    0 1px 0 0 rgba(255, 255, 255, 0.06) inset,
+    0 24px 60px -20px rgba(109, 93, 252, 0.45),
+    0 8px 30px -12px rgba(0, 0, 0, 0.8);
+  --auth-shadow-glow: 0 0 32px -6px rgba(124, 108, 255, 0.5);
+}
+
+@utility auth-glass-panel {
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.045) 100%
+  );
+  border: 1px solid var(--auth-glass-border);
+  backdrop-filter: blur(24px) saturate(140%);
+  box-shadow: var(--auth-shadow-elevate);
+}
+
+@utility auth-gradient-text {
+  background: var(--auth-gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility auth-gradient-fill {
+  background-image: var(--auth-gradient-primary);
+  background-size: 200% 100%;
+}
+
+@utility auth-spring {
+  transition-timing-function: cubic-bezier(0.34, 1.4, 0.5, 1);
+  transition-duration: 280ms;
+}
+
+/* Keyframes used by auth components */
+@keyframes claarvia-bloom {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate3d(4%, -5%, 0) scale(1.15);
+    opacity: 0.9;
+  }
+}
+
+@keyframes claarvia-drift-in {
+  from {
+    transform: translate3d(-40vw, 12vh, 0);
+    opacity: 0;
+  }
+  60% { opacity: 1; }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes claarvia-line-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes claarvia-line-out {
+  to {
+    opacity: 0;
+    filter: blur(6px);
+  }
+}
+
+@keyframes claarvia-card-in {
+  from {
+    opacity: 0;
+    transform: perspective(1200px) translateY(26px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: perspective(1200px) translateY(0) scale(1);
+  }
+}
+
+@keyframes claarvia-shimmer {
+  from { transform: translateX(-130%) skewX(-18deg); }
+  to   { transform: translateX(230%) skewX(-18deg); }
+}
+
+@keyframes claarvia-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+
+@keyframes claarvia-pulse-ring {
+  from {
+    opacity: 0.55;
+    transform: scale(0.35);
+  }
+  to {
+    opacity: 0;
+    transform: scale(2.6);
+  }
+}
+
+@keyframes claarvia-flicker {
+  0%, 100% { opacity: 1; }
+  42%       { opacity: 0.45; }
+  46%       { opacity: 1; }
+  52%       { opacity: 0.6; }
+}
+
+@keyframes claarvia-sweep {
+  from { background-position: 0% 50%; }
+  to   { background-position: 100% 50%; }
+}
+
+@keyframes claarvia-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes claarvia-exit {
+  to {
+    opacity: 0;
+    transform: scale(0.97) translateY(-8px);
+    filter: blur(4px);
+  }
+}
