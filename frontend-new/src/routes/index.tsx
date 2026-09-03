@@ -225,7 +225,7 @@ function Nav() {
 
         <div className="flex items-center gap-2">
           <a
-            href="#book"
+            href="/signup"
             className="animated-button-border hidden group items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-transform hover:scale-[1.02] sm:inline-flex"
             style={{
               boxShadow:
@@ -266,7 +266,7 @@ function Nav() {
               </a>
             ))}
             <a
-              href="#book"
+              href="/signup"
               onClick={() => setMobileOpen(false)}
               className="animated-button-border mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground"
             >
@@ -385,7 +385,7 @@ function Hero() {
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <a
-                href="#book"
+                href="/signup"
                 className="animated-button-border group inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.02]"
                 style={{
                   boxShadow:
