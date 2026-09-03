@@ -2252,7 +2252,7 @@ function FinalCTA() {
           />
           <div className="relative">
             <h2
-              className="text-balance text-4xl font-semibold tracking-tight sm:text-6xl"
+              className="text-balance text-3xl font-semibold tracking-tight sm:text-6xl"
               style={{ fontFamily: "var(--font-display)" }}
             >
               See hesitation. Recover revenue.
