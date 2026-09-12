@@ -1,5 +1,5 @@
 import { useRef, useState, type FormEvent } from "react";
-import { AtSign, Building2, Eye, EyeOff, Lock, User } from "lucide-react";
+import { AtSign, Building2, Eye, EyeOff, Lock, Phone, User } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 type Mode = "login" | "signup";
@@ -90,7 +90,8 @@ export function AuthCard({ onSubmitted }: { onSubmitted?: () => void }) {
     email: "",
     password: "",
     name: "",
-    company: "",
+    store_url: "",
+    whatsapp_number: "",
     confirm: "",
   });
   const set = (k: keyof typeof fields) => (v: string) => setFields((f) => ({ ...f, [k]: v }));
@@ -206,11 +207,11 @@ export function AuthCard({ onSubmitted }: { onSubmitted?: () => void }) {
                 onChange={set("name")}
               />
               <Field
-                id="company"
-                label="Company / store name"
+                id="store_url"
+                label="Store URL"
                 icon={<Building2 size={16} />}
-                value={fields.company}
-                onChange={set("company")}
+                value={fields.store_url}
+                onChange={set("store_url")}
               />
             </>
           )}
@@ -222,6 +223,15 @@ export function AuthCard({ onSubmitted }: { onSubmitted?: () => void }) {
             icon={<AtSign size={16} />}
             value={fields.email}
             onChange={set("email")}
+          />
+
+          <Field
+            id="whatsapp_number"
+            label="WhatsApp Number"
+            type="tel"
+            icon={<Phone size={16} />}
+            value={fields.whatsapp_number}
+            onChange={set("whatsapp_number")}
           />
 
           <Field
