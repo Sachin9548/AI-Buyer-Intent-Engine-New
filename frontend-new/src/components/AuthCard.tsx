@@ -1,8 +1,17 @@
 import { useRef, useState, type FormEvent } from "react";
-import { AtSign, Building2, Eye, EyeOff, Lock, Phone, User } from "lucide-react";
+import {
+  AtSign,
+  Building2,
+  Eye,
+  EyeOff,
+  KeyRound,
+  Lock,
+  Phone,
+  User,
+} from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-type Mode = "login" | "signup";
+type Mode = "login" | "signup" | "otp";
 
 function Field({
   id,
@@ -12,6 +21,7 @@ function Field({
   value,
   onChange,
   trailing,
+  disabled = false,
 }: {
   id: string;
   label: string;
@@ -20,6 +30,7 @@ function Field({
   value: string;
   onChange: (v: string) => void;
   trailing?: React.ReactNode;
+  disabled?: boolean;
 }) {
   const [focused, setFocused] = useState(false);
   const lifted = focused || value.length > 0;
@@ -34,7 +45,7 @@ function Field({
           : "none",
       }}
     >
-      <span className="pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-[color:var(--muted-foreground)]">
+      <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[color:var(--muted-foreground)]">
         {icon}
       </span>
       <label
@@ -54,13 +65,18 @@ function Field({
       <input
         id={id}
         type={type}
+        disabled={disabled}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
-        className="w-full bg-transparent pt-5 pr-11 pb-2 pl-11 text-sm text-[color:var(--foreground)] outline-none"
+        className="w-full bg-transparent pt-5 pr-11 pb-2 pl-11 text-sm text-[color:var(--foreground)] outline-none disabled:opacity-50"
       />
-      {trailing && <div className="absolute top-1/2 right-3 -translate-y-1/2">{trailing}</div>}
+      {trailing && (
+        <span className="absolute right-4 top-1/2 -translate-y-1/2">
+          {trailing}
+        </span>
+      )}
     </div>
   );
 }
@@ -77,6 +93,8 @@ function strengthOf(pw: string) {
 export function AuthCard({ onSubmitted }: { onSubmitted?: () => void }) {
   const isMobile = useIsMobile();
   const cardRef = useRef<HTMLDivElement | null>(null);
+
+  // Mode: "login" | "signup" | "otp"
   const [mode, setMode] = useState<Mode>("login");
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [showPw, setShowPw] = useState(false);
@@ -85,6 +103,8 @@ export function AuthCard({ onSubmitted }: { onSubmitted?: () => void }) {
   const [granted, setGranted] = useState(false);
   const [pulse, setPulse] = useState(false);
   const [exiting, setExiting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [otp, setOtp] = useState("");
 
   const [fields, setFields] = useState({
     email: "",
@@ -94,7 +114,21 @@ export function AuthCard({ onSubmitted }: { onSubmitted?: () => void }) {
     whatsapp_number: "",
     confirm: "",
   });
-  const set = (k: keyof typeof fields) => (v: string) => setFields((f) => ({ ...f, [k]: v }));
+
+  let formattedStoreUrl = fields.store_url.trim();
+  if (!/^https?:\/\//i.test(formattedStoreUrl)) {
+    formattedStoreUrl = `https://${formattedStoreUrl}`;
+  }
+
+  const set = (k: keyof typeof fields) => (v: string) => {
+    setErrorMessage(null);
+    setFields((f) => ({ ...f, [k]: v }));
+  };
+
+  // Backend API URL: local ya EC2 production
+  const API_URL =
+    (typeof process !== "undefined" && process.env.NEXT_PUBLIC_API_URL) ||
+    "https://api.claarvia.com/api";
 
   const onMove = (e: React.MouseEvent) => {
     if (isMobile || !cardRef.current) return;
@@ -104,17 +138,135 @@ export function AuthCard({ onSubmitted }: { onSubmitted?: () => void }) {
     setTilt({ x: -py * 7, y: px * 9 });
   };
 
-  const submit = (e: FormEvent) => {
+  // =========================================================
+  // REAL BACKEND API INTEGRATION
+  // =========================================================
+  const submit = async (e: FormEvent) => {
     e.preventDefault();
     if (loading) return;
-    setLoading(true);
+    setErrorMessage(null);
+
+    // 1. SIGNUP SUBMIT
+    if (mode === "signup") {
+      if (fields.password !== fields.confirm) {
+        setErrorMessage("Passwords do not match!");
+        return;
+      }
+      if (fields.password.length < 8) {
+        setErrorMessage("Password must be at least 8 characters long.");
+        return;
+      }
+
+      setLoading(true);
+      try {
+        const res = await fetch(`${API_URL}/auth/signup`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: fields.name,
+            store_url: fields.store_url,
+            email: fields.email,
+            password: fields.password,
+            whatsapp_number: fields.whatsapp_number,
+          }),
+        });
+
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.message || "Failed to create account.");
+        }
+
+        // Signup success -> Switch to OTP Screen!
+        setLoading(false);
+        setMode("otp");
+      } catch (err: any) {
+        setLoading(false);
+        setErrorMessage(err.message || "Something went wrong.");
+      }
+      return;
+    }
+
+    // 2. OTP VERIFICATION SUBMIT
+    if (mode === "otp") {
+      if (otp.length !== 6) {
+        setErrorMessage("Please enter a valid 6-digit OTP code.");
+        return;
+      }
+
+      setLoading(true);
+      try {
+        const res = await fetch(`${API_URL}/auth/verify-otp`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: fields.email,
+            otp: otp.trim(),
+          }),
+        });
+
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(
+            data.message || "Verification failed. Check your OTP.",
+          );
+        }
+
+        // Save JWT Token
+        if (data.access_token) {
+          localStorage.setItem("claarvia_token", data.access_token);
+        }
+
+        // Success animation & redirect
+        handleSuccessRedirect();
+      } catch (err: any) {
+        setLoading(false);
+        setErrorMessage(err.message || "Invalid or expired OTP.");
+      }
+      return;
+    }
+
+    // 3. LOGIN SUBMIT
+    if (mode === "login") {
+      setLoading(true);
+      try {
+        const res = await fetch(`${API_URL}/auth/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: fields.email,
+            password: fields.password,
+          }),
+        });
+
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.message || "Invalid email or password.");
+        }
+
+        // Save JWT Token
+        if (data.access_token) {
+          localStorage.setItem("claarvia_token", data.access_token);
+        }
+
+        // Success animation & redirect
+        handleSuccessRedirect();
+      } catch (err: any) {
+        setLoading(false);
+        setErrorMessage(err.message || "Login failed.");
+      }
+    }
+  };
+
+  const handleSuccessRedirect = () => {
+    setLoading(false);
+    setPulse(true);
+    setGranted(true);
+    window.setTimeout(() => setExiting(true), 900);
     window.setTimeout(() => {
-      setLoading(false);
-      setPulse(true);
-      setGranted(true);
-      window.setTimeout(() => setExiting(true), 1100);
-      window.setTimeout(() => onSubmitted?.(), 1800);
-    }, 1400);
+      onSubmitted?.();
+      // Redirect to Dashboard
+      window.location.href = "/dashboard";
+    }, 1500);
   };
 
   const strength = strengthOf(fields.password);
@@ -141,7 +293,9 @@ export function AuthCard({ onSubmitted }: { onSubmitted?: () => void }) {
         <span
           aria-hidden
           className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.16),transparent)]"
-          style={{ animation: "claarvia-shimmer 3.5s ease-out 700ms infinite both" }}
+          style={{
+            animation: "claarvia-shimmer 3.5s ease-out 700ms infinite both",
+          }}
         />
 
         {/* Access granted badge */}
@@ -155,7 +309,7 @@ export function AuthCard({ onSubmitted }: { onSubmitted?: () => void }) {
         )}
 
         {/* Brand header */}
-        <div className="mb-7 text-center">
+        <div className="mb-6 text-center">
           <div className="font-display inline-flex items-baseline gap-1 text-xl font-bold tracking-[0.22em] text-[color:var(--foreground)]">
             CLAARVIA
             <span
@@ -163,33 +317,49 @@ export function AuthCard({ onSubmitted }: { onSubmitted?: () => void }) {
               style={{ boxShadow: "0 0 12px 3px rgba(34,211,238,0.6)" }}
             />
           </div>
-          <p className="mt-2 text-xs text-[color:var(--muted-foreground)]">
-            Behavioral intelligence for modern commerce
+          <p className="mt-1.5 text-xs text-[color:var(--muted-foreground)]">
+            {mode === "otp"
+              ? "Verify your merchant email"
+              : "Behavioral intelligence for modern commerce"}
           </p>
         </div>
 
-        {/* Login / Signup tab switcher */}
-        <div className="relative mb-6 grid grid-cols-2 rounded-full border border-[color:var(--auth-glass-border)] bg-[rgba(255,255,255,0.04)] p-1">
-          <span
-            className="auth-gradient-fill absolute inset-y-1 w-[calc(50%-4px)] rounded-full opacity-90"
-            style={{
-              left: mode === "login" ? "4px" : "calc(50%)",
-              transition: "left 320ms cubic-bezier(0.34,1.3,0.5,1)",
-              boxShadow: "0 0 32px -6px rgba(124,108,255,0.5)",
-            }}
-          />
-          {(["login", "signup"] as Mode[]).map((m) => (
-            <button
-              key={m}
-              type="button"
-              onClick={() => setMode(m)}
-              className="relative z-10 rounded-full py-2 text-xs font-medium tracking-wide auth-spring transition-colors"
-              style={{ color: mode === m ? "#05060b" : "var(--muted-foreground)" }}
-            >
-              {m === "login" ? "Log in" : "Sign up"}
-            </button>
-          ))}
-        </div>
+        {/* Login / Signup tab switcher (Hidden when in OTP mode) */}
+        {mode !== "otp" && (
+          <div className="relative mb-5 grid grid-cols-2 rounded-full border border-[color:var(--auth-glass-border)] bg-[rgba(255,255,255,0.04)] p-1">
+            <span
+              className="auth-gradient-fill absolute inset-y-1 w-[calc(50%-4px)] rounded-full opacity-90"
+              style={{
+                left: mode === "login" ? "4px" : "calc(50%)",
+                transition: "left 320ms cubic-bezier(0.34,1.3,0.5,1)",
+                boxShadow: "0 0 32px -6px rgba(124,108,255,0.5)",
+              }}
+            />
+            {(["login", "signup"] as Mode[]).map((m) => (
+              <button
+                key={m}
+                type="button"
+                onClick={() => {
+                  setErrorMessage(null);
+                  setMode(m);
+                }}
+                className="relative z-10 rounded-full py-2 text-xs font-medium tracking-wide auth-spring transition-colors"
+                style={{
+                  color: mode === m ? "#05060b" : "var(--muted-foreground)",
+                }}
+              >
+                {m === "login" ? "Log in" : "Sign up"}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Error message toast banner */}
+        {errorMessage && (
+          <div className="mb-4 rounded-xl border border-rose-500/30 bg-rose-500/10 px-3.5 py-2 text-center text-xs text-rose-300">
+            {errorMessage}
+          </div>
+        )}
 
         <form
           key={mode}
@@ -197,65 +367,92 @@ export function AuthCard({ onSubmitted }: { onSubmitted?: () => void }) {
           className="space-y-3.5"
           style={{ animation: "claarvia-fade-up 340ms ease-out both" }}
         >
+          {/* OTP MODE */}
+          {mode === "otp" && (
+            <div className="space-y-3">
+              <div className="rounded-xl border border-indigo-500/30 bg-indigo-500/10 p-3 text-center text-xs text-indigo-200">
+                A 6-digit verification code was sent to <br />
+                <span className="font-semibold text-white">{fields.email}</span>
+              </div>
+
+              <Field
+                id="otp"
+                label="Enter 6-Digit OTP"
+                type="text"
+                icon={<KeyRound size={16} />}
+                value={otp}
+                onChange={(v) => {
+                  setErrorMessage(null);
+                  if (v.length <= 6) setOtp(v);
+                }}
+              />
+            </div>
+          )}
+
+          {/* SIGNUP EXTRA FIELDS */}
           {mode === "signup" && (
             <>
               <Field
                 id="name"
-                label="Name"
+                label="Full Name"
                 icon={<User size={16} />}
                 value={fields.name}
                 onChange={set("name")}
               />
               <Field
                 id="store_url"
-                label="Store URL"
+                label="Store Website URL"
                 icon={<Building2 size={16} />}
                 value={fields.store_url}
                 onChange={set("store_url")}
               />
+              <Field
+                id="whatsapp_number"
+                label="WhatsApp Number (e.g. +91...)"
+                type="tel"
+                icon={<Phone size={16} />}
+                value={fields.whatsapp_number}
+                onChange={set("whatsapp_number")}
+              />
             </>
           )}
 
-          <Field
-            id="email"
-            label={mode === "signup" ? "Work email" : "Email"}
-            type="email"
-            icon={<AtSign size={16} />}
-            value={fields.email}
-            onChange={set("email")}
-          />
+          {/* EMAIL & PASSWORD (Hidden during OTP) */}
+          {mode !== "otp" && (
+            <>
+              <Field
+                id="email"
+                label={mode === "signup" ? "Work email" : "Email"}
+                type="email"
+                icon={<AtSign size={16} />}
+                value={fields.email}
+                onChange={set("email")}
+              />
 
-          <Field
-            id="whatsapp_number"
-            label="WhatsApp Number"
-            type="tel"
-            icon={<Phone size={16} />}
-            value={fields.whatsapp_number}
-            onChange={set("whatsapp_number")}
-          />
+              <Field
+                id="password"
+                label="Password"
+                type={showPw ? "text" : "password"}
+                icon={<Lock size={16} />}
+                value={fields.password}
+                onChange={set("password")}
+                trailing={
+                  <button
+                    type="button"
+                    onClick={() => setShowPw((s) => !s)}
+                    className="text-[color:var(--muted-foreground)] transition-colors hover:text-[color:var(--foreground)]"
+                    aria-label={showPw ? "Hide password" : "Show password"}
+                  >
+                    {showPw ? <EyeOff size={16} /> : <Eye size={16} />}
+                  </button>
+                }
+              />
+            </>
+          )}
 
-          <Field
-            id="password"
-            label="Password"
-            type={showPw ? "text" : "password"}
-            icon={<Lock size={16} />}
-            value={fields.password}
-            onChange={set("password")}
-            trailing={
-              <button
-                type="button"
-                onClick={() => setShowPw((s) => !s)}
-                className="text-[color:var(--muted-foreground)] transition-colors hover:text-[color:var(--foreground)]"
-                aria-label={showPw ? "Hide password" : "Show password"}
-              >
-                {showPw ? <EyeOff size={16} /> : <Eye size={16} />}
-              </button>
-            }
-          />
-
+          {/* PASSWORD STRENGTH & CONFIRM (Signup only) */}
           {mode === "signup" && (
             <>
-              {/* Password strength bar */}
               <div className="h-1 w-full overflow-hidden rounded-full bg-[rgba(255,255,255,0.08)]">
                 <div
                   className="auth-gradient-fill h-full rounded-full"
@@ -276,6 +473,7 @@ export function AuthCard({ onSubmitted }: { onSubmitted?: () => void }) {
             </>
           )}
 
+          {/* LOGIN REMEMBER ME */}
           {mode === "login" && (
             <div className="flex items-center justify-between pt-1 text-xs">
               <button
@@ -286,8 +484,12 @@ export function AuthCard({ onSubmitted }: { onSubmitted?: () => void }) {
                 <span
                   className="grid h-4 w-4 place-items-center rounded-[6px] border auth-spring transition-all"
                   style={{
-                    borderColor: remember ? "transparent" : "var(--auth-glass-border)",
-                    backgroundImage: remember ? "var(--auth-gradient-primary)" : "none",
+                    borderColor: remember
+                      ? "transparent"
+                      : "var(--auth-glass-border)",
+                    backgroundImage: remember
+                      ? "var(--auth-gradient-primary)"
+                      : "none",
                     transform: remember ? "scale(1.05)" : "scale(1)",
                   }}
                 >
@@ -308,19 +510,24 @@ export function AuthCard({ onSubmitted }: { onSubmitted?: () => void }) {
                 </span>
                 Remember me
               </button>
-              <a href="#" className="text-[color:var(--muted-foreground)] hover:text-[color:var(--auth-cyan)]">
+              <a
+                href="#"
+                className="text-[color:var(--muted-foreground)] hover:text-[color:var(--auth-cyan)]"
+              >
                 Forgot password?
               </a>
             </div>
           )}
 
-          {/* Submit button */}
+          {/* SUBMIT BUTTON */}
           <div className="relative pt-2">
             {pulse && (
               <span
                 aria-hidden
                 className="pointer-events-none absolute inset-0 rounded-xl border border-[rgba(52,211,153,0.6)]"
-                style={{ animation: "claarvia-pulse-ring 900ms ease-out forwards" }}
+                style={{
+                  animation: "claarvia-pulse-ring 900ms ease-out forwards",
+                }}
               />
             )}
             <button
@@ -335,8 +542,14 @@ export function AuthCard({ onSubmitted }: { onSubmitted?: () => void }) {
               {loading ? (
                 <span className="inline-flex items-center gap-2">
                   <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-[#05060b]/30 border-t-[#05060b]" />
-                  Analyzing signal…
+                  {mode === "otp"
+                    ? "Verifying code…"
+                    : mode === "signup"
+                      ? "Creating account & sending OTP…"
+                      : "Authenticating…"}
                 </span>
+              ) : mode === "otp" ? (
+                "Verify & Enter Dashboard"
               ) : mode === "login" ? (
                 "Log in"
               ) : (
@@ -345,19 +558,47 @@ export function AuthCard({ onSubmitted }: { onSubmitted?: () => void }) {
             </button>
           </div>
 
-          {/* Google OAuth */}
-          <button
-            type="button"
-            className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-[color:var(--auth-glass-border)] bg-[rgba(255,255,255,0.04)] py-3 text-sm text-[color:var(--foreground)] auth-spring transition-colors hover:bg-[rgba(255,255,255,0.08)]"
-          >
-            <svg width="16" height="16" viewBox="0 0 48 48" aria-hidden>
-              <path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.1 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.6-.4-3.9z" />
-              <path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.1 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z" />
-              <path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z" />
-              <path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.1 5.6l6.2 5.2C36.9 40.2 44 35 44 24c0-1.3-.1-2.6-.4-3.9z" />
-            </svg>
-            Continue with Google
-          </button>
+          {/* BACK TO SIGNUP / CANCEL OTP */}
+          {mode === "otp" && (
+            <button
+              type="button"
+              onClick={() => {
+                setErrorMessage(null);
+                setMode("signup");
+              }}
+              className="w-full text-center text-xs text-[color:var(--muted-foreground)] hover:text-white transition"
+            >
+              ← Wrong email? Edit details
+            </button>
+          )}
+
+          {/* Google OAuth (Only in login/signup) */}
+          {mode !== "otp" && (
+            <button
+              type="button"
+              className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-[color:var(--auth-glass-border)] bg-[rgba(255,255,255,0.04)] py-3 text-sm text-[color:var(--foreground)] auth-spring transition-colors hover:bg-[rgba(255,255,255,0.08)]"
+            >
+              <svg width="16" height="16" viewBox="0 0 48 48" aria-hidden>
+                <path
+                  fill="#FFC107"
+                  d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.1 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.6-.4-3.9z"
+                />
+                <path
+                  fill="#FF3D00"
+                  d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.1 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"
+                />
+                <path
+                  fill="#4CAF50"
+                  d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"
+                />
+                <path
+                  fill="#1976D2"
+                  d="M43.6 20.1H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.1 5.6l6.2 5.2C36.9 40.2 44 35 44 24c0-1.3-.1-2.6-.4-3.9z"
+                />
+              </svg>
+              Continue with Google
+            </button>
+          )}
         </form>
 
         <p className="mt-6 text-center text-[11px] text-[color:var(--muted-foreground)]">
@@ -365,16 +606,23 @@ export function AuthCard({ onSubmitted }: { onSubmitted?: () => void }) {
         </p>
       </div>
 
-      <p className="mt-5 text-center text-xs text-[color:var(--muted-foreground)]">
-        {mode === "login" ? "Don't have an account? " : "Already have an account? "}
-        <button
-          type="button"
-          onClick={() => setMode(mode === "login" ? "signup" : "login")}
-          className="text-[color:var(--auth-cyan)] transition-opacity hover:opacity-80"
-        >
-          {mode === "login" ? "Sign up" : "Log in"}
-        </button>
-      </p>
+      {mode !== "otp" && (
+        <p className="mt-5 text-center text-xs text-[color:var(--muted-foreground)]">
+          {mode === "login"
+            ? "Don't have an account? "
+            : "Already have an account? "}
+          <button
+            type="button"
+            onClick={() => {
+              setErrorMessage(null);
+              setMode(mode === "login" ? "signup" : "login");
+            }}
+            className="text-[color:var(--auth-cyan)] transition-opacity hover:opacity-80"
+          >
+            {mode === "login" ? "Sign up" : "Log in"}
+          </button>
+        </p>
+      )}
     </div>
   );
 }
