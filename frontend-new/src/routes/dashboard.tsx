@@ -15,7 +15,7 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
 
   // Backend API URL (Localhost ya Production)
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api';
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.claarvia.com/api';
 
   useEffect(() => {
     const token = localStorage.getItem('claarvia_token');
