@@ -265,7 +265,7 @@ export function AuthCard({ onSubmitted }: { onSubmitted?: () => void }) {
     window.setTimeout(() => {
       onSubmitted?.();
       // Redirect to Dashboard
-      window.location.href = "/dashboard";
+      window.location.href = "/app";
     }, 1500);
   };
 
