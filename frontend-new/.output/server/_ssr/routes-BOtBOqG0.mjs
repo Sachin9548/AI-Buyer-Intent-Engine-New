@@ -1,10 +1,10 @@
 import { a as __toESM } from "../_runtime.mjs";
 import { n as useScroll, r as motion, t as useTransform } from "../_libs/framer-motion.mjs";
 import { n as require_jsx_runtime, r as require_react } from "../_libs/react+tanstack__react-query.mjs";
-import { A as Boxes, C as Cpu, D as CircleCheck, E as CircleDollarSign, M as ArrowRight, O as ChevronDown, S as Eye, T as CircleX, _ as Linkedin, a as Timer, b as Globe, c as ShoppingBag, d as ScanLine, f as Plug, g as Lock, h as Menu, i as TrendingUp, j as BadgeCheck, k as Brain, l as ShieldCheck, m as MousePointerClick, n as WandSparkles, o as Store, p as Play, r as Truck, s as ShoppingCart, t as X, u as Server, v as Layers, w as CodeXml, x as Gauge, y as Instagram } from "../_libs/lucide-react.mjs";
+import { A as Cpu, C as Layers, D as Gauge, E as Globe, F as ChevronDown, L as Brain, M as CircleX, N as CircleDollarSign, O as Eye, P as CircleCheck, R as Boxes, S as Linkedin, T as Instagram, V as ArrowRight, _ as MousePointerClick, a as TrendingUp, d as ShieldCheck, f as Server, h as Play, i as Truck, j as CodeXml, l as ShoppingCart, m as Plug, n as WandSparkles, o as Timer, p as ScanLine, s as Store, t as X, u as ShoppingBag, v as Menu, x as Lock, z as BadgeCheck } from "../_libs/lucide-react.mjs";
 import { t as clsx } from "../_libs/clsx.mjs";
 import { t as twMerge } from "../_libs/tailwind-merge.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-DpyPHr5n.js
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-BOtBOqG0.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function cn(...inputs) {
@@ -61,8 +61,8 @@ function ScrollStory() {
 	const pause = useTransform(scrollYProgress, [.55, .7], [0, 1]);
 	const glow = useTransform(scrollYProgress, [.7, .85], [0, 1]);
 	useTransform(scrollYProgress, [.85, 1], [0, 1]);
-	const hintOpacity = useTransform(scrollYProgress, [0, .08], [1, 0]);
-	const hintY = useTransform(scrollYProgress, [0, .08], [0, 10]);
+	const hintOpacity = useTransform(scrollYProgress, [0, .06], [1, 0]);
+	const hintY = useTransform(scrollYProgress, [0, .06], [0, -20]);
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
 		ref,
 		className: "relative",
@@ -81,45 +81,42 @@ function ScrollStory() {
 					"aria-hidden": true,
 					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "absolute left-1/2 top-1/2 h-[60vh] w-[60vh] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/30 blur-3xl" })
 				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(motion.div, {
+					style: {
+						opacity: hintOpacity,
+						y: hintY
+					},
+					className: "pointer-events-none absolute top-26 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-2 text-[11px] uppercase tracking-[0.28em] text-muted-foreground/80 sm:top-26",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Scroll to explore" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.div, {
+						animate: { y: [
+							0,
+							5,
+							0
+						] },
+						transition: {
+							duration: 1.6,
+							repeat: Infinity,
+							ease: "easeInOut"
+						},
+						className: "flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] backdrop-blur",
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronDown, { className: "h-4 w-4" })
+					})]
+				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 					className: "container relative z-10 px-6 text-center",
-					children: [
-						beats.map((b, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(BeatLine, {
-							index: i,
-							progress: beatIndex,
-							text: b.t,
-							sub: b.s
-						}, i)),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.div, {
-							style: { opacity: glow },
-							className: "absolute inset-x-0 top-1/2 -translate-y-1/2",
-							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-								className: "mx-auto max-w-2xl text-3xl font-semibold tracking-tight text-foreground/90 sm:text-5xl",
-								children: "Until Claarvia started watching."
-							})
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(motion.div, {
-							style: {
-								opacity: hintOpacity,
-								y: hintY
-							},
-							className: "pointer-events-none absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-2 text-[11px] uppercase tracking-[0.28em] text-muted-foreground/80 sm:bottom-10",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Scroll to explore" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.div, {
-								animate: { y: [
-									0,
-									6,
-									0
-								] },
-								transition: {
-									duration: 1.6,
-									repeat: Infinity,
-									ease: "easeInOut"
-								},
-								className: "flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] backdrop-blur",
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronDown, { className: "h-4 w-4" })
-							})]
+					children: [beats.map((b, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(BeatLine, {
+						index: i,
+						progress: beatIndex,
+						text: b.t,
+						sub: b.s
+					}, i)), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.div, {
+						style: { opacity: glow },
+						className: "absolute inset-x-0 top-1/2 -translate-y-1/2",
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+							className: "mx-auto max-w-2xl text-3xl font-semibold tracking-tight text-foreground/90 sm:text-5xl",
+							children: "Until Claarvia started watching."
 						})
-					]
+					})]
 				})
 			]
 		})
@@ -297,7 +294,7 @@ function Nav() {
 					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 						className: "flex items-center gap-2",
 						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
-							href: "#book",
+							href: "/signup",
 							className: "animated-button-border hidden group items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-transform hover:scale-[1.02] sm:inline-flex",
 							style: { boxShadow: "0 0 0 1px oklch(1 0 0 / 0.1), 0 8px 40px oklch(0.78 0.16 288 / 0.35)" },
 							children: ["Book a demo", /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { className: "h-4 w-4 transition-transform group-hover:translate-x-0.5" })]
@@ -322,7 +319,7 @@ function Nav() {
 						className: "rounded-2xl px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-white/[0.04] hover:text-foreground",
 						children: l.label
 					}, l.href)), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
-						href: "#book",
+						href: "/signup",
 						onClick: () => setMobileOpen(false),
 						className: "animated-button-border mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground",
 						children: ["Book a demo", /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { className: "h-4 w-4" })]
@@ -426,7 +423,7 @@ function Hero() {
 							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 								className: "mt-8 flex flex-wrap items-center gap-4",
 								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
-									href: "#book",
+									href: "/signup",
 									className: "animated-button-border group inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.02]",
 									style: { boxShadow: "0 0 0 1px oklch(1 0 0 / 0.12), 0 10px 60px oklch(0.78 0.16 288 / 0.45)" },
 									children: ["Book a demo", /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { className: "h-4 w-4 transition-transform group-hover:translate-x-0.5" })]
@@ -507,7 +504,7 @@ function HeroDashboardTile() {
 			className: "absolute -inset-8 -z-10 rounded-[36px] opacity-70 blur-3xl",
 			style: { background: "conic-gradient(from 210deg, oklch(0.5 0.22 288 / 0.55), oklch(0.5 0.2 250 / 0.35), transparent 60%)" }
 		}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-			className: "glass-strong rounded-2xl p-5 shadow-2xl",
+			className: "glass-strong rounded-2xl p-2 shadow-2xl",
 			children: [
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 					className: "flex items-center justify-between",
@@ -520,7 +517,7 @@ function HeroDashboardTile() {
 					})]
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "mt-4 grid grid-cols-2 gap-3",
+					className: "mt-4 grid grid-cols-2 gap-2",
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(MiniStat, {
 						label: "Recovered today",
 						value: "$18,420",
@@ -535,17 +532,20 @@ function HeroDashboardTile() {
 					})]
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "mt-4 rounded-xl glass p-4",
+					className: "mt-4 rounded-xl glass p-2",
 					children: [
 						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "flex items-baseline justify-between",
+							className: "flex items-baseline justify-between gap-2",
 							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "inline-flex items-center gap-1 text-xs text-muted-foreground",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Intent score · Visitor #8412" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hint, { text: "0–100 read of how likely this visitor is to buy right now, updated every second from live behavior signals." })]
+								className: "inline-flex items-center text-xs text-muted-foreground",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+									className: "width-[74px]",
+									children: "Intent score. Visitor #8412"
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hint, { text: "0–100 read of how likely this visitor is to buy right now, updated every second from live behavior signals." })]
 							}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 								className: "flex items-baseline gap-2",
 								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-									className: "rounded-full glass px-2 py-0.5 text-[10px] uppercase tracking-wider text-muted-foreground",
+									className: "rounded-full glass px-2 py-0.5 text-[8px] uppercase tracking-wider text-muted-foreground",
 									title: "How sure Claarvia is about the classification. Below the threshold, no intervention fires.",
 									children: "Confidence 92%"
 								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
@@ -661,7 +661,7 @@ function Problem() {
 		] }),
 		sub: "Claarvia finds that reason price, trust, delivery, sizing and helps before they bounce.",
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-			className: "grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-5",
+			className: "grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-4",
 			children: [
 				{
 					icon: CircleDollarSign,
@@ -955,11 +955,11 @@ function Walkthrough() {
 		{
 			icon: Brain,
 			label: "AI detects hesitation",
-			detail: "Reason classified: price shock · 92% confidence"
+			detail: "Reason: price shock · 92% confidence"
 		},
 		{
 			icon: Cpu,
-			label: "Decision engine evaluates",
+			label: "Decision engine ",
 			detail: "Smallest nudge that still converts"
 		},
 		{
@@ -1068,12 +1068,12 @@ function Walkthrough() {
 									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Active, { className: "h-7 w-7 text-primary" })
 								}),
 								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
-									className: "mt-6 text-2xl font-semibold sm:text-3xl",
+									className: "mt-6 text-xl font-semibold sm:text-3xl",
 									style: { fontFamily: "var(--font-display)" },
 									children: stages[active].label
 								}),
 								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-									className: "mt-3 max-w-md text-sm text-muted-foreground",
+									className: "mt-3 max-w-md text-xs text-muted-foreground",
 									children: stages[active].detail
 								})
 							]
@@ -1257,7 +1257,7 @@ function BigStat({ label, value, delta, tone = "up" }) {
 				children: label
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-				className: "mt-1 text-xl font-semibold tracking-tight",
+				className: "mt-1 text-lg font-semibold tracking-tight",
 				style: { fontFamily: "var(--font-display)" },
 				children: value
 			}),
@@ -1416,7 +1416,7 @@ function VsAnalytics() {
 			className: "relative reveal overflow-hidden rounded-2xl glass-strong",
 			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 				"aria-hidden": true,
-				className: "pointer-events-none absolute inset-y-0 right-0 w-1/3",
+				className: "pointer-events-none absolute inset-y-0 right-0  w-[90px] md:w-[120px]",
 				style: { background: "linear-gradient(180deg, oklch(0.88 0.16 288 / 0.14), transparent)" }
 			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 				className: "overflow-hidden",
@@ -1977,7 +1977,7 @@ function FinalCTA() {
 					className: "relative",
 					children: [
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
-							className: "text-balance text-4xl font-semibold tracking-tight sm:text-6xl",
+							className: "text-balance text-3xl font-semibold tracking-tight sm:text-6xl",
 							style: { fontFamily: "var(--font-display)" },
 							children: "See hesitation. Recover revenue."
 						}),
@@ -2020,7 +2020,7 @@ function Footer() {
 							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
 								src: "/brandlogo.png",
 								alt: "Claarvia",
-								className: "h-9 w-auto object-contain"
+								className: "h-12 w-auto object-contain"
 							})
 						}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
@@ -2119,10 +2119,14 @@ function Footer() {
 				] })
 			})]
 		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-			className: "pointer-events-none select-none overflow-hidden",
+			className: "hidden lg:block pointer-events-none select-none overflow-hidden",
 			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-				className: "-mb-16 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text px-4 text-center font-display text-[18vw] leading-none tracking-tight text-transparent opacity-20",
-				children: "claarvia"
+				className: "-mb-16 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text px-4 text-center font-display text-[18vw] leading-none tracking-tight text-transparent opacity-20 p-[10vw]",
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+					src: "/brandlogo.png",
+					alt: "Claarvia",
+					className: "w-auto object-contain px-12"
+				})
 			})
 		})]
 	});

@@ -26,7 +26,7 @@ export class MailService {
 
   // Send 6-digit OTP Email
   async sendOtpEmail(email: string, otp: string, name: string): Promise<boolean> {
-    const fromAddress = process.env.SMTP_FROM || '"Claarvia BIME" <no-reply@claarvia.com>';
+    const fromAddress = process.env.SMTP_FROM || '"Claarvia" <no-reply@claarvia.com>';
     const subject = `${otp} is your Claarvia verification code`;
 
     const htmlContent = `

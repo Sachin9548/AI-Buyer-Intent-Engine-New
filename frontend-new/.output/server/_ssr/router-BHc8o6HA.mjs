@@ -1,11 +1,11 @@
 import { a as __toESM } from "../_runtime.mjs";
 import { n as require_jsx_runtime, r as require_react, t as QueryClientProvider } from "../_libs/react+tanstack__react-query.mjs";
-import { c as HeadContent, d as Outlet, f as lazyRouteComponent, g as useRouter, h as Link, m as createRootRouteWithContext, p as createFileRoute, s as Scripts, u as createRouter } from "../_libs/@tanstack/react-router+[...].mjs";
+import { _ as useRouter, c as HeadContent, d as Outlet, f as lazyRouteComponent, h as Link, k as redirect, m as createRootRouteWithContext, p as createFileRoute, s as Scripts, u as createRouter } from "../_libs/@tanstack/react-router+[...].mjs";
 import { t as QueryClient } from "../_libs/tanstack__query-core.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/router-hc9l4K9y.js
+//#region node_modules/.nitro/vite/services/ssr/assets/router-BHc8o6HA.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
-var styles_default = "/assets/styles-ELPjzKIF.css";
+var styles_default = "/assets/styles-BbP-mG0F.css";
 function reportLovableError(error, context = {}) {
 	if (typeof window === "undefined") return;
 	window.__lovableEvents?.captureException?.(error, {
@@ -86,7 +86,7 @@ function ErrorComponent({ error, reset }) {
 		})
 	});
 }
-var Route$1 = createRootRouteWithContext()({
+var Route$4 = createRootRouteWithContext()({
 	head: () => ({
 		meta: [
 			{ charSet: "utf-8" },
@@ -161,19 +161,76 @@ function RootShell({ children }) {
 	});
 }
 function RootComponent() {
-	const { queryClient } = Route$1.useRouteContext();
+	const { queryClient } = Route$4.useRouteContext();
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(QueryClientProvider, {
 		client: queryClient,
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Outlet, {})
 	});
 }
-var $$splitComponentImporter = () => import("./routes-DpyPHr5n.mjs");
-var rootRouteChildren = { IndexRoute: createFileRoute("/")({ component: lazyRouteComponent($$splitComponentImporter, "component") }).update({
-	id: "/",
-	path: "/",
-	getParentRoute: () => Route$1
-}) };
-var routeTree = Route$1._addFileChildren(rootRouteChildren)._addFileTypes();
+var $$splitComponentImporter$3 = () => import("./routes-BOtBOqG0.mjs");
+var Route$3 = createFileRoute("/")({ component: lazyRouteComponent($$splitComponentImporter$3, "component") });
+var $$splitComponentImporter$2 = () => import("./dashboard-BfMHpkxs.mjs");
+var Route$2 = createFileRoute("/dashboard")({ component: lazyRouteComponent($$splitComponentImporter$2, "component") });
+var $$splitComponentImporter$1 = () => import("./login-Dqp0dLJH.mjs");
+var Route$1 = createFileRoute("/login")({
+	head: () => ({ meta: [
+		{ title: "Claarvia — Log in to behavioral intelligence for commerce" },
+		{
+			name: "description",
+			content: "Log in or create your Claarvia account. Detect visitor hesitation in real time and recover lost e-commerce sales with AI behavioral intelligence."
+		},
+		{
+			property: "og:title",
+			content: "Claarvia — Behavioral intelligence for commerce"
+		},
+		{
+			property: "og:description",
+			content: "Real-time hesitation detection that recovers lost sales. Log in or start with Claarvia."
+		},
+		{
+			property: "og:type",
+			content: "website"
+		},
+		{
+			name: "twitter:card",
+			content: "summary_large_image"
+		}
+	] }),
+	component: lazyRouteComponent($$splitComponentImporter$1, "component")
+});
+var $$splitComponentImporter = () => import("./signup-DdL96lrA.mjs");
+var Route = createFileRoute("/signup")({
+	beforeLoad: () => {
+		throw redirect({
+			to: "/login",
+			replace: true
+		});
+	},
+	component: lazyRouteComponent($$splitComponentImporter, "component")
+});
+var rootRouteChildren = {
+	IndexRoute: Route$3.update({
+		id: "/",
+		path: "/",
+		getParentRoute: () => Route$4
+	}),
+	DashboardRoute: Route$2.update({
+		id: "/dashboard",
+		path: "/dashboard",
+		getParentRoute: () => Route$4
+	}),
+	LoginRoute: Route$1.update({
+		id: "/login",
+		path: "/login",
+		getParentRoute: () => Route$4
+	}),
+	SignupRoute: Route.update({
+		id: "/signup",
+		path: "/signup",
+		getParentRoute: () => Route$4
+	})
+};
+var routeTree = Route$4._addFileChildren(rootRouteChildren)._addFileTypes();
 var getRouter = () => {
 	return createRouter({
 		routeTree,
