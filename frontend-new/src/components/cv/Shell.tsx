@@ -26,11 +26,22 @@ import { Button, Chip, GlassCard, LivePulse, Toggle, spring } from "./ui";
 
 export const NAV = [
   { to: "/app", label: "Overview", icon: Gauge, exact: true },
-  { to: "/app/sessions", label: "Live Sessions", icon: Radio, exact: false },
-  { to: "/app/interventions", label: "Interventions", icon: MousePointerClick, exact: false },
-  { to: "/app/segments", label: "Audience", icon: Users, exact: false },
   { to: "/app/analytics", label: "Analytics", icon: LayoutGrid, exact: false },
-  { to: "/app/integrations", label: "Integrations", icon: Blocks, exact: false },
+
+  { to: "/app/sessions", label: "Live Sessions", icon: Radio, exact: false },
+  {
+    to: "/app/interventions",
+    label: "Interventions",
+    icon: MousePointerClick,
+    exact: false,
+  },
+  { to: "/app/segments", label: "Audience", icon: Users, exact: false },
+  {
+    to: "/app/integrations",
+    label: "Integrations",
+    icon: Blocks,
+    exact: false,
+  },
   { to: "/app/team", label: "Team", icon: UserCog, exact: false },
   { to: "/app/settings", label: "Settings", icon: Settings, exact: false },
   { to: "/app/billing", label: "Billing", icon: CreditCard, exact: false },
@@ -55,30 +66,73 @@ export function Wordmark({ collapsed = false }: { collapsed?: boolean }) {
 
 const COMMANDS = [
   { group: "Navigate", label: "Overview", to: "/app", hint: "⌘1" },
-  { group: "Navigate", label: "Live Sessions", to: "/app/sessions", hint: "⌘2" },
-  { group: "Navigate", label: "Interventions", to: "/app/interventions", hint: "⌘3" },
-  { group: "Navigate", label: "Intervention builder", to: "/app/interventions/builder" },
+  {
+    group: "Navigate",
+    label: "Live Sessions",
+    to: "/app/sessions",
+    hint: "⌘2",
+  },
+  {
+    group: "Navigate",
+    label: "Interventions",
+    to: "/app/interventions",
+    hint: "⌘3",
+  },
+  {
+    group: "Navigate",
+    label: "Intervention builder",
+    to: "/app/interventions/builder",
+  },
   { group: "Navigate", label: "Audience & Segments", to: "/app/segments" },
   { group: "Navigate", label: "Analytics & Reports", to: "/app/analytics" },
   { group: "Navigate", label: "Integrations", to: "/app/integrations" },
   { group: "Navigate", label: "Team & Roles", to: "/app/team" },
   { group: "Navigate", label: "Settings", to: "/app/settings" },
   { group: "Navigate", label: "Billing", to: "/app/billing" },
-  { group: "Sessions", label: "Visitor #8532 · hesitating · price", to: "/app/sessions" },
+  {
+    group: "Sessions",
+    label: "Visitor #8532 · hesitating · price",
+    to: "/app/sessions",
+  },
   { group: "Sessions", label: "Visitor #9012 · buying", to: "/app/sessions" },
-  { group: "Sessions", label: "Visitor #7744 · converted $84.00", to: "/app/sessions" },
-  { group: "Interventions", label: "Free shipping nudge", to: "/app/interventions" },
-  { group: "Interventions", label: "Cart abandonment save", to: "/app/interventions" },
-  { group: "Docs", label: "Install the tracking snippet", to: "/app/integrations" },
+  {
+    group: "Sessions",
+    label: "Visitor #7744 · converted $84.00",
+    to: "/app/sessions",
+  },
+  {
+    group: "Interventions",
+    label: "Free shipping nudge",
+    to: "/app/interventions",
+  },
+  {
+    group: "Interventions",
+    label: "Cart abandonment save",
+    to: "/app/interventions",
+  },
+  {
+    group: "Docs",
+    label: "Install the tracking snippet",
+    to: "/app/integrations",
+  },
 ];
 
-function CommandPalette({ open, onClose }: { open: boolean; onClose: () => void }) {
+function CommandPalette({
+  open,
+  onClose,
+}: {
+  open: boolean;
+  onClose: () => void;
+}) {
   const [q, setQ] = useState("");
   const [active, setActive] = useState(0);
   const results = useMemo(() => {
     const needle = q.trim().toLowerCase();
     if (!needle) return COMMANDS.slice(0, 8);
-    return COMMANDS.filter((c) => c.label.toLowerCase().includes(needle)).slice(0, 10);
+    return COMMANDS.filter((c) => c.label.toLowerCase().includes(needle)).slice(
+      0,
+      10,
+    );
   }, [q]);
 
   useEffect(() => setActive(0), [q]);
@@ -162,7 +216,11 @@ function CommandPalette({ open, onClose }: { open: boolean; onClose: () => void 
                           </span>
                           {c.label}
                         </span>
-                        {c.hint ? <span className="num text-[10px] text-muted-foreground">{c.hint}</span> : null}
+                        {c.hint ? (
+                          <span className="num text-[10px] text-muted-foreground">
+                            {c.hint}
+                          </span>
+                        ) : null}
                       </Link>
                     </li>
                   ))
@@ -189,17 +247,68 @@ type Note = {
 };
 
 const NOTES: Note[] = [
-  { id: "n1", cat: "Alerts", title: "High-value hesitation spike", body: "18 visitors hesitated at shipping cost in the last hour.", time: "14:52", unread: true, to: "/app/sessions" },
-  { id: "n2", cat: "Alerts", title: "Variant B is winning", body: "“Price-match reassurance” B leads by 12.4% at 93% confidence.", time: "13:20", unread: true, to: "/app/interventions" },
-  { id: "n3", cat: "Weekly digest", title: "Week of Aug 24", body: "$41,208 recovered · conversion lift +18.2%.", time: "09:00", unread: false, to: "/app/analytics" },
-  { id: "n4", cat: "Product updates", title: "Sankey funnel view", body: "Analytics now supports stage-to-stage flow comparison.", time: "Aug 28", unread: false, to: "/app/analytics" },
-  { id: "n5", cat: "Team activity", title: "Priya published v4", body: "“Free shipping nudge” went live.", time: "Aug 30", unread: true, to: "/app/team" },
+  {
+    id: "n1",
+    cat: "Alerts",
+    title: "High-value hesitation spike",
+    body: "18 visitors hesitated at shipping cost in the last hour.",
+    time: "14:52",
+    unread: true,
+    to: "/app/sessions",
+  },
+  {
+    id: "n2",
+    cat: "Alerts",
+    title: "Variant B is winning",
+    body: "“Price-match reassurance” B leads by 12.4% at 93% confidence.",
+    time: "13:20",
+    unread: true,
+    to: "/app/interventions",
+  },
+  {
+    id: "n3",
+    cat: "Weekly digest",
+    title: "Week of Aug 24",
+    body: "$41,208 recovered · conversion lift +18.2%.",
+    time: "09:00",
+    unread: false,
+    to: "/app/analytics",
+  },
+  {
+    id: "n4",
+    cat: "Product updates",
+    title: "Sankey funnel view",
+    body: "Analytics now supports stage-to-stage flow comparison.",
+    time: "Aug 28",
+    unread: false,
+    to: "/app/analytics",
+  },
+  {
+    id: "n5",
+    cat: "Team activity",
+    title: "Priya published v4",
+    body: "“Free shipping nudge” went live.",
+    time: "Aug 30",
+    unread: true,
+    to: "/app/team",
+  },
 ];
 
-function NotificationCenter({ open, onClose }: { open: boolean; onClose: () => void }) {
+function NotificationCenter({
+  open,
+  onClose,
+}: {
+  open: boolean;
+  onClose: () => void;
+}) {
   const [notes, setNotes] = useState(NOTES);
   const [muted, setMuted] = useState<Record<string, boolean>>({});
-  const cats = ["Alerts", "Weekly digest", "Product updates", "Team activity"] as const;
+  const cats = [
+    "Alerts",
+    "Weekly digest",
+    "Product updates",
+    "Team activity",
+  ] as const;
 
   return (
     <SlideOver
@@ -209,7 +318,9 @@ function NotificationCenter({ open, onClose }: { open: boolean; onClose: () => v
       width="max-w-md"
       subtitle={
         <button
-          onClick={() => setNotes((n) => n.map((x) => ({ ...x, unread: false })))}
+          onClick={() =>
+            setNotes((n) => n.map((x) => ({ ...x, unread: false })))
+          }
           className="text-xs text-violet transition hover:opacity-80"
         >
           Mark all as read
@@ -220,7 +331,9 @@ function NotificationCenter({ open, onClose }: { open: boolean; onClose: () => v
         {cats.map((cat) => (
           <section key={cat} className="space-y-2">
             <div className="flex items-center justify-between gap-3">
-              <h4 className="text-xs uppercase tracking-wide text-muted-foreground">{cat}</h4>
+              <h4 className="text-xs uppercase tracking-wide text-muted-foreground">
+                {cat}
+              </h4>
               <label className="flex items-center gap-2 text-[11px] text-muted-foreground">
                 Mute
                 <Toggle
@@ -247,10 +360,16 @@ function NotificationCenter({ open, onClose }: { open: boolean; onClose: () => v
                     )}
                     <div className="min-w-0 flex-1">
                       <div className="flex items-baseline justify-between gap-2">
-                        <p className="truncate text-sm text-foreground">{n.title}</p>
-                        <span className="num shrink-0 text-[10px] text-muted-foreground">{n.time}</span>
+                        <p className="truncate text-sm text-foreground">
+                          {n.title}
+                        </p>
+                        <span className="num shrink-0 text-[10px] text-muted-foreground">
+                          {n.time}
+                        </span>
                       </div>
-                      <p className="mt-0.5 text-xs text-muted-foreground">{n.body}</p>
+                      <p className="mt-0.5 text-xs text-muted-foreground">
+                        {n.body}
+                      </p>
                     </div>
                   </div>
                 </Link>
@@ -264,12 +383,20 @@ function NotificationCenter({ open, onClose }: { open: boolean; onClose: () => v
 
 /* -------------------------------------------------------------- Sidebar */
 
-function NavList({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: () => void }) {
+function NavList({
+  collapsed,
+  onNavigate,
+}: {
+  collapsed: boolean;
+  onNavigate?: () => void;
+}) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   return (
     <nav className="flex flex-col gap-1">
       {NAV.map((item) => {
-        const active = item.exact ? pathname === item.to : pathname.startsWith(item.to);
+        const active = item.exact
+          ? pathname === item.to
+          : pathname.startsWith(item.to);
         const Icon = item.icon;
         return (
           <Link
@@ -348,19 +475,31 @@ export function Shell({ children }: { children: ReactNode }) {
                 className="h-8 w-8"
                 onClick={() => setCollapsed((c) => !c)}
               >
-                <ChevronLeft className={cn("h-4 w-4 transition-transform duration-300", collapsed && "rotate-180")} />
+                <ChevronLeft
+                  className={cn(
+                    "h-4 w-4 transition-transform duration-300",
+                    collapsed && "rotate-180",
+                  )}
+                />
               </Button>
             </div>
             <NavList collapsed={collapsed} />
           </div>
           {!collapsed ? (
             <GlassCard className="p-3">
-              <p className="text-xs text-muted-foreground">Sessions this cycle</p>
-              <p className="num mt-1 text-sm text-foreground">184,220 / 250,000</p>
+              <p className="text-xs text-muted-foreground">
+                Sessions this cycle
+              </p>
+              <p className="num mt-1 text-sm text-foreground">
+                184,220 / 250,000
+              </p>
               <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-[rgba(255,255,255,0.08)]">
                 <div className="grad-accent h-full w-[73%]" />
               </div>
-              <Link to="/app/billing" className="mt-3 block text-xs text-violet hover:opacity-80">
+              <Link
+                to="/app/billing"
+                className="mt-3 block text-xs text-violet hover:opacity-80"
+              >
                 Manage plan →
               </Link>
             </GlassCard>
@@ -391,7 +530,9 @@ export function Shell({ children }: { children: ReactNode }) {
                 className="glass flex h-10 min-w-0 items-center gap-3 rounded-xl px-3 text-left text-sm text-muted-foreground transition-all duration-300 hover:border-[rgba(124,108,255,0.4)]"
               >
                 <Search className="h-4 w-4 shrink-0" />
-                <span className="truncate">Search sessions, interventions, reports…</span>
+                <span className="truncate">
+                  Search sessions, interventions, reports…
+                </span>
                 <kbd className="num ml-auto hidden shrink-0 rounded border border-[rgba(255,255,255,0.14)] px-1.5 py-0.5 text-[10px] sm:block">
                   ⌘K
                 </kbd>
@@ -414,7 +555,9 @@ export function Shell({ children }: { children: ReactNode }) {
                         transition={spring}
                         className="glass absolute right-0 top-11 w-72 rounded-2xl p-4"
                       >
-                        <h4 className="text-sm text-foreground">System status</h4>
+                        <h4 className="text-sm text-foreground">
+                          System status
+                        </h4>
                         <ul className="mt-3 space-y-2 text-xs">
                           {[
                             ["Event ingestion", "99.99%"],
@@ -422,7 +565,10 @@ export function Shell({ children }: { children: ReactNode }) {
                             ["Intervention delivery", "100%"],
                             ["Dashboard API", "99.98%"],
                           ].map(([k, v]) => (
-                            <li key={k} className="flex items-center justify-between gap-3">
+                            <li
+                              key={k}
+                              className="flex items-center justify-between gap-3"
+                            >
                               <span className="text-muted-foreground">{k}</span>
                               <span className="num text-success">{v}</span>
                             </li>
@@ -465,7 +611,9 @@ export function Shell({ children }: { children: ReactNode }) {
                       >
                         <div className="px-3 py-2">
                           <p className="text-sm text-foreground">Ava Mercer</p>
-                          <p className="text-xs text-muted-foreground">Northwind Supply · Owner</p>
+                          <p className="text-xs text-muted-foreground">
+                            Northwind Supply · Owner
+                          </p>
                         </div>
                         <div className="my-1 h-px bg-[rgba(255,255,255,0.1)]" />
                         <Link
@@ -502,7 +650,9 @@ export function Shell({ children }: { children: ReactNode }) {
             </div>
           </header>
 
-          <main className="min-w-0 flex-1 px-3 py-5 pb-24 sm:px-5 lg:pb-8">{children}</main>
+          <main className="min-w-0 flex-1 px-3 py-5 pb-24 sm:px-5 lg:pb-8">
+            {children}
+          </main>
 
           {/* mobile bottom nav */}
           <nav className="fixed inset-x-0 bottom-0 z-30 flex items-center justify-around border-t border-[rgba(255,255,255,0.1)] bg-[rgba(5,6,11,0.8)] px-2 py-2 backdrop-blur-2xl lg:hidden">
@@ -526,7 +676,13 @@ export function Shell({ children }: { children: ReactNode }) {
         </div>
       </div>
 
-      <SlideOver open={mobileNav} onClose={() => setMobileNav(false)} title="Claarvia" side="left" width="max-w-xs">
+      <SlideOver
+        open={mobileNav}
+        onClose={() => setMobileNav(false)}
+        title="Claarvia"
+        side="left"
+        width="max-w-xs"
+      >
         <NavList collapsed={false} onNavigate={() => setMobileNav(false)} />
       </SlideOver>
       <CommandPalette open={palette} onClose={() => setPalette(false)} />
@@ -552,10 +708,16 @@ export function PageHeader({
       className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
     >
       <div className="min-w-0">
-        <h1 className="text-2xl text-foreground sm:truncate sm:text-3xl">{title}</h1>
-        {description ? <p className="mt-1 text-sm text-muted-foreground">{description}</p> : null}
+        <h1 className="text-2xl text-foreground sm:truncate sm:text-3xl">
+          {title}
+        </h1>
+        {description ? (
+          <p className="mt-1 text-sm text-muted-foreground">{description}</p>
+        ) : null}
       </div>
-      {actions ? <div className="flex flex-wrap items-center gap-2">{actions}</div> : null}
+      {actions ? (
+        <div className="flex flex-wrap items-center gap-2">{actions}</div>
+      ) : null}
     </motion.div>
   );
 }

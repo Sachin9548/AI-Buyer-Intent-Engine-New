@@ -26,8 +26,8 @@ export class IngestionService {
       );
 
     // 3. Evaluate Rule Engine against Computed Features
-    const decision: RuleDecision =
-      this.ruleEngineService.evaluateFeatures(features);
+    const decision: RuleDecision = await this.ruleEngineService.evaluateFeatures(features);
+
 
     if (decision && decision.action !== 'none') {
       console.log(`🎯 Rule Engine Decision [${features.session_id}]:`, {

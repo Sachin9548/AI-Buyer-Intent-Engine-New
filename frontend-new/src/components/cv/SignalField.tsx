@@ -65,7 +65,9 @@ export function SignalField({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
     const mobile = window.matchMedia("(max-width: 640px)").matches;
     const maxThreads = mobile ? 14 : 34;
     const trailLen = mobile ? 10 : 20;
@@ -91,16 +93,33 @@ export function SignalField({
     ro.observe(wrap);
 
     const spawn = (inside = false) => {
-      const session = poolRef.current[Math.floor(Math.random() * poolRef.current.length)]!;
+      const session =
+        poolRef.current[Math.floor(Math.random() * poolRef.current.length)]!;
       const edge = Math.floor(Math.random() * 4);
-      const x = inside ? rand(w * 0.1, w * 0.9) : edge === 0 ? -20 : edge === 1 ? w + 20 : rand(0, w);
-      const y = inside ? rand(h * 0.1, h * 0.9) : edge === 2 ? -20 : edge === 3 ? h + 20 : rand(0, h);
+      const x = inside
+        ? rand(w * 0.1, w * 0.9)
+        : edge === 0
+          ? -20
+          : edge === 1
+            ? w + 20
+            : rand(0, w);
+      const y = inside
+        ? rand(h * 0.1, h * 0.9)
+        : edge === 2
+          ? -20
+          : edge === 3
+            ? h + 20
+            : rand(0, h);
       const cx = w / 2;
       const cy = h / 2;
-      const a = Math.atan2(cy - y, cx - x) + rand(-0.5, 0.5);
+      // const a = Math.atan2(cy - y, cx - x) + rand(-0.5, 0.5);
+      const a = rand(0, Math.PI * 2);
       const speed = rand(0.35, 0.8);
       threadsRef.current.push({
-        session: { ...session, id: `#${7000 + Math.floor(Math.random() * 2900)}` },
+        session: {
+          ...session,
+          id: `#${7000 + Math.floor(Math.random() * 2900)}`,
+        },
         x,
         y,
         vx: Math.cos(a) * speed,
@@ -155,7 +174,8 @@ export function SignalField({
       ctx.lineWidth = 1.2;
       ctx.stroke();
 
-      if (threadsRef.current.length < maxThreads && Math.random() < 0.06) spawn();
+      if (threadsRef.current.length < maxThreads && Math.random() < 0.06)
+        spawn();
 
       let hesitating = 0;
       let flowing = 0;
@@ -168,7 +188,8 @@ export function SignalField({
 
         if (th.state === "browsing" && th.t > th.next) {
           const roll = Math.random();
-          th.state = roll < 0.5 ? "hesitating" : roll < 0.8 ? "converting" : "lost";
+          th.state =
+            roll < 0.5 ? "hesitating" : roll < 0.8 ? "converting" : "lost";
           th.t = 0;
           th.next = rand(200, 520);
           if (th.state === "hesitating") {
@@ -194,13 +215,24 @@ export function SignalField({
           th.vy = Math.sin(ang) * sp;
         } else if (th.state === "converting") {
           flowing += 1;
+          // const dx = cx - th.x;
+          // const dy = cy - th.y;
+          // const d = Math.hypot(dx, dy) || 1;
+          // th.vx += (dx / d) * 0.03;
+          // th.vy += (dy / d) * 0.03;
+          // th.vx *= 0.95;
+          // th.vy *= 0.95;
           const dx = cx - th.x;
           const dy = cy - th.y;
           const d = Math.hypot(dx, dy) || 1;
-          th.vx += (dx / d) * 0.03;
-          th.vy += (dy / d) * 0.03;
-          th.vx *= 0.95;
-          th.vy *= 0.95;
+
+          const pull = 0.012;
+          const curve = 0.003;
+
+          th.vx += (dx / d) * pull + (-dy / d) * curve;
+          th.vy += (dy / d) * pull + (dx / d) * curve;
+          th.vx *= 0.97;
+          th.vy *= 0.97;
           if (d < coreR * 0.7) {
             core.pulse = Math.min(1.6, core.pulse + 0.7);
             signalSound.convert();
@@ -232,36 +264,64 @@ export function SignalField({
 
         const [r, g, b] = COLORS[th.state];
         const flicker =
-          th.state === "hesitating" ? 0.55 + Math.abs(Math.sin(frame * 0.16 + th.wander)) * 0.45 : 1;
+          th.state === "hesitating"
+            ? 0.55 + Math.abs(Math.sin(frame * 0.16 + th.wander)) * 0.45
+            : 1;
         const fade = th.state === "lost" ? Math.max(0, 1 - th.dust / 140) : 1;
         const alpha = flicker * fade;
 
         // trail
-        ctx.lineCap = "round";
-        for (let p = 1; p < th.trail.length; p += 1) {
-          const a0 = (p / th.trail.length) * 0.5 * alpha;
-          ctx.strokeStyle = `rgba(${r},${g},${b},${a0})`;
-          ctx.lineWidth = 1 + (p / th.trail.length) * 1.4;
-          ctx.beginPath();
-          ctx.moveTo(th.trail[p - 1]!.x, th.trail[p - 1]!.y);
-          ctx.lineTo(th.trail[p]!.x, th.trail[p]!.y);
-          ctx.stroke();
-        }
+        // ctx.lineCap = "round";
+        // for (let p = 1; p < th.trail.length; p += 1) {
+        //   const a0 = (p / th.trail.length) * 0.5 * alpha;
+        //   ctx.strokeStyle = `rgba(${r},${g},${b},${a0})`;
+        //   ctx.lineWidth = 1 + (p / th.trail.length) * 1.4;
+        //   ctx.beginPath();
+        //   ctx.moveTo(th.trail[p - 1]!.x, th.trail[p - 1]!.y);
+        //   ctx.lineTo(th.trail[p]!.x, th.trail[p]!.y);
+        //   ctx.stroke();
+        // }
 
         // head
         const isHover = hovered === th.session.id;
-        const headR = (th.state === "converting" ? 3 : 2.2) * (isHover ? 1.8 : 1);
-        const glow = ctx.createRadialGradient(th.x, th.y, 0, th.x, th.y, headR * 6);
-        glow.addColorStop(0, `rgba(${r},${g},${b},${0.9 * alpha})`);
+        // const headR = (th.state === "converting" ? 3 : 2.2) * (isHover ? 1.8 : 1);
+        // const glow = ctx.createRadialGradient(th.x, th.y, 0, th.x, th.y, headR * 6);
+        // glow.addColorStop(0, `rgba(${r},${g},${b},${0.9 * alpha})`);
+        // glow.addColorStop(1, `rgba(${r},${g},${b},0)`);
+        // ctx.fillStyle = glow;
+        // ctx.beginPath();
+        // ctx.arc(th.x, th.y, headR * 6, 0, Math.PI * 2);
+        // ctx.fill();
+        // ctx.fillStyle = `rgba(255,255,255,${0.85 * alpha})`;
+        // ctx.beginPath();
+        // ctx.arc(th.x, th.y, headR, 0, Math.PI * 2);
+        // ctx.fill();
+        const headR = isHover ? 6 : 4.5;
+        const glow = ctx.createRadialGradient(
+          th.x,
+          th.y,
+          0,
+          th.x,
+          th.y,
+          headR * 3,
+        );
+
+        glow.addColorStop(0, `rgba(${r},${g},${b},${0.5 * alpha})`);
         glow.addColorStop(1, `rgba(${r},${g},${b},0)`);
+
         ctx.fillStyle = glow;
         ctx.beginPath();
-        ctx.arc(th.x, th.y, headR * 6, 0, Math.PI * 2);
+        ctx.arc(th.x, th.y, headR * 3, 0, Math.PI * 2);
         ctx.fill();
-        ctx.fillStyle = `rgba(255,255,255,${0.85 * alpha})`;
+
         ctx.beginPath();
         ctx.arc(th.x, th.y, headR, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${r},${g},${b},${0.95 * alpha})`;
         ctx.fill();
+
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = `rgba(255,255,255,${0.8 * alpha})`;
+        ctx.stroke();
 
         // intervention ring
         if (th.ring > 0.02) {

@@ -8,6 +8,9 @@ import { StoresModule } from './modules/stores/stores.module';
 import { UsersModule } from './modules/users/users.module';
 import { MailModule } from './modules/mail/mail.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
+import { InterventionsModule } from './modules/interventions/interventions.module';
+// Dashboard related Module
 
 @Module({
   imports: [
@@ -17,6 +20,8 @@ import { AuthModule } from './modules/auth/auth.module';
     UsersModule,
     MailModule,
     AuthModule,
+    DashboardModule,
+    InterventionsModule,
   ],
   controllers: [],
   providers: [],

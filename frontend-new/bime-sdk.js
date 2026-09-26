@@ -467,6 +467,7 @@ const defaultApiKey = currentScript ? currentScript.getAttribute('data-api-key')
       try {
         const event = {
           store_id: BIME_CONFIG.storeId,
+          session_id: BIME_CONFIG.sessionId,
           event_type: type,
           metadata: metadata || {},
           timestamp: new Date().toISOString(),
