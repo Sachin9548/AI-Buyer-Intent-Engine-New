@@ -1,5 +1,9 @@
 // src/app.module.ts
 import { Module } from '@nestjs/common';
+// Production Hardning
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
+
 // Core Engine Tracking related modules
 import { IngestionModule } from './modules/ingestion/ingestion.module';
 import { OutcomesModule } from './modules/outcomes/outcomes.module';
@@ -14,6 +18,14 @@ import { InterventionsModule } from './modules/interventions/interventions.modul
 
 @Module({
   imports: [
+    // 🛡️ Global Rate Limiting: Default 60 requests per minute
+
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000, // 1 minute in milliseconds
+        limit: 100, // Max 100 requests per minute
+      },
+    ]),
     IngestionModule,
     OutcomesModule,
     StoresModule,
@@ -24,6 +36,12 @@ import { InterventionsModule } from './modules/interventions/interventions.modul
     InterventionsModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    // Global Throttler Guard
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule {}

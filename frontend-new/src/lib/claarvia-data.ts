@@ -6,7 +6,8 @@ export type HesitationReason =
   | "shipping cost"
   | "trust/security"
   | "comparing options"
-  | "stuck at form";
+  | "stuck at form"
+  | "size confusion";
 
 export type Session = {
   id: string;
@@ -22,14 +23,14 @@ export type Session = {
   lastAction: string;
   value: number;
   intervention?: string;
-  outcome?: "Converted" | "Dismissed" | "No response" | "Pending";
+  outcome?: "Converted" | "Dismissed" | "No response" | "Pending" | "Lost";
 };
 
 const pages = ["/products/aero-runner", "/checkout", "/cart", "/pricing", "/collections/new", "/product/lumen-lamp"];
 const locations = ["Austin, US", "Berlin, DE", "Toronto, CA", "London, UK", "Sydney, AU", "Lisbon, PT"];
 const sources = ["google / cpc", "instagram", "direct", "klaviyo / email", "tiktok"];
 const segments = ["High-intent returning", "First-time visitors", "Cart abandoners", "Price sensitive"];
-const reasons: HesitationReason[] = ["price", "shipping cost", "trust/security", "comparing options", "stuck at form"];
+const reasons: HesitationReason[] = ["price", "shipping cost", "trust/security", "comparing options", "stuck at form","size confusion"];
 const states: IntentState[] = ["Idle", "Browsing", "Hesitating", "Buying", "Converted", "Lost"];
 
 /** Deterministic pseudo-random so SSR and client agree. */
@@ -120,6 +121,7 @@ export const hesitationBreakdown = [
   { reason: "Comparing options", value: 18 },
   { reason: "Trust / security", value: 13 },
   { reason: "Stuck at form", value: 9 },
+  { reason: "Size confusion", value: 7 },
 ];
 
 export const funnel = [

@@ -20,7 +20,7 @@ export function GlassCard({
       animate={{ opacity: 1, y: 0 }}
       transition={spring}
       className={cn(
-        "glass lift relative overflow-hidden rounded-2xl",
+        "glass lift relative overflow-hidden rounded-2xl px-6",
         glint && "shimmer",
         className,
       )}

@@ -6,10 +6,14 @@
   "use strict";
 
   // Auto-read storeId from script tag attribute [data-store-id]
-const currentScript = document.currentScript || document.querySelector('script[data-store-id]');
-const defaultStoreId = currentScript ? currentScript.getAttribute('data-store-id') : null;
-const defaultApiKey = currentScript ? currentScript.getAttribute('data-api-key') : null; // ✅ Read API Key from script tag
-
+  const currentScript =
+    document.currentScript || document.querySelector("script[data-store-id]");
+  const defaultStoreId = currentScript
+    ? currentScript.getAttribute("data-store-id")
+    : null;
+  const defaultApiKey = currentScript
+    ? currentScript.getAttribute("data-api-key")
+    : null; // ✅ Read API Key from script tag
 
   const getOrCreateSessionId = () => {
     let id = sessionStorage.getItem("bime_session_id");
@@ -116,6 +120,22 @@ const defaultApiKey = currentScript ? currentScript.getAttribute('data-api-key')
     return null;
   }
 
+  // Helper: Categorize Traffic Source (Google, Instagram, Direct, etc.)
+  function getTrafficSource() {
+    try {
+      const ref = (document.referrer || "").toLowerCase();
+      if (!ref) return "direct";
+      if (ref.includes("google")) return "google";
+      if (ref.includes("instagram")) return "instagram";
+      if (ref.includes("facebook") || ref.includes("fb")) return "facebook";
+      if (ref.includes("tiktok")) return "tiktok";
+      if (ref.includes("youtube")) return "youtube";
+      return "referral";
+    } catch (e) {
+      return "direct";
+    }
+  }
+
   const BIME = {
     init: function (overrideStoreId) {
       try {
@@ -135,6 +155,7 @@ const defaultApiKey = currentScript ? currentScript.getAttribute('data-api-key')
           url: window.location.href,
           path: window.location.pathname,
           referrer: document.referrer || "direct",
+          traffic_source: getTrafficSource(),
           is_mobile: BIME_CONFIG.isMobile,
           product_info: productInfo,
         });
@@ -526,6 +547,14 @@ const defaultApiKey = currentScript ? currentScript.getAttribute('data-api-key')
           return;
         }
 
+        // 🔥 CRITICAL FIX: Track Immediate Impression Before Render!
+        BIME.track("nudge_shown", {
+          action: action,
+          message: message || "",
+          url: window.location.href,
+          time_on_page: Math.round((Date.now() - BIME_CONFIG.pageStart) / 1000),
+        });
+
         switch (action) {
           case "show_size_quiz":
             console.log("🎨 Rendering Sleek Size Quiz Toast...");
@@ -546,6 +575,7 @@ const defaultApiKey = currentScript ? currentScript.getAttribute('data-api-key')
         }
 
         window.BIME_ACTION_SHOWN = true;
+        window.BIME_LAST_ACTION = action;
       } catch (err) {
         console.error("🚨 BIME Render Error in triggerAction:", err);
       }

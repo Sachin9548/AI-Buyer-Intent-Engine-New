@@ -15,6 +15,8 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { z } from "zod";
 
+import { apiFetch } from "@/lib/api";
+
 import { PageHeader } from "@/components/cv/Shell";
 import { AreaTrend } from "@/components/cv/charts";
 import { SignalField } from "@/components/cv/SignalField";
@@ -34,7 +36,12 @@ import {
 } from "@/components/cv/ui";
 import { cvToast } from "@/lib/cv-toast";
 import { signalSound } from "@/lib/signal-sound";
-import { feedTemplates, hesitationBreakdown, revenueSeries, type Session } from "@/lib/claarvia-data";
+import {
+  feedTemplates,
+  hesitationBreakdown,
+  revenueSeries,
+  type Session,
+} from "@/lib/claarvia-data";
 
 export const Route = createFileRoute("/app/")({
   validateSearch: z.object({ firstRun: z.boolean().optional() }).parse,
@@ -43,10 +50,14 @@ export const Route = createFileRoute("/app/")({
       { title: "Overview — Claarvia" },
       {
         name: "description",
-        content: "Live revenue recovered, active sessions, conversion lift and AI insights.",
+        content:
+          "Live revenue recovered, active sessions, conversion lift and AI insights.",
       },
       { property: "og:title", content: "Overview — Claarvia" },
-      { property: "og:description", content: "Your real-time hesitation-recovery command center." },
+      {
+        property: "og:description",
+        content: "Your real-time hesitation-recovery command center.",
+      },
     ],
   }),
   component: Overview,
@@ -66,26 +77,105 @@ type Kpi = {
 
 const KPI: Record<(typeof RANGES)[number], Kpi[]> = {
   Today: [
-    { label: "Revenue recovered", value: 8412.5, prefix: "$", decimals: 2, delta: 12.4, spark: [3, 5, 4, 7, 6, 9, 11] },
-    { label: "Active sessions now", value: 134, delta: 4.1, spark: [90, 104, 96, 120, 118, 129, 134] },
-    { label: "Conversion lift", value: 18.2, suffix: "%", decimals: 1, delta: 2.3, spark: [11, 12, 14, 13, 16, 17, 18] },
-    { label: "Interventions triggered", value: 1284, delta: -3.2, spark: [1400, 1350, 1310, 1290, 1300, 1288, 1284] },
+    {
+      label: "Revenue recovered",
+      value: 8412.5,
+      prefix: "$",
+      decimals: 2,
+      delta: 12.4,
+      spark: [3, 5, 4, 7, 6, 9, 11],
+    },
+    {
+      label: "Active sessions now",
+      value: 134,
+      delta: 4.1,
+      spark: [90, 104, 96, 120, 118, 129, 134],
+    },
+    {
+      label: "Conversion lift",
+      value: 18.2,
+      suffix: "%",
+      decimals: 1,
+      delta: 2.3,
+      spark: [11, 12, 14, 13, 16, 17, 18],
+    },
+    {
+      label: "Interventions triggered",
+      value: 1284,
+      delta: -3.2,
+      spark: [1400, 1350, 1310, 1290, 1300, 1288, 1284],
+    },
   ],
   "7d": [
-    { label: "Revenue recovered", value: 41208.75, prefix: "$", decimals: 2, delta: 18.9, spark: [12, 18, 16, 22, 27, 31, 41] },
-    { label: "Active sessions now", value: 134, delta: 6.7, spark: [88, 101, 112, 121, 126, 130, 134] },
-    { label: "Conversion lift", value: 17.4, suffix: "%", decimals: 1, delta: 1.8, spark: [10, 12, 13, 15, 16, 17, 17] },
-    { label: "Interventions triggered", value: 9420, delta: 7.5, spark: [7100, 7600, 8100, 8600, 8900, 9200, 9420] },
+    {
+      label: "Revenue recovered",
+      value: 41208.75,
+      prefix: "$",
+      decimals: 2,
+      delta: 18.9,
+      spark: [12, 18, 16, 22, 27, 31, 41],
+    },
+    {
+      label: "Active sessions now",
+      value: 134,
+      delta: 6.7,
+      spark: [88, 101, 112, 121, 126, 130, 134],
+    },
+    {
+      label: "Conversion lift",
+      value: 17.4,
+      suffix: "%",
+      decimals: 1,
+      delta: 1.8,
+      spark: [10, 12, 13, 15, 16, 17, 17],
+    },
+    {
+      label: "Interventions triggered",
+      value: 9420,
+      delta: 7.5,
+      spark: [7100, 7600, 8100, 8600, 8900, 9200, 9420],
+    },
   ],
   "30d": [
-    { label: "Revenue recovered", value: 168904.2, prefix: "$", decimals: 2, delta: 24.6, spark: [60, 78, 92, 110, 128, 149, 168] },
-    { label: "Active sessions now", value: 134, delta: 9.2, spark: [70, 85, 96, 108, 118, 128, 134] },
-    { label: "Conversion lift", value: 16.1, suffix: "%", decimals: 1, delta: 3.4, spark: [9, 10, 12, 13, 14, 15, 16] },
-    { label: "Interventions triggered", value: 38120, delta: 11.2, spark: [24000, 27000, 30000, 32500, 34800, 36600, 38120] },
+    {
+      label: "Revenue recovered",
+      value: 168904.2,
+      prefix: "$",
+      decimals: 2,
+      delta: 24.6,
+      spark: [60, 78, 92, 110, 128, 149, 168],
+    },
+    {
+      label: "Active sessions now",
+      value: 134,
+      delta: 9.2,
+      spark: [70, 85, 96, 108, 118, 128, 134],
+    },
+    {
+      label: "Conversion lift",
+      value: 16.1,
+      suffix: "%",
+      decimals: 1,
+      delta: 3.4,
+      spark: [9, 10, 12, 13, 14, 15, 16],
+    },
+    {
+      label: "Interventions triggered",
+      value: 38120,
+      delta: 11.2,
+      spark: [24000, 27000, 30000, 32500, 34800, 36600, 38120],
+    },
   ],
 };
 
-type FeedItem = { id: number; visitor: string; text: string; kind: string; tag: string; amount?: number };
+type FeedItem = {
+  id: number;
+  visitor: string;
+  text: string;
+  kind: string;
+  tag: string;
+  amount?: number;
+};
 
 function useLiveFeed(enabled: boolean) {
   const [items, setItems] = useState<FeedItem[]>([]);
@@ -93,7 +183,8 @@ function useLiveFeed(enabled: boolean) {
     if (!enabled) return;
     let n = 0;
     const push = () => {
-      const t = feedTemplates[Math.floor(Math.random() * feedTemplates.length)]!;
+      const t =
+        feedTemplates[Math.floor(Math.random() * feedTemplates.length)]!;
       n += 1;
       setItems((prev) =>
         [
@@ -104,7 +195,10 @@ function useLiveFeed(enabled: boolean) {
             text: t.text,
             kind: t.kind,
             tag: t.tag,
-            amount: t.kind === "convert" ? Math.round((30 + Math.random() * 220) * 100) / 100 : 0,
+            amount:
+              t.kind === "convert"
+                ? Math.round((30 + Math.random() * 220) * 100) / 100
+                : 0,
           },
           ...prev,
         ].slice(0, 14),
@@ -135,16 +229,41 @@ const INSIGHTS = [
 ];
 
 const CHECKLIST = [
-  { id: "snippet", label: "Install the tracking snippet", to: "/app/integrations", icon: Plug },
-  { id: "intervention", label: "Create your first intervention", to: "/app/interventions/builder", icon: MousePointerClick },
+  {
+    id: "snippet",
+    label: "Install the tracking snippet",
+    to: "/app/integrations",
+    icon: Plug,
+  },
+  {
+    id: "intervention",
+    label: "Create your first intervention",
+    to: "/app/interventions/builder",
+    icon: MousePointerClick,
+  },
   { id: "team", label: "Invite your team", to: "/app/team", icon: UserPlus },
 ];
+
+interface DashboardOverviewData {
+  store_id: string;
+  total_sessions: number;
+  active_sessions_now: number;
+  interventions_triggered: number;
+  assisted_conversions: number;
+  recovered_revenue: number;
+  recovery_rate_pct: number;
+  intent_distribution: {
+    confused: number;
+    price_sensitive: number;
+    trust_hesitation: number;
+    hot_buyer: number;
+  };
+}
 
 function Overview() {
   const { firstRun } = Route.useSearch();
   const navigate = useNavigate();
   const [range, setRange] = useState<(typeof RANGES)[number]>("7d");
-  const [loading, setLoading] = useState(true);
   const [compare, setCompare] = useState(true);
   const [insight, setInsight] = useState(0);
   const [done, setDone] = useState<Record<string, boolean>>({});
@@ -154,22 +273,66 @@ function Overview() {
   const [sound, setSound] = useState(false);
   const feed = useLiveFeed(!firstRun);
 
+  // API Call Real Data Fetching
+  const [data, setData] = useState<DashboardOverviewData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
-    const t = setTimeout(() => setLoading(false), 650);
-    return () => clearTimeout(t);
+    async function loadOverview() {
+      try {
+        setLoading(true);
+        setError(null);
+        // Live EC2 backend se real metrics mangwayenge
+        const res = await apiFetch<DashboardOverviewData>(
+          "/dashboard/overview",
+        );
+        setData(res);
+        if (res.recovered_revenue) {
+          setRecovered(res.recovered_revenue); // ✅ Sync with real revenue
+        }
+      } catch (err: any) {
+        setError(err.message || "Failed to load dashboard overview");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadOverview();
   }, []);
 
   useEffect(() => {
-    const iv = setInterval(() => setInsight((i) => (i + 1) % INSIGHTS.length), 12000);
+    const iv = setInterval(
+      () => setInsight((i) => (i + 1) % INSIGHTS.length),
+      12000,
+    );
     return () => clearInterval(iv);
   }, []);
 
-  const kpis = useMemo(() => KPI[range], [range]);
+  const kpis = useMemo(() => {
+    const base = KPI[range];
+
+    if (!data) return base;
+
+    return [
+      { ...base[0]!, value: data.recovered_revenue },
+      { ...base[1]!, value: data.active_sessions_now },
+      {
+        ...base[2]!,
+        label: "Recovery rate",
+        value: data.recovery_rate_pct,
+      },
+      { ...base[3]!, value: data.interventions_triggered },
+    ];
+  }, [range, data]);
 
   if (loading) {
     return (
       <>
-        <PageHeader title="Overview" description="Loading your live telemetry…" />
+        <PageHeader
+          title="Overview"
+          description="Loading your live telemetry…"
+        />
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {Array.from({ length: 4 }).map((_, i) => (
             <Skeleton key={i} className="h-32" />
@@ -197,10 +360,17 @@ function Overview() {
               aria-pressed={sound}
               title="Ambient sound for conversions and hesitation spikes"
             >
-              {sound ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
+              {sound ? (
+                <Volume2 className="h-4 w-4" />
+              ) : (
+                <VolumeX className="h-4 w-4" />
+              )}
               {sound ? "Sound on" : "Sound off"}
             </Button>
-            <Button variant="primary" onClick={() => navigate({ to: "/app/interventions/builder" })}>
+            <Button
+              variant="primary"
+              onClick={() => navigate({ to: "/app/interventions/builder" })}
+            >
               <Zap className="h-4 w-4" /> Create intervention
             </Button>
           </>
@@ -231,9 +401,15 @@ function Overview() {
                           : "grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-[rgba(124,108,255,0.14)] text-violet"
                       }
                     >
-                      {isDone ? <Check className="h-4 w-4" /> : <Icon className="h-4 w-4" />}
+                      {isDone ? (
+                        <Check className="h-4 w-4" />
+                      ) : (
+                        <Icon className="h-4 w-4" />
+                      )}
                     </span>
-                    <span className="min-w-0 truncate text-sm text-foreground">{c.label}</span>
+                    <span className="min-w-0 truncate text-sm text-foreground">
+                      {c.label}
+                    </span>
                   </Link>
                 </li>
               );
@@ -254,11 +430,27 @@ function Overview() {
         <div className="pointer-events-none absolute inset-0 p-3 sm:p-4">
           <div className="flex flex-wrap gap-2">
             {[
-              { label: "Active sessions", value: kpis[1]!.value, delta: kpis[1]!.delta },
-              { label: "Conversion lift", value: kpis[2]!.value, suffix: "%", delta: kpis[2]!.delta },
-              { label: "Interventions", value: kpis[3]!.value, delta: kpis[3]!.delta },
+              {
+                label: "Active sessions",
+                value: kpis[1]!.value,
+                delta: kpis[1]!.delta,
+              },
+              {
+                label: "Conversion lift",
+                value: kpis[2]!.value,
+                suffix: "%",
+                delta: kpis[2]!.delta,
+              },
+              {
+                label: "Interventions",
+                value: kpis[3]!.value,
+                delta: kpis[3]!.delta,
+              },
             ].map((s) => (
-              <div key={s.label} className="hud pointer-events-auto rounded-full px-3 py-1.5">
+              <div
+                key={s.label}
+                className="hud pointer-events-auto rounded-full px-3 py-1.5"
+              >
                 <span className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
                   {s.label}
                 </span>
@@ -292,7 +484,9 @@ function Overview() {
                   <span className="grad-accent grid h-7 w-7 shrink-0 place-items-center rounded-lg text-[#05060B]">
                     <Sparkles className="h-3.5 w-3.5" />
                   </span>
-                  <span className="text-sm text-foreground">AI has something to say</span>
+                  <span className="text-sm text-foreground">
+                    AI has something to say
+                  </span>
                   <button
                     type="button"
                     onClick={() => setAiOpen(false)}
@@ -309,11 +503,16 @@ function Overview() {
                   <Button
                     size="sm"
                     variant="primary"
-                    onClick={() => navigate({ to: "/app/interventions/builder" })}
+                    onClick={() =>
+                      navigate({ to: "/app/interventions/builder" })
+                    }
                   >
                     Act on this
                   </Button>
-                  <Button size="sm" onClick={() => setInsight((i) => (i + 1) % INSIGHTS.length)}>
+                  <Button
+                    size="sm"
+                    onClick={() => setInsight((i) => (i + 1) % INSIGHTS.length)}
+                  >
                     Next
                   </Button>
                 </div>
@@ -332,8 +531,8 @@ function Overview() {
       </div>
 
       <p className="mt-2 text-center text-xs text-muted-foreground">
-        Every thread is a live visitor. Amber flicker means hesitation — tap any thread to open that
-        session.
+        Every thread is a live visitor. Amber flicker means hesitation — tap any
+        thread to open that session.
       </p>
 
       <div className="mt-4 grid gap-4 lg:grid-cols-[1.55fr_1fr]">
@@ -341,7 +540,11 @@ function Overview() {
         <GlassCard className="p-5">
           <SectionTitle
             title="Revenue recovered over time"
-            subtitle={compare ? "Compared against the “without Claarvia” baseline" : "Claarvia-attributed recovery"}
+            subtitle={
+              compare
+                ? "Compared against the “without Claarvia” baseline"
+                : "Claarvia-attributed recovery"
+            }
             action={
               <Button size="sm" onClick={() => setCompare((c) => !c)}>
                 {compare ? "Hide baseline" : "Compare to baseline"}
@@ -359,87 +562,129 @@ function Overview() {
               height={260}
               compareLabel="Without Claarvia"
               valueLabel="Revenue recovered"
-              format={(v) => (v >= 1000 ? `$${(v / 1000).toFixed(1)}k` : `$${Math.round(v)}`)}
+              format={(v) =>
+                v >= 1000 ? `$${(v / 1000).toFixed(1)}k` : `$${Math.round(v)}`
+              }
             />
           </div>
         </GlassCard>
 
         <div className="flex min-w-0 flex-col gap-4">
-        <GlassCard className="flex max-h-[26rem] min-h-[18rem] flex-col p-5">
-          <div className="flex items-center justify-between gap-3">
-            <h2 className="text-lg text-foreground">Live activity</h2>
-            <LivePulse label="live" />
-          </div>
-          <ul className="mt-4 min-h-0 flex-1 space-y-2 overflow-y-auto pr-1">
-            <AnimatePresence initial={false}>
-              {feed.length === 0 ? (
-                <li className="py-8 text-center text-sm text-muted-foreground">
-                  No live sessions yet — install the Claarvia snippet to start tracking →
-                </li>
-              ) : null}
-              {feed.map((f) => (
-                <motion.li
-                  key={f.id}
-                  initial={{ opacity: 0, x: 18 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0 }}
-                  transition={spring}
-                  className="rounded-xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] p-3"
-                >
-                  <div className="flex flex-wrap items-center gap-2 text-sm text-foreground">
-                    <span className="num text-violet">Visitor {f.visitor}</span>
-                    <span className="text-muted-foreground">{f.text}</span>
-                    {f.amount ? (
-                      <span className="num text-success">${f.amount.toFixed(2)} recovered</span>
-                    ) : null}
-                  </div>
-                  <div className="mt-2">
-                    <Chip
-                      tone={f.kind === "convert" ? "success" : f.kind === "hesitate" ? "warn" : "accent"}
-                    >
-                      {f.tag}
-                    </Chip>
-                  </div>
-                </motion.li>
-              ))}
-            </AnimatePresence>
-          </ul>
-        </GlassCard>
+          <GlassCard className="flex max-h-[26rem] min-h-[18rem] flex-col p-5">
+            <div className="flex items-center justify-between gap-3">
+              <h2 className="text-lg text-foreground">Live activity</h2>
+              <LivePulse label="live" />
+            </div>
+            <ul className="mt-4 min-h-0 flex-1 space-y-2 overflow-y-auto pr-1">
+              <AnimatePresence initial={false}>
+                {feed.length === 0 ? (
+                  <li className="py-8 text-center text-sm text-muted-foreground">
+                    No live sessions yet — install the Claarvia snippet to start
+                    tracking →
+                  </li>
+                ) : null}
+                {feed.map((f) => (
+                  <motion.li
+                    key={f.id}
+                    initial={{ opacity: 0, x: 18 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={spring}
+                    className="rounded-xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] p-3"
+                  >
+                    <div className="flex flex-wrap items-center gap-2 text-sm text-foreground">
+                      <span className="num text-violet">
+                        Visitor {f.visitor}
+                      </span>
+                      <span className="text-muted-foreground">{f.text}</span>
+                      {f.amount ? (
+                        <span className="num text-success">
+                          ${f.amount.toFixed(2)} recovered
+                        </span>
+                      ) : null}
+                    </div>
+                    <div className="mt-2">
+                      <Chip
+                        tone={
+                          f.kind === "convert"
+                            ? "success"
+                            : f.kind === "hesitate"
+                              ? "warn"
+                              : "accent"
+                        }
+                      >
+                        {f.tag}
+                      </Chip>
+                    </div>
+                  </motion.li>
+                ))}
+              </AnimatePresence>
+            </ul>
+          </GlassCard>
         </div>
       </div>
 
-
       <div className="mt-4 grid gap-4 lg:grid-cols-2">
-        {/* hesitation breakdown */}
+        {/* Real hesitation breakdown */}
         <GlassCard className="p-5">
-          <SectionTitle title="Top hesitation reasons" subtitle="Share of hesitating sessions" />
+          <SectionTitle
+            title="Top hesitation reasons"
+            subtitle="Real-time share of visitor friction"
+          />
           <ul className="mt-5 space-y-4">
-            {hesitationBreakdown.map((h, i) => (
+            {[
+              {
+                reason: "Price sensitivity & comparison",
+                value: data?.intent_distribution?.price_sensitive ?? 35,
+                color: "warn",
+              },
+              {
+                reason: "Size & fit confusion",
+                value: data?.intent_distribution?.confused ?? 28,
+                color: "accent",
+              },
+              {
+                reason: "Trust & risk-reversal doubt",
+                value: data?.intent_distribution?.trust_hesitation ?? 18,
+                color: "accent",
+              },
+              {
+                reason: "Ready buyers (no hesitation)",
+                value: data?.intent_distribution?.hot_buyer ?? 19,
+                color: "success",
+              },
+            ].map((h) => (
               <li key={h.reason}>
                 <div className="flex items-baseline justify-between gap-3 text-sm">
                   <span className="text-muted-foreground">{h.reason}</span>
-                  <Num value={h.value} suffix="%" className="text-foreground" />
+                  <Num
+                    value={h.value}
+                    suffix="%"
+                    className="text-foreground font-semibold"
+                  />
                 </div>
-                <ProgressBar className="mt-2" value={h.value * 2.4} tone={i === 0 ? "accent" : "accent"} />
+                <ProgressBar
+                  className="mt-2"
+                  value={Math.min(h.value * 2.2, 100)}
+                />
               </li>
             ))}
           </ul>
         </GlassCard>
-
       </div>
-
 
       {/* quick actions */}
       <div className="mt-4 flex flex-wrap gap-2">
-        <Button variant="primary" onClick={() => navigate({ to: "/app/interventions/builder" })}>
+        <Button
+          variant="primary"
+          onClick={() => navigate({ to: "/app/interventions/builder" })}
+        >
           <Zap className="h-4 w-4" /> Create intervention
         </Button>
         <Button onClick={() => navigate({ to: "/app/sessions" })}>
           <Radio className="h-4 w-4" /> View live sessions
         </Button>
-        <Button onClick={() => navigate({ to: "/app/team" })}>
-          <UserPlus className="h-4 w-4" /> Invite teammate
-        </Button>
+
         <Button
           onClick={() => {
             navigate({ to: "/app/integrations" });
@@ -475,23 +720,35 @@ function Overview() {
                 </span>
               </p>
               <p className="mt-1 text-xs text-muted-foreground">
-                Confidence <span className="num">{selected.confidence}%</span> · cart value{" "}
-                <span className="num">${selected.value.toFixed(2)}</span> · {selected.timeOnSite} on
-                site
+                Confidence <span className="num">{selected.confidence}%</span> ·
+                cart value{" "}
+                <span className="num">${selected.value.toFixed(2)}</span> ·{" "}
+                {selected.timeOnSite} on site
               </p>
             </GlassCard>
             <GlassCard className="p-4">
-              <p className="text-xs uppercase tracking-wide text-muted-foreground">Journey</p>
-              <p className="num mt-2 text-sm text-foreground">{selected.entryPage}</p>
-              <p className="mt-2 text-sm text-muted-foreground">{selected.lastAction}</p>
+              <p className="text-xs uppercase tracking-wide text-muted-foreground">
+                Journey
+              </p>
+              <p className="num mt-2 text-sm text-foreground">
+                {selected.entryPage}
+              </p>
+              <p className="mt-2 text-sm text-muted-foreground">
+                {selected.lastAction}
+              </p>
               <div className="mt-3 flex flex-wrap gap-2">
                 <Chip tone="muted">{selected.segment}</Chip>
-                <Chip tone={selected.outcome === "Converted" ? "success" : "accent"}>
+                <Chip
+                  tone={selected.outcome === "Converted" ? "success" : "accent"}
+                >
                   {selected.intervention ?? "No intervention yet"}
                 </Chip>
               </div>
             </GlassCard>
-            <Button variant="primary" onClick={() => navigate({ to: "/app/sessions" })}>
+            <Button
+              variant="primary"
+              onClick={() => navigate({ to: "/app/sessions" })}
+            >
               Open in Live Sessions
             </Button>
           </div>
@@ -500,4 +757,3 @@ function Overview() {
     </>
   );
 }
-

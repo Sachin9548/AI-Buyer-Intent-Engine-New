@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { Radio, Zap } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
+
+import { apiFetch } from "@/lib/api";
 
 import { PageHeader } from "@/components/cv/Shell";
 import { Modal, SlideOver } from "@/components/cv/overlays";
@@ -20,6 +22,7 @@ import {
 import { cvToast } from "@/lib/cv-toast";
 import {
   buildSessions,
+  HesitationReason,
   interventions,
   stateTone,
   type IntentState,
@@ -32,18 +35,37 @@ export const Route = createFileRoute("/app/sessions")({
       { title: "Live Sessions — Claarvia" },
       {
         name: "description",
-        content: "Watch live visitor intent, hesitation reasons and intervention outcomes session by session.",
+        content:
+          "Watch live visitor intent, hesitation reasons and intervention outcomes session by session.",
       },
       { property: "og:title", content: "Live Sessions — Claarvia" },
-      { property: "og:description", content: "Real-time visitor intent, one row per shopper." },
+      {
+        property: "og:description",
+        content: "Real-time visitor intent, one row per shopper.",
+      },
     ],
   }),
   component: Sessions,
 });
 
-const STATES: (IntentState | "All")[] = ["All", "Idle", "Browsing", "Hesitating", "Buying", "Converted", "Lost"];
+const STATES: (IntentState | "All")[] = [
+  "All",
+  "Idle",
+  "Browsing",
+  "Hesitating",
+  "Buying",
+  "Converted",
+  "Lost",
+];
 const DEVICES = ["All", "Desktop", "Mobile", "Tablet"] as const;
-const SOURCES = ["All", "google / cpc", "instagram", "direct", "klaviyo / email", "tiktok"] as const;
+const SOURCES = [
+  "All",
+  "google / cpc",
+  "instagram",
+  "direct",
+  "klaviyo / email",
+  "tiktok",
+] as const;
 
 const TIMELINE = [
   { t: "00:00", label: "Landed on /collections/new", kind: "view" },
@@ -52,17 +74,146 @@ const TIMELINE = [
   { t: "02:05", label: "Added to cart · $128.00", kind: "cart" },
   { t: "03:41", label: "Opened shipping estimate twice", kind: "hesitate" },
   { t: "04:10", label: "Idle 44s on payment step", kind: "hesitate" },
-  { t: "04:31", label: "Intervention shown · Free shipping nudge", kind: "intervene" },
+  {
+    t: "04:31",
+    label: "Intervention shown · Free shipping nudge",
+    kind: "intervene",
+  },
 ];
 
+export interface SessionItem {
+  session_id: string;
+  device: "mobile" | "desktop";
+  intent:
+    | "size_confusion"
+    | "price_sensitive"
+    | "trust_hesitation"
+    | "hot_buyer"
+    | "browsing";
+  action_shown: "show_size_quiz" | "show_discount" | "show_trust" | "none";
+  outcome: "purchase" | "bounced" | "in_progress";
+  revenue: number;
+  events_count: number;
+  entry_url: string;
+  timestamp: string;
+}
+
+// Helper: Map Backend SessionItem to UI Session format
+function mapBackendSessionToUi(item: SessionItem): Session {
+  // Intent to UI State & Reason
+  let state: IntentState = "Browsing";
+  let reason: HesitationReason | undefined;
+  let confidence = 75;
+
+  switch (item.intent) {
+    case "price_sensitive":
+      state = "Hesitating";
+      reason = "price";
+      confidence = 82;
+      break;
+    case "size_confusion":
+      state = "Hesitating";
+      reason = "size confusion";
+      confidence = 74;
+      break;
+    case "trust_hesitation":
+      state = "Hesitating";
+      reason = "trust/security";
+      confidence = 68;
+      break;
+    case "hot_buyer":
+      state = "Buying";
+      confidence = 90;
+      break;
+    default:
+      state = "Browsing";
+      confidence = 60;
+  }
+
+  // Outcome to UI Outcome
+  let outcome: Session["outcome"] = "Pending";
+
+  if (item.outcome === "purchase") outcome = "Converted";
+  else if (item.outcome === "bounced") outcome = "Lost"
+
+  // Relative Time calculation
+  const diffSec = Math.max(
+    1,
+    Math.round((Date.now() - new Date(item.timestamp).getTime()) / 1000),
+  );
+  const timeStr =
+    diffSec < 60
+      ? `${diffSec}s ago`
+      : diffSec < 3600
+        ? `${Math.floor(diffSec / 60)}m ago`
+        : `${Math.floor(diffSec / 3600)}h ago`;
+
+  return {
+    id:
+      item.session_id.length > 12
+        ? `#${item.session_id.slice(-6)}`
+        : item.session_id,
+    entryPage: item.entry_url || "/",
+    state,
+    reason,
+    confidence,
+    timeOnSite: timeStr,
+    device: item.device === "mobile" ? "Mobile" : "Desktop",
+    location: "Global",
+    source: "direct",
+    lastAction:
+      item.action_shown !== "none"
+        ? `Nudge: ${item.action_shown}`
+        : `${item.events_count} events recorded`,
+    segment: item.intent.replace("_", " "),
+    value: item.revenue || 0,
+    intervention: item.action_shown !== "none" ? item.action_shown : undefined,
+    outcome,
+  };
+}
+
 function Sessions() {
-  const all = useMemo(() => buildSessions(48), []);
   const [state, setState] = useState<(typeof STATES)[number]>("All");
   const [device, setDevice] = useState<(typeof DEVICES)[number]>("All");
   const [source, setSource] = useState<(typeof SOURCES)[number]>("All");
   const [selected, setSelected] = useState<Session | null>(null);
   const [triggerFor, setTriggerFor] = useState<Session | null>(null);
   const [pick, setPick] = useState(interventions[0]!.name);
+
+  const [sessions, setSessions] = useState<SessionItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // ✅ Real Backend Data first, fallback to mock if DB is empty
+  const all = useMemo(() => {
+    if (sessions && sessions.length > 0) {
+      return sessions.map(mapBackendSessionToUi);
+    }
+    return buildSessions(48); // Fallback for aesthetic when 0 data
+  }, [sessions]);
+
+  async function loadSessions() {
+    try {
+      setLoading(true);
+      setError(null);
+      // ✅ Multi-tenant: no hardcoded store_id
+      const data = await apiFetch<SessionItem[]>(
+        "/dashboard/sessions?limit=50",
+      );
+      setSessions(data || []);
+    } catch (err: any) {
+      setError(err.message || "Failed to load live sessions");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    loadSessions();
+    // Optional: Har 15 second mein auto-refresh
+    const iv = setInterval(loadSessions, 15000);
+    return () => clearInterval(iv);
+  }, []);
 
   const rows = all.filter(
     (s) =>
@@ -72,9 +223,23 @@ function Sessions() {
   );
 
   const activeFilters = [
-    state !== "All" ? { key: "state", label: `state: ${state}`, clear: () => setState("All") } : null,
-    device !== "All" ? { key: "device", label: `device: ${device}`, clear: () => setDevice("All") } : null,
-    source !== "All" ? { key: "source", label: `source: ${source}`, clear: () => setSource("All") } : null,
+    state !== "All"
+      ? { key: "state", label: `state: ${state}`, clear: () => setState("All") }
+      : null,
+    device !== "All"
+      ? {
+          key: "device",
+          label: `device: ${device}`,
+          clear: () => setDevice("All"),
+        }
+      : null,
+    source !== "All"
+      ? {
+          key: "source",
+          label: `source: ${source}`,
+          clear: () => setSource("All"),
+        }
+      : null,
   ].filter(Boolean) as { key: string; label: string; clear: () => void }[];
 
   return (
@@ -85,36 +250,55 @@ function Sessions() {
         actions={
           <GlassCard className="flex items-center gap-3 px-4 py-2">
             <LivePulse label="" />
-            <Num value={134} className="text-sm text-foreground" />
-            <span className="text-xs text-muted-foreground">active right now</span>
+            <Num
+              value={sessions.length > 0 ? sessions.length : 134}
+              className="text-sm text-foreground"
+            />{" "}
+            <span className="text-xs text-muted-foreground">
+              active right now
+            </span>
           </GlassCard>
         }
       />
 
       <GlassCard className="mb-4 p-4">
         <div className="flex flex-wrap items-end gap-3">
-          <Select value={state} onChange={(e) => setState(e.target.value as IntentState)} aria-label="Intent state">
+          <Select
+            value={state}
+            onChange={(e) => setState(e.target.value as IntentState)}
+            aria-label="Intent state"
+          >
             {STATES.map((s) => (
               <option key={s} value={s}>
                 {s === "All" ? "All intent states" : s}
               </option>
             ))}
           </Select>
-          <Select value={device} onChange={(e) => setDevice(e.target.value as "All")} aria-label="Device">
+          <Select
+            value={device}
+            onChange={(e) => setDevice(e.target.value as "All")}
+            aria-label="Device"
+          >
             {DEVICES.map((d) => (
               <option key={d} value={d}>
                 {d === "All" ? "All devices" : d}
               </option>
             ))}
           </Select>
-          <Select value={source} onChange={(e) => setSource(e.target.value as "All")} aria-label="Source">
+          <Select
+            value={source}
+            onChange={(e) => setSource(e.target.value as "All")}
+            aria-label="Source"
+          >
             {SOURCES.map((d) => (
               <option key={d} value={d}>
                 {d === "All" ? "All sources" : d}
               </option>
             ))}
           </Select>
-          <span className="num ml-auto text-xs text-muted-foreground">{rows.length} sessions</span>
+          <span className="num ml-auto text-xs text-muted-foreground">
+            {rows.length} sessions
+          </span>
         </div>
         {activeFilters.length ? (
           <div className="mt-3 flex flex-wrap gap-2">
@@ -166,7 +350,9 @@ function Sessions() {
                     className="cursor-pointer border-b border-[rgba(255,255,255,0.06)] transition-colors duration-300 last:border-0 hover:bg-[rgba(255,255,255,0.05)]"
                   >
                     <td className="num px-4 py-3 text-violet">{s.id}</td>
-                    <td className="num px-4 py-3 text-muted-foreground">{s.entryPage}</td>
+                    <td className="num px-4 py-3 text-muted-foreground">
+                      {s.entryPage}
+                    </td>
                     <td className="px-4 py-3">
                       <Chip tone={stateTone[s.state]} dot>
                         {s.state}
@@ -176,11 +362,15 @@ function Sessions() {
                     <td className="px-4 py-3">
                       <ConfidenceRing value={s.confidence} size={36} />
                     </td>
-                    <td className="num px-4 py-3 text-muted-foreground">{s.timeOnSite}</td>
+                    <td className="num px-4 py-3 text-muted-foreground">
+                      {s.timeOnSite}
+                    </td>
                     <td className="px-4 py-3 text-muted-foreground">
                       {s.device} · {s.location}
                     </td>
-                    <td className="px-4 py-3 text-muted-foreground">{s.lastAction}</td>
+                    <td className="px-4 py-3 text-muted-foreground">
+                      {s.lastAction}
+                    </td>
                   </motion.tr>
                 ))}
               </tbody>
@@ -190,15 +380,23 @@ function Sessions() {
           {/* mobile cards */}
           <div className="space-y-3 lg:hidden">
             {rows.map((s, i) => (
-              <GlassCard key={`${s.id}-m-${i}`} className="p-4" onClick={() => setSelected(s)}>
+              <GlassCard
+                key={`${s.id}-m-${i}`}
+                className="p-4"
+                onClick={() => setSelected(s)}
+              >
                 <div className="flex items-center justify-between gap-3">
                   <span className="num text-violet">{s.id}</span>
                   <Chip tone={stateTone[s.state]} dot>
                     {s.state}
                   </Chip>
                 </div>
-                <p className="num mt-2 text-xs text-muted-foreground">{s.entryPage}</p>
-                <p className="mt-2 text-sm text-muted-foreground">{s.lastAction}</p>
+                <p className="num mt-2 text-xs text-muted-foreground">
+                  {s.entryPage}
+                </p>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {s.lastAction}
+                </p>
                 <div className="mt-3 flex items-center justify-between gap-3">
                   <span className="num text-xs text-muted-foreground">
                     {s.timeOnSite} · {s.device}
@@ -239,7 +437,9 @@ function Sessions() {
                     </span>
                   </p>
                   <p className="mt-1 text-xs text-muted-foreground">
-                    Confidence <span className="num">{selected.confidence}%</span> · cart value{" "}
+                    Confidence{" "}
+                    <span className="num">{selected.confidence}%</span> · cart
+                    value{" "}
                     <span className="num">${selected.value.toFixed(2)}</span>
                   </p>
                 </div>
@@ -247,7 +447,10 @@ function Sessions() {
             </GlassCard>
 
             <section>
-              <SectionTitle title="Journey timeline" subtitle="Key events in this session" />
+              <SectionTitle
+                title="Journey timeline"
+                subtitle="Key events in this session"
+              />
               <ol className="relative mt-4 space-y-3 border-l border-[rgba(255,255,255,0.12)] pl-5">
                 {TIMELINE.map((e, i) => (
                   <motion.li
@@ -267,7 +470,9 @@ function Sessions() {
                       }
                     />
                     <p className="text-sm text-foreground">{e.label}</p>
-                    <p className="num text-[11px] text-muted-foreground">{e.t}</p>
+                    <p className="num text-[11px] text-muted-foreground">
+                      {e.t}
+                    </p>
                   </motion.li>
                 ))}
               </ol>
@@ -278,9 +483,17 @@ function Sessions() {
               <GlassCard className="mt-3 p-4">
                 {selected.intervention ? (
                   <>
-                    <p className="text-sm text-foreground">{selected.intervention}</p>
+                    <p className="text-sm text-foreground">
+                      {selected.intervention}
+                    </p>
                     <div className="mt-2 flex flex-wrap gap-2">
-                      <Chip tone={selected.outcome === "Converted" ? "success" : "accent"}>
+                      <Chip
+                        tone={
+                          selected.outcome === "Converted"
+                            ? "success"
+                            : "accent"
+                        }
+                      >
                         {selected.outcome ?? "Pending"}
                       </Chip>
                       <Chip tone="muted">{selected.segment}</Chip>
@@ -308,14 +521,21 @@ function Sessions() {
         open={!!triggerFor}
         onClose={() => setTriggerFor(null)}
         title="Trigger an intervention"
-        description={triggerFor ? `This will show instantly to visitor ${triggerFor.id}.` : ""}
+        description={
+          triggerFor
+            ? `This will show instantly to visitor ${triggerFor.id}.`
+            : ""
+        }
         footer={
           <>
             <Button onClick={() => setTriggerFor(null)}>Cancel</Button>
             <Button
               variant="primary"
               onClick={() => {
-                cvToast.success("Intervention triggered", `${pick} → visitor ${triggerFor?.id}`);
+                cvToast.success(
+                  "Intervention triggered",
+                  `${pick} → visitor ${triggerFor?.id}`,
+                );
                 setTriggerFor(null);
               }}
             >
@@ -324,7 +544,12 @@ function Sessions() {
           </>
         }
       >
-        <Select value={pick} onChange={(e) => setPick(e.target.value)} className="w-full" aria-label="Intervention">
+        <Select
+          value={pick}
+          onChange={(e) => setPick(e.target.value)}
+          className="w-full"
+          aria-label="Intervention"
+        >
           {interventions.map((iv) => (
             <option key={iv.id} value={iv.name}>
               {iv.name}
